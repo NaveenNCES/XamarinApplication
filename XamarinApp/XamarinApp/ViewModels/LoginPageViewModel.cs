@@ -19,6 +19,7 @@ namespace XamarinApp.ViewModels
         private readonly IUserLoginService _userLoginService;
 
         public ICommand LoginCommand { get; set; }
+        public ICommand SignUPCommand { get; set; }
         public UserModel _userModel { get; }
         private string _userName;
         private string _password;
@@ -51,13 +52,20 @@ namespace XamarinApp.ViewModels
             _pageDialogService = pageDialogService;
             _userLoginService = userLoginService;
             LoginCommand = new Command(OnLoginClicked);
+            SignUPCommand = new Command(OnSignUpClicked);
+
         }
 
-        private async void OnLoginClicked()
+        private async void OnSignUpClicked()
         {
+            await Navigation.NavigateAsync("SignUpPage");
+        }
+        private async void OnLoginClicked()
+        {           
+
             var user = new UserModel { Password = PassWord, UserName = UserName };
 
-            var result = _userLoginService.LoginUser(user);
+            var result =await _userLoginService.LoginUser(user);
 
             if (result == true)
             {

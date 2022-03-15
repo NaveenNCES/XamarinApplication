@@ -1,5 +1,7 @@
 using Prism;
 using Prism.Ioc;
+using System;
+using System.IO;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -12,6 +14,20 @@ namespace XamarinApp
 {
     public partial class App
     {
+        static DBConnection database;
+
+        public static DBConnection Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new DBConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "user.db3"));
+                }
+
+                return database;
+            }
+        }
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
@@ -35,6 +51,7 @@ namespace XamarinApp
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<SignUpPage, SignUpPageViewModel>();
         }
     }
 }

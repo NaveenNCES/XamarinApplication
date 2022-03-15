@@ -6,7 +6,6 @@ namespace XamarinApp.Views
         public MainPage()
         {
             InitializeComponent();
-
         }
     }
 }

@@ -47,7 +47,7 @@
                             <Button Text="SIGN IN" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}" />
                             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                                 <Label Text="Still Not Connected ?" TextColor="DarkGray" FontSize="Small"/>
-                                <Label Text="Sign Up" TextColor="DarkBlue" FontAttributes="Bold" FontSize="Small"/>
+                                <Button Text="Sign Up" TextColor="DarkBlue" FontAttributes="Bold" FontSize="Small" Command="{Binding SignUPCommand}"/>
                             </StackLayout>
 
                             <StackLayout Margin="0,25" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">

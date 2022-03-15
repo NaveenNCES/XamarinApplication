@@ -12,3 +12,4 @@ C:\XamarinSamples\XamarinApp\XamarinApp\XamarinApp\obj\Debug\netstandard2.0\Xaml
 C:\XamarinSamples\XamarinApp\XamarinApp\XamarinApp\obj\Debug\netstandard2.0\XamarinApp.dll
 C:\XamarinSamples\XamarinApp\XamarinApp\XamarinApp\obj\Debug\netstandard2.0\XamarinApp.pdb
 C:\XamarinSamples\XamarinApp\XamarinApp\XamarinApp\obj\Debug\netstandard2.0\XamarinApp.csproj.AssemblyReference.cache
+C:\XamarinSamples\XamarinApp\XamarinApp\XamarinApp\obj\Debug\netstandard2.0\Views\SignUpPage.xaml.g.cs

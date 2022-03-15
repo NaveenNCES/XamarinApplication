@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\XamarinApp.csproj": {}
+    "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\XamarinApp.csproj": {}
   },
   "projects": {
-    "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\XamarinApp.csproj": {
+    "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\XamarinApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
+        "projectUniqueName": "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
         "projectName": "XamarinApp",
-        "projectPath": "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
+        "projectPath": "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
         "packagesPath": "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\",
-        "outputPath": "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\obj\\",
+        "outputPath": "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -64,6 +64,10 @@
             "Xamarin.Essentials.Interfaces": {
               "target": "Package",
               "version": "[1.5.3.2, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.8.116, )"
             }
           },
           "imports": [

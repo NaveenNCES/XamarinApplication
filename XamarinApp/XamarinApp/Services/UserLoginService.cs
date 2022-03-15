@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using XamarinApp.Models;
@@ -9,10 +10,12 @@ namespace XamarinApp.Services
 {
     public class UserLoginService : IUserLoginService
     {
-        public bool LoginUser(UserModel user)
+        
+        public async Task<bool> LoginUser(UserModel user)
         {
+            UserModel userData =await App.Database.FindUser(user);
 
-            if (user.UserName == "naveenchpt@gmail.com" && user.Password == "naveen")
+            if(userData != null)
             {
                 return true;
             }

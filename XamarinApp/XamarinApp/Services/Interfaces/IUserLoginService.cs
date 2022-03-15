@@ -8,6 +8,6 @@ namespace XamarinApp.Services.Interfaces
 {
     public interface IUserLoginService
     {
-        bool LoginUser(UserModel user);
+        Task<bool> LoginUser(UserModel user);
     }
 }

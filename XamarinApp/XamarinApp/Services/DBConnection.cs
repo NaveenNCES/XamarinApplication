@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 using XamarinApp.Models;
 using XamarinApp.Services.Interfaces;
 
@@ -10,48 +12,54 @@ namespace XamarinApp.Services
 {
     public class DBConnection
     {
-        private string stringconnection;
-        public DBConnection()
-        {
-           stringconnection = @"Server=localhost;Database=SavingDataApp;User ID=sa;password=World@#2021;";
-        }
+        private readonly SQLiteAsyncConnection _db;
 
-        //public IDbConnection Connection
+        //public static readonly AsyncLazy<DBConnection> Instance = new AsyncLazy<DBConnection>(async () =>
         //{
-        //    get
-        //    {
-        //        return new SqlConnection(stringconnection);
-        //    }
-        //}        
+        //    var instance = new DBConnection();
+        //    CreateTableResult result = await Database.CreateTableAsync<TodoItem>();
+        //    return instance;
+        //});
 
-        public IEnumerable<DataSavingModel> getData()
+        //public DBConnection()
+        //{
+        //    _db = new SQLiteAsyncConnection(App.DatabasePath, App.Flags);
+        //}
+    
+        public DBConnection(string dbPath)
         {
-            List<DataSavingModel> listData = new List<DataSavingModel>();
-            string sql = @"SELECT * FROM SavingDataApp";
-
-            using (SqlConnection con = new SqlConnection(stringconnection) )
-            {
-                con.Open();
-                using (SqlCommand command = new SqlCommand(sql,con))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            DataSavingModel data = new DataSavingModel()
-                            {
-                                Id = reader.GetInt32(0),
-                                Name = reader.GetString(1),
-                                PhoneNumber = reader.GetString(2),
-                            };
-                            listData.Add(data);
-                        }
-                    }
-                }
-                con.Close();
-            }
-            return listData;
+            _db = new SQLiteAsyncConnection(dbPath);
+            _db.CreateTableAsync<UserModel>().Wait();
         }
 
+        public Task<List<UserModel>> GetUsers()
+        {
+            return _db.Table<UserModel>().ToListAsync();
+        }
+
+        public Task<UserModel> FindUser(UserModel user)
+        {
+            return _db.Table<UserModel>().Where(x => x.UserName == user.UserName && x.Password == user.Password).FirstOrDefaultAsync();
+            //var result = _db.Table<UserModel>().Where(x => x.UserName == user.UserName && x.Password == user.Password).ToListAsync();
+            //var alldata = _db.Table<UserModel>().ToListAsync();
+            //if (result != null)
+            //{
+            //    return true;
+            //}
+
+            //return false;
+        }
+
+        public Task<int> SaveUser(UserModel user)
+        {
+            if(user.ID != 0)
+            {
+                return _db.UpdateAsync(user);
+            }
+            else
+            {
+                return _db.InsertAsync(user);
+            }            
+        }
     }
 }

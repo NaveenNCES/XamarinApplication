@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "vCtSB9DPhE+zT7WRNJ8pzH0hyHAVxfw8bSYRh3o9oUZQw6tEHQ29Jal8eYHW/sfAOhqjThpG/fEF/xab7BEZng==",
+  "dgSpecHash": "2e2AXv7/uiJix8BJ8jyWXeBMs1xY5POglUWHAemPupml8M/PWdscht+nuckQlpkmCHLBJ7FoytFk494t9xWQKA==",
   "success": true,
-  "projectFilePath": "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp.UWP\\XamarinApp.UWP.csproj",
+  "projectFilePath": "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp.UWP\\XamarinApp.UWP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\microsoft.net.native.compiler\\2.2.8-rel-28605-00\\microsoft.net.native.compiler.2.2.8-rel-28605-00.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\microsoft.net.uwpcoreruntimesdk\\2.2.10\\microsoft.net.uwpcoreruntimesdk.2.2.10.nupkg.sha512",
@@ -31,6 +31,11 @@
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win10-x86.microsoft.net.native.sharedlibrary\\2.2.7-rel-28605-00\\runtime.win10-x86.microsoft.net.native.sharedlibrary.2.2.7-rel-28605-00.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk\\2.2.10\\runtime.win10-x86.microsoft.net.uwpcoreruntimesdk.2.2.10.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform\\6.2.10\\runtime.win10-x86.microsoft.netcore.universalwindowsplatform.6.2.10.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlite-net-pcl\\1.8.116\\sqlite-net-pcl.1.8.116.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.bundle_green\\2.0.4\\sqlitepclraw.bundle_green.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.core\\2.0.4\\sqlitepclraw.core.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.4\\sqlitepclraw.lib.e_sqlite3.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.0.4\\sqlitepclraw.provider.e_sqlite3.2.0.4.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.data.sqlclient\\4.8.3\\system.data.sqlclient.4.8.3.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",

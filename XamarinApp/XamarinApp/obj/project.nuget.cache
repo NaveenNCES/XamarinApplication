@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TretCbvFydf40gJiblZgFsknOo9aBqrwB0RoGiLutNkMbNGUwLjVDhKifFrPbn47roUDXGIbt4g39wcHY4tQKA==",
+  "dgSpecHash": "yQKBdWOs4yE1PPEmWN7gRq0k4w5r/UW759CIUxmFAYA5M80Zy5AJN+0Kg2M0FIRLdSmVMW5t1fOwFfS7uBpRqg==",
   "success": true,
-  "projectFilePath": "C:\\XamarinSamples\\XamarinApp\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
+  "projectFilePath": "C:\\XamarinSamples\\XamarinApplication\\XamarinApp\\XamarinApp\\XamarinApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
@@ -14,6 +14,11 @@
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlite-net-pcl\\1.8.116\\sqlite-net-pcl.1.8.116.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.bundle_green\\2.0.4\\sqlitepclraw.bundle_green.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.core\\2.0.4\\sqlitepclraw.core.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.0.4\\sqlitepclraw.lib.e_sqlite3.2.0.4.nupkg.sha512",
+    "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.0.4\\sqlitepclraw.provider.e_sqlite3.2.0.4.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.data.sqlclient\\4.8.3\\system.data.sqlclient.4.8.3.nupkg.sha512",
     "C:\\Users\\NaveenNatarajan\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512",
