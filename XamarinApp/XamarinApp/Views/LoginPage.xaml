@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XamarinApp.Views.LoginPage">
+    <StackLayout BackgroundColor="#e6e6e6">
+        <Grid>
+            <StackLayout Padding="0" Margin="0" HorizontalOptions="FillAndExpand">
+                <Frame HeightRequest="1000" BackgroundColor="Blue" Padding="0" Margin="0">
+                    <Image Source="pickawood.jpg" Aspect="AspectFill" Margin="0" Opacity="1"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout Padding="0" Margin="20" VerticalOptions="Center">
+                <Frame BackgroundColor="White" HeightRequest="500" HasShadow="True" Padding="0" Margin="0" CornerRadius="20">
+
+                    <StackLayout>
+
+                        <StackLayout Margin="30">
+                            <Label Text="SIGN IN" TextColor="Black" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="Title"/>
+                        </StackLayout>
+
+                        <StackLayout Padding="10" Margin="20,20" >
+
+                            <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="50">
+                                <StackLayout Orientation="Horizontal">
+                                    <Entry Placeholder="Username"  TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding UserName}"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,19,0,0" Padding="1" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                                <StackLayout Orientation="Horizontal">
+
+                                    <Entry Placeholder="Password" IsPassword="True" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding PassWord}"/>
+                                </StackLayout>
+                            </Frame>
+
+                            <StackLayout  Orientation="Horizontal">
+                                <CheckBox IsChecked="False" Color="Black" />
+                                <Label Text="Remember me" TextColor="Black" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+
+                                <Label Text="Forgot Password" TextColor="Black" FontAttributes="Bold" HorizontalOptions="EndAndExpand" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+
+
+                            </StackLayout>
+
+                            <Button Text="SIGN IN" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}" />
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                <Label Text="Still Not Connected ?" TextColor="DarkGray" FontSize="Small"/>
+                                <Button Text="Sign Up" TextColor="DarkBlue" FontAttributes="Bold" FontSize="Small" Command="{Binding SignUPCommand}"/>
+                            </StackLayout>
+
+                            <StackLayout Margin="0,25" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                <Frame BackgroundColor="White" HeightRequest="45" WidthRequest="45" CornerRadius="45" HasShadow="False" BorderColor="DarkGray" Margin="0" HorizontalOptions="Center" Padding="0">
+                                    <Image Source="https://images.ctfassets.net/23aumh6u8s0i/5rK62NTJvF2m28zXkvA6cp/476d5befbf876ad8a6583303415f8e27/facebook_login_hero" Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                                <Frame BackgroundColor="White" HeightRequest="45" WidthRequest="45" CornerRadius="45" HasShadow="False" BorderColor="DarkGray" Margin="0" HorizontalOptions="Center" Padding="0">
+                                    <Image Source="https://blog.hubspot.com/hubfs/image8-2.jpg" Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                            </StackLayout>
+
+                        </StackLayout>
+
+
+                    </StackLayout>
+
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
+</ContentPage>
