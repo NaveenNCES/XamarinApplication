@@ -1,4 +1,4 @@
-﻿using Prism.Commands;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -20,7 +20,6 @@ namespace XamarinApp.ViewModels
 
         public ICommand LoginCommand { get; set; }
         public ICommand SignUPCommand { get; set; }
-        public UserModel _userModel { get; }
         private string _userName;
         private string _password;
 

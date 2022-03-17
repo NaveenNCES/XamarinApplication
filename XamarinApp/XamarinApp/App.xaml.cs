@@ -12,46 +12,49 @@ using XamarinApp.Views;
 
 namespace XamarinApp
 {
-    public partial class App
+  public partial class App
+  {
+    static DBConnection database;
+
+    public static DBConnection Database
     {
-        static DBConnection database;
-
-        public static DBConnection Database
+      get
+      {
+        if (database == null)
         {
-            get
-            {
-                if (database == null)
-                {
-                    database = new DBConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "user.db3"));
-                }
-
-                return database;
-            }
-        }
-        public App(IPlatformInitializer initializer)
-            : base(initializer)
-        {
+          database = new DBConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "user.db3"));
         }
 
-        protected override async void OnInitialized()
-        {
-            InitializeComponent();
-            DependencyService.Register<UserLoginService>();
-            DependencyService.Register<DBConnection>();
-
-            await NavigationService.NavigateAsync("NavigationPage/LoginPage");
-            //MainPage = new NavigationPage(new LoginPage());
-        }
-
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-            containerRegistry.Register<IUserLoginService, UserLoginService>();
-
-            containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
-            containerRegistry.RegisterForNavigation<SignUpPage, SignUpPageViewModel>();
-        }
+        return database;
+      }
     }
+    public App(IPlatformInitializer initializer)
+        : base(initializer)
+    {
+    }
+
+    protected override async void OnInitialized()
+    {
+      InitializeComponent();
+      DependencyService.Register<UserLoginService>();
+      DependencyService.Register<DBConnection>();
+
+      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+      //MainPage = new NavigationPage(new LoginPage());
+    }
+
+    protected override void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+      containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
+      containerRegistry.Register<IUserLoginService, UserLoginService>();
+      containerRegistry.Register<IRandomApiService, RamdomApiService>();
+
+      containerRegistry.RegisterForNavigation<NavigationPage>();
+      containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+      containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+      containerRegistry.RegisterForNavigation<SignUpPage, SignUpPageViewModel>();
+      containerRegistry.RegisterForNavigation<ApiDataPage, ApiDataPageViewModel>();
+      containerRegistry.RegisterForNavigation<SelectedItemDetailPage, SelectedItemDetailPageViewModel>();
+    }
+  }
 }

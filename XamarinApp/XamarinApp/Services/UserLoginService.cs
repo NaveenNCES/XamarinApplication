@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,8 +9,7 @@ using XamarinApp.Services.Interfaces;
 namespace XamarinApp.Services
 {
     public class UserLoginService : IUserLoginService
-    {
-        
+    {       
         public async Task<bool> LoginUser(UserModel user)
         {
             UserModel userData =await App.Database.FindUser(user);

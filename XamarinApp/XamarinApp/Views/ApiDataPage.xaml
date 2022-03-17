@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XamarinApp.Views.ApiDataPage">
+  
+  <StackLayout>
+    <Frame Margin="0,0">
+      <ListView ItemsSource="{Binding ApiData}" SelectedItem="{Binding getSpecificData}">
+        <ListView.ItemTemplate>
+          <DataTemplate >
+            <ViewCell >
+              <Grid Padding="10">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.RowSpan="2" Source="{Binding Picture.Thumbnail}" Aspect="AspectFill" HeightRequest="60" WidthRequest="60" />
+                <Label Grid.Column="1" Text="{Binding Name.First}" FontAttributes="Bold" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Location.City}" FontAttributes="Italic" VerticalOptions="End"/>
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Header >
+          <StackLayout BackgroundColor="White" >
+            <Button BackgroundColor="Green" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" Text="Random Users" />
+            <Button BackgroundColor="Purple" TextColor="White" CornerRadius="30" Command="{Binding ItemTappedCommand}" Text="View Item" />
+          </StackLayout>
+        </ListView.Header>
+        <!--<ListView.Behaviors>
+          <prism:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemTappedCommand}" />
+        </ListView.Behaviors>-->
+      </ListView>
+    </Frame>
+  </StackLayout>
+</ContentPage>

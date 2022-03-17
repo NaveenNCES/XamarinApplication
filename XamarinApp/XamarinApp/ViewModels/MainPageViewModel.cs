@@ -1,4 +1,4 @@
-﻿using Prism.Commands;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -11,20 +11,27 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
-    public class MainPageViewModel : ViewModelBase
+  public class MainPageViewModel : ViewModelBase
+  {
+    private readonly INavigationService Navigation;
+    public ICommand LoginCommand { get; set; }
+    public ICommand ApiCommand { get; set; }
+
+    public MainPageViewModel(INavigationService navigationService)
     {
-        private readonly INavigationService Navigation;
-        public ICommand LoginCommand { get; set; }
-
-        public MainPageViewModel(INavigationService navigationService)            
-        {
-            Navigation = navigationService;
-            LoginCommand = new Command(OnLoginClicked);
-        }
-
-        private async void OnLoginClicked()
-        {
-            await Navigation.NavigateAsync("LoginPage");
-        }
+      Navigation = navigationService;
+      LoginCommand = new Command(OnLoginClicked);
+      ApiCommand = new Command(OnApiClicked);
     }
+
+    private async void OnApiClicked()
+    {
+      await Navigation.NavigateAsync("ApiDataPage");
+    }
+
+    private async void OnLoginClicked()
+    {
+      await Navigation.NavigateAsync("LoginPage");
+    }
+  }
 }
