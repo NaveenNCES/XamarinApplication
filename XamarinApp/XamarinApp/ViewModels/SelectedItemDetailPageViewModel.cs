@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,10 +17,8 @@ namespace XamarinApp.ViewModels
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
-    private readonly ApiDataPageViewModel _apiDataPageView;
-    public ICommand SelectedDataCommand { get; set; }
-    private List<Result> _getSelectedData;
-    public List<Result> getSelectedData
+    private ObservableCollection<Result> _getSelectedData;
+    public ObservableCollection<Result> getSelectedData
     {
       get
       {
@@ -30,39 +29,21 @@ namespace XamarinApp.ViewModels
         SetProperty(ref _getSelectedData, value);
       }
     }
-    private List<Result> _transferData;
-    public List<Result> transferData
-    {
-      get
-      {
-        return _transferData;
-      }
-      set
-      {
-        SetProperty(ref _transferData, value);
-      }
-    }
-    public SelectedItemDetailPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, ApiDataPageViewModel apiDataPageView)
+    public SelectedItemDetailPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
     {
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
-      _apiDataPageView = apiDataPageView;
-      SelectedDataCommand = new Command(OnDataClicked);
     }
-
-    private  void OnDataClicked()
-    {
-      getSelectedData=transferData;
-    }
-
     public void OnNavigatedFrom(INavigationParameters parameters)
-    {
-      throw new NotImplementedException();
+    {      
     }
 
     public void OnNavigatedTo(INavigationParameters parameters)
     {
-      transferData = parameters.GetValue<List<Result>>("selectedData");
+      var result = parameters.GetValue<List<Result>>("selectedData");
+      ObservableCollection<Result> data = new ObservableCollection<Result>(result as List<Result>);
+
+      getSelectedData = data;
     }
   }
 }

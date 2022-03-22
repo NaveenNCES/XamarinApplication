@@ -2,12 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinApp.Views.ApiDataPage">
-  
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <xct:ItemSelectedEventArgsConverter x:Key="ItemSelectedEventArgsConverter" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <StackLayout>
     <Frame Margin="0,0">
-      <ListView ItemsSource="{Binding ApiData}" SelectedItem="{Binding getSpecificData}">
+      <ListView x:Name="DataFromApi" ItemsSource="{Binding ApiData}" SelectedItem="{Binding getSpecificData,Mode=TwoWay}"
+                GroupDisplayBinding="{Binding Key}">
+        <ListView.Behaviors>
+          <prism:EventToCommandBehavior EventName="ItemSelected" Command="{Binding ItemTappedCommand}" EventArgsConverter="{StaticResource ItemSelectedEventArgsConverter}"/>
+        </ListView.Behaviors>
         <ListView.ItemTemplate>
           <DataTemplate >
             <ViewCell >
@@ -27,15 +36,6 @@
             </ViewCell>
           </DataTemplate>
         </ListView.ItemTemplate>
-        <ListView.Header >
-          <StackLayout BackgroundColor="White" >
-            <Button BackgroundColor="Green" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" Text="Random Users" />
-            <Button BackgroundColor="Purple" TextColor="White" CornerRadius="30" Command="{Binding ItemTappedCommand}" Text="View Item" />
-          </StackLayout>
-        </ListView.Header>
-        <!--<ListView.Behaviors>
-          <prism:EventToCommandBehavior EventName="ItemTapped" Command="{Binding ItemTappedCommand}" />
-        </ListView.Behaviors>-->
       </ListView>
     </Frame>
   </StackLayout>
