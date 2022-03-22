@@ -48,8 +48,7 @@ namespace XamarinApp.ViewModels
     {
       var data = new NavigationParameters();
       var list = ApiData.Where(x => x == getSpecificData).ToList();
-      data.Add("selectedData",list);
-      //_pageDialogService.DisplayAlertAsync("User Data", "Name: " + selectedItem.Name.First +" "+ selectedItem.Name.Last, "Ok");
+      data.Add("selectedData", list);
       _navigation.NavigateAsync("SelectedItemDetailPage",data);
     }
 

@@ -48,6 +48,7 @@ namespace XamarinApp
       containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
       containerRegistry.Register<IUserLoginService, UserLoginService>();
       containerRegistry.Register<IRandomApiService, RamdomApiService>();
+      containerRegistry.Register<ISignUpUserService, SignUpUserService>();
 
       containerRegistry.RegisterForNavigation<NavigationPage>();
       containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

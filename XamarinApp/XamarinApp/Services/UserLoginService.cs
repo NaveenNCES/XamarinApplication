@@ -12,7 +12,7 @@ namespace XamarinApp.Services
     {       
         public async Task<bool> LoginUser(UserModel user)
         {
-            UserModel userData =await App.Database.FindUser(user);
+            var userData =await App.Database.FindUser(user);
 
             if(userData != null)
             {

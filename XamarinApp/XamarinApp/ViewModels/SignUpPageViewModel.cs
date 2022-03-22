@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinApp.Models;
+using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
@@ -15,6 +16,8 @@ namespace XamarinApp.ViewModels
   {
     private readonly INavigationService Navigation;
     private readonly IPageDialogService _pageDialogService;
+    private readonly ISignUpUserService _signUpUserService;
+
     public ICommand SignUpCommand { get; set; }
     public ICommand LoginCommand { get; set; }
     public UserModel _userModel { get; }
@@ -55,10 +58,11 @@ namespace XamarinApp.ViewModels
         SetProperty(ref _confirmPassword, value);
       }
     }
-    public SignUpPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
+    public SignUpPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,ISignUpUserService signUpUserService)
     {
       Navigation = navigationService;
       _pageDialogService = pageDialogService;
+      _signUpUserService = signUpUserService;
       SignUpCommand = new Command(OnSignUpClicked);
       LoginCommand = new Command(OnSignInClicked);
     }
@@ -76,15 +80,17 @@ namespace XamarinApp.ViewModels
       {
         var user = new UserModel { Password = PassWord, UserName = UserName };
 
-        await App.Database.SaveUser(new UserModel
+        var result = await _signUpUserService.SaveUser(user);
+
+        if(result != false)
         {
-          UserName = user.UserName,
-          Password = user.Password,
-        });
-
-        await Navigation.NavigateAsync("LoginPage");
+          await Navigation.NavigateAsync("LoginPage");
+        }
+        else
+        {
+          await _pageDialogService.DisplayAlertAsync("Failed", "Please enter valid Details", "OK");
+        }
       }   
-
     }
   }
 }
