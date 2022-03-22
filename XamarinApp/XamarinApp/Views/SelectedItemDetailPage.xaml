@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinApp.Views.SelectedItemDetailPage">
   <StackLayout Margin="20">
@@ -10,10 +9,9 @@
                FontSize="50"
                FontAttributes="Bold"
                HorizontalOptions="Center" />
+    <Button BackgroundColor="Green" TextColor="White" CornerRadius="30" Command="{Binding SelectedDataCommand}" Text="Click to View" />
     <CarouselView ItemsSource="{Binding getSelectedData}"
                       IndicatorView="indicatorView">
-      <CarouselView.Behaviors>
-      </CarouselView.Behaviors>
       <CarouselView.ItemTemplate>
         <DataTemplate>
           <StackLayout>
@@ -54,4 +52,67 @@
                        SelectedIndicatorColor="DarkGray"
                        HorizontalOptions="Center" />
   </StackLayout>
+  <!--<StackLayout>
+    <Button BackgroundColor="Green" TextColor="White" CornerRadius="30" Command="{Binding SelectedDataCommand}" Text="Selected Data" />
+    <CollectionView x:Name="collectionView"
+                        ItemsSource="{Binding getSelectedData}">
+      <CollectionView.ItemTemplate>
+        <DataTemplate>
+          <SwipeView>
+            <Grid BackgroundColor="White"
+                              Padding="10">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Image Grid.RowSpan="2" 
+                                   Source="{Binding Picture.Thumbnail}" 
+                                   Aspect="AspectFill"
+                                   HeightRequest="60" 
+                                   WidthRequest="60" />
+              <Label Grid.Column="1" 
+                                   Text="{Binding Name.First}" 
+                                   FontAttributes="Bold" />
+              <Label Grid.Row="1"
+                                   Grid.Column="1" 
+                                   Text="{Binding Location.City}"
+                                   FontAttributes="Italic" 
+                                   VerticalOptions="End" />
+            </Grid>
+          </SwipeView>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>-->
+    <!--<Frame Margin="0,0">
+      <ListView ItemsSource="{Binding getSelectedData}">
+        <ListView.ItemTemplate>
+          <DataTemplate >
+            <ViewCell >
+              <Grid Padding="10">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.RowSpan="2" Source="{Binding Picture.Thumbnail}" Aspect="AspectFill" HeightRequest="60" WidthRequest="60" />
+                <Label Grid.Column="1" Text="{Binding Name.First}" FontAttributes="Bold" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Location.City}" FontAttributes="Italic" VerticalOptions="End"/>
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.Header >
+          <StackLayout BackgroundColor="White" >
+            <Button BackgroundColor="Green" TextColor="White" CornerRadius="30" Command="{Binding SelectedDataCommand}" Text="Selected Data" />
+          </StackLayout>
+        </ListView.Header>
+      </ListView>
+    </Frame>-->
 </ContentPage>

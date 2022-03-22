@@ -13,6 +13,7 @@ namespace XamarinApp.Services
 {
   public class RamdomApiService : IRandomApiService
   {
+    private readonly HttpClient httpClient = new HttpClient();
     public async Task<List<Result>> getRandomApiData()
     {
       string url = "https://randomuser.me/api/?results=50";
