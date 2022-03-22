@@ -4,27 +4,29 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
 using XamarinApp.Services.Interfaces;
 using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.ViewModels
 {
-  public class ApiDataPageViewModel : ViewModelBase
+  public class ApiDataPageViewModel : ViewModelBase, INavigatedAware
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IRandomApiService _randomApiService;
     public ICommand ApiCommand { get; set; }
-    public ICommand ItemTappedCommand { get; set; }
+    public AsyncCommand<object> ItemTappedCommand { get; set; }
 
-    private List<Result> _apiDatas;
+    private ObservableCollection<Result> _apiDatas;
     public Result getSpecificData { get; set; }
-    
 
-    public List<Result> ApiData
+    public ObservableCollection<Result> ApiData
     {
       get
       {
@@ -40,23 +42,28 @@ namespace XamarinApp.ViewModels
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
       _randomApiService = randomApiService;
-      ApiCommand = new Command(OnApiClicked);
-      ItemTappedCommand = new Command(ItemTapped);
+      ItemTappedCommand = new AsyncCommand<object>(ItemTapped);
     }
 
-    public void ItemTapped()
+    async Task ItemTapped(object specificData)
     {
+      var result = specificData as Result;
       var data = new NavigationParameters();
-      var list = ApiData.Where(x => x == getSpecificData).ToList();
+      var list = ApiData.Where(x => x == result).ToList();
       data.Add("selectedData", list);
-      _navigation.NavigateAsync("SelectedItemDetailPage",data);
+      await _navigation.NavigateAsync("SelectedItemDetailPage", data);
     }
 
-    private async void OnApiClicked()
+    public async void OnNavigatedTo(INavigationParameters parameters)
     {
       var result = await _randomApiService.getRandomApiData();
 
-      ApiData = result;
+      ObservableCollection<Result> data = new ObservableCollection<Result>(result as List<Result>);
+      ApiData = data;
+    }
+
+    public void OnNavigatedFrom(INavigationParameters parameters)
+    {
     }
   }
 }
