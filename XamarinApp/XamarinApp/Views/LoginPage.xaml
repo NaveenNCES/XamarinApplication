@@ -4,6 +4,17 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinApp.Views.LoginPage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style TargetType="Entry">
+        <Style.Triggers>
+          <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+            <Setter Property="BackgroundColor" Value="SkyBlue"  />
+          </Trigger>
+        </Style.Triggers>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <StackLayout BackgroundColor="#e6e6e6">
     <Grid>
       <StackLayout Padding="0" Margin="0" HorizontalOptions="FillAndExpand">
@@ -24,14 +35,14 @@
 
               <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="50">
                 <StackLayout Orientation="Horizontal">
-                  <Entry Placeholder="Username"  TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding UserName}"/>
+                  <Entry x:Name="UserNameEntry" Placeholder="Username"  TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding UserName}"/>
                 </StackLayout>
               </Frame>
 
               <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,19,0,0" Padding="1" HorizontalOptions="FillAndExpand" CornerRadius="30">
                 <StackLayout Orientation="Horizontal">
 
-                  <Entry Placeholder="Password" IsPassword="True" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding PassWord}"/>
+                  <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding PassWord}"/>
                 </StackLayout>
               </Frame>
 
@@ -44,7 +55,13 @@
 
               </StackLayout>
 
-              <Button Text="SIGN IN" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}" />
+              <Button Text="SIGN IN" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}">
+                <Button.Triggers>
+                  <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference PasswordEntry},Path=Text.Length}" Value="0">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Button.Triggers>
+              </Button>
               <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <Label Text="Still Not Connected ?" TextColor="DarkGray" FontSize="Small"/>
                 <Button Text="Sign Up" TextColor="DarkBlue" FontAttributes="Bold" FontSize="Small" Command="{Binding SignUPCommand}"/>
@@ -58,12 +75,8 @@
                   <Image Source="https://blog.hubspot.com/hubfs/image8-2.jpg" Aspect="AspectFill" Margin="0"/>
                 </Frame>
               </StackLayout>
-
             </StackLayout>
-
-
           </StackLayout>
-
         </Frame>
       </StackLayout>
     </Grid>
