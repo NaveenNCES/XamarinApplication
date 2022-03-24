@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ieventagregator="clr-namespace:XamarinApp.IEventAgregator"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XamarinApp.Views.AddNotesPage">
+  <StackLayout>
+    <!--<Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <ContentPresenter prism:RegionManager.RegionName="LeftRegion"></ContentPresenter>
+    </Grid>-->
+    <Entry Text="{Binding Notes}" Margin="5"/>
+    <Button Command="{Binding ApplicationCommand.SaveAllCommand}" Text="Save Note" Margin="5"/>
+    <Grid>
+      <ListView ItemsSource="{Binding SavedNotes}" />
+    </Grid>
+  </StackLayout>
+</ContentPage>

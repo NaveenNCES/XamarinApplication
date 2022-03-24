@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinApp.iOS", "XamarinAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinApp.UWP", "XamarinApp\XamarinApp.UWP\XamarinApp.UWP.csproj", "{DC452ACD-3A67-4335-A0DE-D9595F9C05BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinApp.Test", "XamarinApp.Test\XamarinApp.Test.csproj", "{FE941461-8FEF-4486-91C4-AA2C5D05FDA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinApp.Test", "XamarinApp.Test\XamarinApp.Test.csproj", "{FE941461-8FEF-4486-91C4-AA2C5D05FDA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

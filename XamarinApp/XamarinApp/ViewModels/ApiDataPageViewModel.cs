@@ -21,7 +21,7 @@ namespace XamarinApp.ViewModels
     private readonly IPageDialogService _pageDialogService;
     private readonly IRandomApiService _randomApiService;
     public ICommand ApiCommand { get; set; }
-    public AsyncCommand<object> ItemTappedCommand { get; set; }
+    public DelegateCommand<object> ItemTappedCommand { get; set; }
 
     private ObservableCollection<Result> _apiDatas;
     public Result getSpecificData { get; set; }
@@ -42,10 +42,10 @@ namespace XamarinApp.ViewModels
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
       _randomApiService = randomApiService;
-      ItemTappedCommand = new AsyncCommand<object>(ItemTapped);
+      ItemTappedCommand = new DelegateCommand<object>(ItemTapped);
     }
 
-    async Task ItemTapped(object specificData)
+    async void ItemTapped(object specificData)
     {
       var result = specificData as Result;
       var data = new NavigationParameters();

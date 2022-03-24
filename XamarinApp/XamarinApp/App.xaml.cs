@@ -1,10 +1,12 @@
 using Prism;
 using Prism.Ioc;
+using Prism.Modularity;
 using System;
 using System.IO;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
+using XamarinApp.Composite_Command;
 using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
@@ -49,6 +51,7 @@ namespace XamarinApp
       containerRegistry.Register<IUserLoginService, UserLoginService>();
       containerRegistry.Register<IRandomApiService, RamdomApiService>();
       containerRegistry.Register<ISignUpUserService, SignUpUserService>();
+      containerRegistry.Register<IApplicationCommand, ApplicationCommands>();
 
       containerRegistry.RegisterForNavigation<NavigationPage>();
       containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -56,6 +59,8 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<SignUpPage, SignUpPageViewModel>();
       containerRegistry.RegisterForNavigation<ApiDataPage, ApiDataPageViewModel>();
       containerRegistry.RegisterForNavigation<SelectedItemDetailPage, SelectedItemDetailPageViewModel>();
+      containerRegistry.RegisterForNavigation<AddNotesPage, AddNotesPageViewModel>();
     }
+
   }
 }
