@@ -5,7 +5,28 @@
              Title="{Binding Title}">
 
   <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-    <Label Text="Welcome to Xamarin Forms and Prism!" />
+
+    <Grid>
+      <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <Label Grid.Column="0"
+                Text="Hi "
+                HorizontalOptions="CenterAndExpand"
+                VerticalTextAlignment="Start"
+                LineBreakMode="WordWrap"
+                FontSize="Large"/>
+
+      <Label Grid.Column="1"
+                Text="{Binding Name}"
+                HorizontalOptions="StartAndExpand"
+                VerticalTextAlignment="Center"
+                LineBreakMode="NoWrap"
+                FontSize="Large"/>
+    </Grid>
+
     <Button Text="SIGN IN" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">
       <Button.Effects>
         <effects:CustomEffects Radius="5" DistanceX="10" DistanceY="0" Color="SkyBlue"></effects:CustomEffects>

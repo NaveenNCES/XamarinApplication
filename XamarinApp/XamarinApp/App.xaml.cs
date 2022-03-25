@@ -62,5 +62,18 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<AddNotesPage, AddNotesPageViewModel>();
     }
 
+    protected override void OnStart()
+    {
+      base.OnStart();
+    }
+    protected override void OnSleep()
+    {
+      base.OnSleep();
+    }
+    protected override async void OnResume()
+    {
+      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+    }
+
   }
 }

@@ -11,12 +11,19 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
-  public class MainPageViewModel : ViewModelBase
+  public class MainPageViewModel : ViewModelBase, INavigatedAware
   {
     private readonly INavigationService Navigation;
     public ICommand LoginCommand { get; set; }
     public ICommand ApiCommand { get; set; }
     public DelegateCommand EventAggregatorCommand { get; set; }
+
+    private string _name;
+    public string Name
+    {
+      get { return _name; }
+      set { SetProperty(ref _name, value); }
+    }
 
     public MainPageViewModel(INavigationService navigationService)
     {
@@ -39,6 +46,15 @@ namespace XamarinApp.ViewModels
     private async void OnLoginClicked()
     {
       await Navigation.NavigateAsync("LoginPage");
+    }
+
+    public void OnNavigatedFrom(INavigationParameters parameters)
+    {
+    }
+
+    public void OnNavigatedTo(INavigationParameters parameters)
+    {
+      Name = parameters.GetValue<string>("Name");
     }
   }
 }

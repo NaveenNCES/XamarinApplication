@@ -24,6 +24,14 @@ namespace XamarinApp.ViewModels
     private string _userName;
     private string _password;
 
+    private string _name;
+
+    public string Name
+    {
+      get { return _name; }
+      set { SetProperty(ref _name, value); }
+    }
+
     public string UserName
     {
       get
@@ -57,17 +65,24 @@ namespace XamarinApp.ViewModels
 
     private async void OnSignUpClicked()
     {
-      await Navigation.NavigateAsync("SignUpPage");
+      var answer = await _pageDialogService.DisplayAlertAsync("Request", "Do You want to Sign Up", "Yes", "No");
+      if(answer)
+        await Navigation.NavigateAsync("SignUpPage");
     }
     public async void OnLoginClicked()
     {
+      Name = await _pageDialogService.DisplayPromptAsync("Question", "Whats ur name");
+
       var user = new UserModel { Password = PassWord, UserName = UserName };
 
       var result = await _userLoginService.LoginUser(user);
 
+      var data = new NavigationParameters();
+      data.Add("Name", Name);
+
       if (result == true)
       {
-        await Navigation.NavigateAsync("MainPage");
+        await Navigation.NavigateAsync("MainPage", data);
       }
       else
       {

@@ -1,3 +1,4 @@
+using Prism.AppModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -15,7 +16,7 @@ using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.ViewModels
 {
-  public class ApiDataPageViewModel : ViewModelBase, INavigatedAware
+  public class ApiDataPageViewModel : ViewModelBase, INavigatedAware, IPageLifecycleAware
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
@@ -64,6 +65,17 @@ namespace XamarinApp.ViewModels
 
     public void OnNavigatedFrom(INavigationParameters parameters)
     {
+    }
+
+    public void OnAppearing()
+    {
+      //Console.WriteLine("We are appearing");
+      _pageDialogService.DisplayAlertAsync("Alert", "Displaying Api Data", "OK");
+    }
+
+    public void OnDisappearing()
+    {
+      Console.WriteLine("We are disappearing");
     }
   }
 }
