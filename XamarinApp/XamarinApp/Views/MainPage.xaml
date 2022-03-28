@@ -25,6 +25,12 @@
                 VerticalTextAlignment="Center"
                 LineBreakMode="NoWrap"
                 FontSize="Large"/>
+      <Label Grid.Column="1"
+                Text="{Binding Message}"
+                HorizontalOptions="StartAndExpand"
+                VerticalTextAlignment="Center"
+                LineBreakMode="NoWrap"
+                FontSize="Large"></Label>
     </Grid>
 
     <Button Text="SIGN IN" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">

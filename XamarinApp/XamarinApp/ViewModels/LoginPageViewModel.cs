@@ -1,9 +1,11 @@
+using NLog;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +17,7 @@ namespace XamarinApp.ViewModels
 {
   public class LoginPageViewModel : ViewModelBase
   {
+    private static Services.Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
     private readonly INavigationService Navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserLoginService _userLoginService;
@@ -59,6 +62,7 @@ namespace XamarinApp.ViewModels
       Navigation = navigationService;
       _pageDialogService = pageDialogService;
       _userLoginService = userLoginService;
+      //_logger = logger;
       LoginCommand = new Command(OnLoginClicked);
       SignUPCommand = new Command(OnSignUpClicked);
     }
@@ -71,7 +75,14 @@ namespace XamarinApp.ViewModels
     }
     public async void OnLoginClicked()
     {
+      //_logger.LogInformation("Login Executed");
+      logger.Info("Logging");
+
+
       Name = await _pageDialogService.DisplayPromptAsync("Question", "Whats ur name");
+      //MessagingCenter.Send<LoginPageViewModel>(this, Name);
+      MessagingCenter.Send<LoginPageViewModel,string>(this, "Hi","Naveen");
+
 
       var user = new UserModel { Password = PassWord, UserName = UserName };
 
