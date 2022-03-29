@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XamarinApp.Views.GesturePage">
+  <StackLayout>
+    <Label Text="{Binding CountLable}" FontSize="Large" />
+    <StackLayout BackgroundColor="Green" HeightRequest="100" WidthRequest="100">
+      <StackLayout.GestureRecognizers>
+        <TapGestureRecognizer Command="{Binding TapCommand}"
+                              NumberOfTapsRequired="2" />
+        <SwipeGestureRecognizer CommandParameter="Left" Direction="Left" Command="{Binding TapCommand}" />
+        <SwipeGestureRecognizer CommandParameter="Right" Direction="Right" Command="{Binding TapCommand}" />
+        <SwipeGestureRecognizer CommandParameter="Up" Direction="Up" Command="{Binding TapCommand}" />
+        <SwipeGestureRecognizer CommandParameter="Down" Direction="Down" Command="{Binding TapCommand}" />
+      </StackLayout.GestureRecognizers>
+    </StackLayout>
+  </StackLayout>
+</ContentPage>

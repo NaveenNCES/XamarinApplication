@@ -14,7 +14,7 @@ using XamarinApp.Views;
 
 namespace XamarinApp
 {
-  public partial class App
+  public partial class App 
   {
     static DBConnection database;
 
@@ -60,6 +60,7 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<ApiDataPage, ApiDataPageViewModel>();
       containerRegistry.RegisterForNavigation<SelectedItemDetailPage, SelectedItemDetailPageViewModel>();
       containerRegistry.RegisterForNavigation<AddNotesPage, AddNotesPageViewModel>();
+      containerRegistry.RegisterForNavigation<GesturePage, GesturePageViewModel>();
     }
 
     protected override void OnStart()

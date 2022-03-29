@@ -80,8 +80,7 @@ namespace XamarinApp.ViewModels
 
 
       Name = await _pageDialogService.DisplayPromptAsync("Question", "Whats ur name");
-      //MessagingCenter.Send<LoginPageViewModel>(this, Name);
-      MessagingCenter.Send<LoginPageViewModel,string>(this, "Hi","Naveen");
+      //MessagingCenter.Send<LoginPageViewModel>(this, Name);  
 
 
       var user = new UserModel { Password = PassWord, UserName = UserName };
@@ -94,6 +93,7 @@ namespace XamarinApp.ViewModels
       if (result == true)
       {
         await Navigation.NavigateAsync("MainPage", data);
+        MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", "Naveen");
       }
       else
       {

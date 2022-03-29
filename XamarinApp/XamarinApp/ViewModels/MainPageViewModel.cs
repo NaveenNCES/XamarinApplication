@@ -1,17 +1,13 @@
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using Xamarin.Forms;
-using XamarinApp.Services.Interfaces;
-using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.ViewModels
 {
@@ -21,14 +17,17 @@ namespace XamarinApp.ViewModels
     private readonly IPageDialogService _pageDialogService;
     public ICommand LoginCommand { get; set; }
     public ICommand ApiCommand { get; set; }
+    public ICommand GestureCommand { get; set; }
     public DelegateCommand EventAggregatorCommand { get; set; }
 
-    private List<string> _name;
-    public List<string> Name
+    private string _name;
+    public string Name
     {
       get { return _name; }
       set { SetProperty(ref _name, value); }
     }
+
+    public List<string> Demo { get; set; } = new List<string>();
 
     private string _message;
     public string Message
@@ -45,18 +44,18 @@ namespace XamarinApp.ViewModels
       _pageDialogService = pageDialogService;
       LoginCommand = new Command(OnLoginClicked);
       ApiCommand = new Command(OnApiClicked);
+      GestureCommand = new Command(OnGestureClicked);
       EventAggregatorCommand = new DelegateCommand(OnEventClicked);
-      MessagingCenter.Subscribe<LoginPageViewModel,string>(this,"Hi", (sender,args) =>
-      {
-        //await _pageDialogService.DisplayAlertAsync("Test", "Hi " + args, "Ok");
-        message(args);
-      });
+      CultureInfo culture = new CultureInfo("ja-JP");
+      Thread.CurrentThread.CurrentCulture = culture;
+      Thread.CurrentThread.CurrentUICulture = culture;
     }
 
-    private void message(string data)
+    private async void OnGestureClicked()
     {
-      //Name.Add(data);
+      await Navigation.NavigateAsync("GesturePage");
     }
+
     private async void OnEventClicked()
     {
       await Navigation.NavigateAsync("AddNotesPage");
@@ -78,15 +77,12 @@ namespace XamarinApp.ViewModels
 
     public void OnNavigatedTo(INavigationParameters parameters)
     {
-      Message= parameters.GetValue<string>("Name");
-      //var a = parameters.GetValue<string>("Name");
-      //Message.Add(a);
-      //Name = parameters.GetValue<string>("Name");
+      Name = parameters.GetValue<string>("Name");
 
-      //MessagingCenter.Subscribe<LoginPageViewModel,DateTime>(this, "tick", (p,datetime) =>
-      //{
-      //  Message.Add(datetime.ToString());
-      //});
+      MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
+      {
+        Message = args;
+      });
     }
   }
 }
