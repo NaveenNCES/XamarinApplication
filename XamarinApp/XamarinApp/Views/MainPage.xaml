@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:effects="clr-namespace:XamarinApp.Effects" xmlns:pan="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="XamarinApp.Views.MainPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              Title="{Binding Title}" FlowDirection="RightToLeft" >
   <pan:PancakeView BackgroundGradientEndPoint="0,1">
     <pan:PancakeView.BackgroundGradientStops>
@@ -11,8 +12,16 @@
       </pan:GradientStopCollection>
     </pan:PancakeView.BackgroundGradientStops>
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-
-    <Grid BackgroundColor="LightBlue">
+      <Label Text="{xct:Translate HeaderText}" HorizontalTextAlignment="Center" FontSize="36" TextColor="White"/>
+      <Label Text="{xct:Translate BodyText}" FontSize="Title" Padding="30,10,30,10" TextColor="White"/>
+      <Picker ItemsSource="{Binding SupportedLanguage}"
+              ItemDisplayBinding="{Binding Name}"
+              SelectedItem="{Binding SelectedLanguage}" />
+      
+      <Button Text="{xct:Translate Save}"
+              Command="{Binding ChangeLanguageCommand}" />
+      
+      <Grid BackgroundColor="LightBlue">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"  />
         <ColumnDefinition Width="Auto" />

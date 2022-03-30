@@ -3,10 +3,12 @@ using Prism.Ioc;
 using Prism.Modularity;
 using System;
 using System.IO;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using XamarinApp.Composite_Command;
+using XamarinApp.Resx;
 using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
@@ -37,11 +39,12 @@ namespace XamarinApp
 
     protected override async void OnInitialized()
     {
+      LocalizationResourceManager.Current.Init(AppResource.ResourceManager);
       InitializeComponent();
       DependencyService.Register<UserLoginService>();
       DependencyService.Register<DBConnection>();
 
-      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+      await NavigationService.NavigateAsync("NavigationPage/MainPage");
       //MainPage = new NavigationPage(new LoginPage());
     }
 

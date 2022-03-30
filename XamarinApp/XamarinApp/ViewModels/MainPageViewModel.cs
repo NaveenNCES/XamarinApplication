@@ -3,11 +3,16 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using XamarinApp.Models;
+using XamarinApp.Resx;
 
 namespace XamarinApp.ViewModels
 {
@@ -18,6 +23,7 @@ namespace XamarinApp.ViewModels
     public ICommand LoginCommand { get; set; }
     public ICommand ApiCommand { get; set; }
     public ICommand GestureCommand { get; set; }
+    public ICommand ChangeLanguageCommand { get; set; }
     public DelegateCommand EventAggregatorCommand { get; set; }
 
     private string _name;
@@ -35,9 +41,22 @@ namespace XamarinApp.ViewModels
       get { return _message; }
       set { SetProperty(ref _message, value); }
     }
+    /////////Language/////////
+    private ObservableCollection<MyLanguage> _supportedLanguage;
 
+    public ObservableCollection<MyLanguage> SupportedLanguage
+    {
+      get { return _supportedLanguage; }
+      set { SetProperty(ref _supportedLanguage, value); }
+    }
 
-
+    private MyLanguage _selectedLanguage;
+    public MyLanguage SelectedLanguage
+    {
+      get { return _selectedLanguage; }
+      set { SetProperty(ref _selectedLanguage, value); }
+    }
+    //////////////////////
     public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService)
     {
       Navigation = navigationService;
@@ -46,9 +65,29 @@ namespace XamarinApp.ViewModels
       ApiCommand = new Command(OnApiClicked);
       GestureCommand = new Command(OnGestureClicked);
       EventAggregatorCommand = new DelegateCommand(OnEventClicked);
-      CultureInfo culture = new CultureInfo("ja-JP");
-      Thread.CurrentThread.CurrentCulture = culture;
-      Thread.CurrentThread.CurrentUICulture = culture;
+      ChangeLanguageCommand = new Command(PerformOperation);
+
+      ///////Language//////
+      SupportedLanguage = new ObservableCollection<MyLanguage>()
+      {
+        new MyLanguage{Name=AppResource.English,CI="en"},
+        new MyLanguage{Name=AppResource.Spanish,CI="es"},
+        new MyLanguage{Name=AppResource.French,CI="fr"},
+        new MyLanguage{Name=AppResource.Tamil,CI="ta"}
+      };
+
+      SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
+      //CultureInfo culture = new CultureInfo("ja-JP");
+      //Thread.CurrentThread.CurrentCulture = culture;
+      //Thread.CurrentThread.CurrentUICulture = culture;
+    }
+
+    private void PerformOperation(object obj)
+    {
+      //CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.UserCustomCulture | CultureTypes.SpecificCultures);
+      //var getCulture = CultureInfo.CurrentUICulture.Name;
+
+      LocalizationResourceManager.Current.SetCulture(CultureInfo.GetCultureInfo(SelectedLanguage.CI));
     }
 
     private async void OnGestureClicked()
