@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Module1;
 
 namespace XamarinApp.ViewModels
 {
@@ -34,15 +35,19 @@ namespace XamarinApp.ViewModels
       //Direction = (SwipeDirection)e;
       tapCount++;
       CountLable = "I was tapped " + tapCount + " times";
-      var direction = e.ToString();
-      if (direction == "Left")
-        CountLable = "Swip left";
-      else if (direction == "Right")
-        CountLable = "Swip Right";
-      else if (direction == "Up")
-        CountLable = "Swip Up";
-      else if (direction == "Down")
-        CountLable = "Swip Down";
+      if(e != null)
+      {
+        var direction = e.ToString();
+        if (direction == "Left")
+          CountLable = "Swip left";
+        else if (direction == "Right")
+          CountLable = "Swip Right";
+        else if (direction == "Up")
+          CountLable = "Swip Up";
+        else if (direction == "Down")
+          CountLable = "Swip Down";
+      }
+      
     }
   }
 }

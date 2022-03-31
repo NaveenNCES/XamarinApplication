@@ -30,7 +30,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(x => x.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.LoginCommand.Execute(new());
+      viewModel.LoginCommand.Execute(new object());
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("LoginPage"));
@@ -41,7 +41,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(x => x.NavigateAsync("ApiDataPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.ApiCommand.Execute(new());
+      viewModel.ApiCommand.Execute(new object());
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("ApiDataPage"));

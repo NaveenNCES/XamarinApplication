@@ -1,3 +1,6 @@
+using Module1;
+using Module1.ViewModels;
+using Module1.Views;
 using Prism;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -66,6 +69,11 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<GesturePage, GesturePageViewModel>();
     }
 
+    protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+    {
+      moduleCatalog.AddModule<Module1Module>();
+      //moduleCatalog.AddModule<ViewA, ViewAViewModel>();
+    }
     protected override void OnStart()
     {
       base.OnStart();

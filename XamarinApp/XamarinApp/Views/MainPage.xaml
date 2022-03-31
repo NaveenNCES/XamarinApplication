@@ -56,7 +56,8 @@
     <Button Text="Random Api" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" />
     <Button Text="Save your notes" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EventAggregatorCommand}" />
     <Button Text="Gesture" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
-  </StackLayout>
+      <Button Text="Module View" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
+    </StackLayout>
 
   </pan:PancakeView>
 </ContentPage>
