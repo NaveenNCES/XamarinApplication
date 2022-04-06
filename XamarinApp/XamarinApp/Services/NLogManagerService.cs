@@ -1,30 +1,21 @@
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using Xamarin.Forms;
-using XamarinApp.Droid;
-using XamarinApp.Services.Interfaces;
-using Environment = System.Environment;
-using ILogger = XamarinApp.Services.Interfaces.ILogger;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text;
 using XamarinApp.Services;
+using XamarinApp.Services.Interfaces;
+using Xamarin.Forms;
 
-[assembly: Dependency(typeof(NLogManager))]
-namespace XamarinApp.Droid
+[assembly: Xamarin.Forms.Dependency(typeof(NLogManagerService))]
+namespace XamarinApp.Services
 {
-  class NLogManager : ILogManager
+  public class NLogManagerService : ILogManager
   {
-    public NLogManager()
+    public NLogManagerService()
     {
       var config = new LoggingConfiguration();
 
@@ -44,8 +35,7 @@ namespace XamarinApp.Droid
 
       LogManager.Configuration = config;
     }
-
-    public ILogger GetLog([System.Runtime.CompilerServices.CallerFilePath] string callerFilePath = "")
+    public Interfaces.ILogger GetLog([System.Runtime.CompilerServices.CallerFilePath] string callerFilePath = "")
     {
       string fileName = callerFilePath;
 

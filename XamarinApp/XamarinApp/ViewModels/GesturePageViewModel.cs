@@ -9,10 +9,10 @@ using Module1;
 
 namespace XamarinApp.ViewModels
 {
-  public class GesturePageViewModel : BindableBase
+  public class GesturePageViewModel : ViewModelBase
   {
     private string _countLable;
-    int tapCount = 0;
+    public int tapCount = 0;
     public Xamarin.Forms.SwipeDirection Direction { get; set; }
 
     public EventHandler<SwipedEventArgs> Swipe;

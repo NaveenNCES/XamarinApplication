@@ -17,7 +17,9 @@ namespace XamarinApp.ViewModels
 {
   public class LoginPageViewModel : ViewModelBase
   {
-    private static Services.Interfaces.ILogger logger = DependencyService.Get<ILogManager>().GetLog();
+    private static Services.Interfaces.ILogger deplogger = DependencyService.Get<ILogManager>().GetLog();
+    private readonly ILogManager _logManager;
+    private readonly Services.Interfaces.ILogger _logger;
     private readonly INavigationService Navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserLoginService _userLoginService;
@@ -57,12 +59,14 @@ namespace XamarinApp.ViewModels
         SetProperty(ref _password, value);
       }
     }
-    public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IUserLoginService userLoginService)
+    public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
+      IUserLoginService userLoginService, Services.Interfaces.ILogger logger, ILogManager logManager)
     {
       Navigation = navigationService;
       _pageDialogService = pageDialogService;
       _userLoginService = userLoginService;
-      //_logger = logger;
+      _logger = logManager.GetLog();
+      _logManager = logManager;
       LoginCommand = new Command(OnLoginClicked);
       SignUPCommand = new Command(OnSignUpClicked);
     }
@@ -75,13 +79,10 @@ namespace XamarinApp.ViewModels
     }
     public async void OnLoginClicked()
     {
-      //_logger.LogInformation("Login Executed");
-      logger.Info("Logging");
-
+      deplogger.Info("na");
+      _logger.Info("Logging");
 
       Name = await _pageDialogService.DisplayPromptAsync("Question", "Whats ur name");
-      //MessagingCenter.Send<LoginPageViewModel>(this, Name);  
-
 
       var user = new UserModel { Password = PassWord, UserName = UserName };
 

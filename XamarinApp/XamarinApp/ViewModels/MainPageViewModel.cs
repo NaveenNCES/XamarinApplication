@@ -83,9 +83,6 @@ namespace XamarinApp.ViewModels
       };
 
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
-      //CultureInfo culture = new CultureInfo("ja-JP");
-      //Thread.CurrentThread.CurrentCulture = culture;
-      //Thread.CurrentThread.CurrentUICulture = culture;
     }
 
     private async void OnModuleClicked(object obj)
@@ -121,7 +118,7 @@ namespace XamarinApp.ViewModels
     {
       await Navigation.NavigateAsync("LoginPage");
     }
-
+    
     public void OnNavigatedFrom(INavigationParameters parameters)
     {     
     }

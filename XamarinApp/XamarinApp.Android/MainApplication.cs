@@ -4,9 +4,6 @@ using Android.Runtime;
 
 namespace XamarinApp.Droid
 {
-    [Application(
-        Theme = "@style/MainTheme"
-        )]
     public class MainApplication : Application
     {
         public MainApplication(IntPtr javaReference, JniHandleOwnership transfer)

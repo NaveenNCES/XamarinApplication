@@ -7,11 +7,11 @@ namespace XamarinApp.Composite_Command
 {
   public interface IApplicationCommand
   {
-    CompositeCommand SaveAllCommand { get; }
+    CompositeCommand SaveAllCommand { get; set; }
   }
 
   public class ApplicationCommands : IApplicationCommand
   {
-    public CompositeCommand SaveAllCommand { get; } = new CompositeCommand();
+    public CompositeCommand SaveAllCommand { get; set; } = new CompositeCommand();
   }
 }

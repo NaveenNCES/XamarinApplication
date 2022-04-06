@@ -1,25 +1,19 @@
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using NLog;
 using System;
-using Xamarin.Forms;
 using System.Collections.Generic;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using Xamarin.Forms;
+using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
-using XamarinApp.Droid;
 using ILogger = XamarinApp.Services.Interfaces.ILogger;
 
-[assembly: Dependency(typeof(NLogLogger))]
-namespace XamarinApp.Droid
+[assembly: Xamarin.Forms.Dependency(typeof(NLogLogger))]
+namespace XamarinApp.Services
 {
   public class NLogLogger : ILogger
   {
-    private Logger log;
+    private readonly Logger log;
 
     public NLogLogger(Logger log)
     {
@@ -39,7 +33,7 @@ namespace XamarinApp.Droid
     public void Fatal(string text, params object[] args)
     {
       log.Fatal(text, args);
-    }
+    }    
 
     public void Info(string text, params object[] args)
     {
@@ -54,6 +48,6 @@ namespace XamarinApp.Droid
     public void Warn(string text, params object[] args)
     {
       log.Warn(text, args);
-    }
+    }    
   }
 }

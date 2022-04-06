@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using XamarinApp.Models;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
+using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.Test.ViewModels
 {
@@ -21,7 +23,6 @@ namespace XamarinApp.Test.ViewModels
     private readonly Mock<IRandomApiService> _randomApiService;
     private readonly ApiDataPageViewModel viewModel;
     private readonly Fixture _fixture = new Fixture();
-
 
     public ApiDataPageViewModelTest()
     {
@@ -36,10 +37,11 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
+      var data = new NavigationParameters();
 
       //Act
       _randomApiService.Setup(x => x.getRandomApiData()).ReturnsAsync(apiData);
-      viewModel.ApiCommand.Execute(new());
+      viewModel.OnNavigatedTo(data);
 
       //Assert
       Assert.Equal(apiData, viewModel.ApiData);
@@ -50,13 +52,14 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
+      ObservableCollection<Result> data = new ObservableCollection<Result>(apiData as List<Result>);
       var list = apiData.Where(x => x ==  apiData.FirstOrDefault()).ToList();
       var specificData = list.FirstOrDefault();
 
       //Act
-      viewModel.ApiData = apiData;
+      viewModel.ApiData = data;
       viewModel.getSpecificData = specificData;
-      viewModel.ItemTappedCommand.Execute(new());
+      viewModel.ItemTappedCommand.Execute(new object());
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("SelectedItemDetailPage", It.Is<NavigationParameters>(x => x.ContainsKey("selectedData"))));

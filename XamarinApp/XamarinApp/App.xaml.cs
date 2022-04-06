@@ -1,6 +1,8 @@
 using Module1;
 using Module1.ViewModels;
 using Module1.Views;
+using NLog;
+using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -44,11 +46,17 @@ namespace XamarinApp
     {
       LocalizationResourceManager.Current.Init(AppResource.ResourceManager);
       InitializeComponent();
-      DependencyService.Register<UserLoginService>();
       DependencyService.Register<DBConnection>();
 
       await NavigationService.NavigateAsync("NavigationPage/MainPage");
+
+      CrossFirebasePushNotification.Current.OnTokenRefresh += firebasePushNotificationTokenEventHandler;
       //MainPage = new NavigationPage(new LoginPage());
+    }
+
+    private void firebasePushNotificationTokenEventHandler(object source, FirebasePushNotificationTokenEventArgs e)
+    {
+      System.Diagnostics.Debug.WriteLine($"Token: { e.Token}");
     }
 
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -58,6 +66,9 @@ namespace XamarinApp
       containerRegistry.Register<IRandomApiService, RamdomApiService>();
       containerRegistry.Register<ISignUpUserService, SignUpUserService>();
       containerRegistry.Register<IApplicationCommand, ApplicationCommands>();
+      containerRegistry.Register<ILogManager,NLogManagerService>();
+      containerRegistry.Register<Services.Interfaces.ILogger, NLogLogger>();
+      containerRegistry.RegisterSingleton<Logger>();
 
       containerRegistry.RegisterForNavigation<NavigationPage>();
       containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -86,6 +97,5 @@ namespace XamarinApp
     {
       await NavigationService.NavigateAsync("NavigationPage/LoginPage");
     }
-
   }
 }

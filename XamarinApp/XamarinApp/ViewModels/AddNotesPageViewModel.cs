@@ -46,9 +46,9 @@ namespace XamarinApp.ViewModels
       ApplicationCommand = applicationCommand;
       SendNoteCommand = new DelegateCommand(SendNote);
       ApplicationCommand.SaveAllCommand.RegisterCommand(SendNoteCommand);
-      ea.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);
+      _ea.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);
     }
-
+   
     private void NotesReceived(string parameter)
     {
       SavedNotes.Add(parameter);
@@ -56,7 +56,7 @@ namespace XamarinApp.ViewModels
 
     private void SendNote()
     {
-      _ea.GetEvent<NoteSentEvent>().Publish(Notes);
+      _ea.GetEvent<NoteSentEvent>().Publish(Notes);      
     }
   }
 }
