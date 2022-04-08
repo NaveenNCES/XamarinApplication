@@ -29,6 +29,7 @@ namespace XamarinApp.ViewModels
     public ICommand ChangeLanguageCommand { get; set; }
     public DelegateCommand EventAggregatorCommand { get; set; }
     public ICommand ModuleCommand { get; set; }
+    public ICommand EssentialCommand { get; set; }
 
     private string _name;
     public string Name
@@ -72,7 +73,7 @@ namespace XamarinApp.ViewModels
       ModuleCommand = new Command(OnModuleClicked);
       EventAggregatorCommand = new DelegateCommand(OnEventClicked);
       ChangeLanguageCommand = new Command(PerformOperation);
-
+      EssentialCommand = new Command(EssentialClicked);
       ///////Language//////
       SupportedLanguage = new ObservableCollection<MyLanguage>()
       {
@@ -83,6 +84,11 @@ namespace XamarinApp.ViewModels
       };
 
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
+    }
+
+    private void EssentialClicked(object obj)
+    {
+      Navigation.NavigateAsync("XamarinEssentials");
     }
 
     private async void OnModuleClicked(object obj)

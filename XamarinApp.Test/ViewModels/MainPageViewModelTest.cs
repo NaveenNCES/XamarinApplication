@@ -105,10 +105,6 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       MessagingCenter.Send(this, "Hi", fixture);
-      MessagingCenter.Subscribe<MainPageViewModelTest, string>(this, "Hi", (sender, args) =>
-      {
-        viewModel.Message = args;
-      });
       viewModel.OnNavigatedTo(data);
 
       //Arrange

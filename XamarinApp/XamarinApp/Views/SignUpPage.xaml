@@ -3,7 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com" xmlns:viewmodels="clr-namespace:XamarinApp.ViewModels" x:DataType="viewmodels:SignUpPageViewModel"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="XamarinApp.Views.SignUpPage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="InvalidStyle" TargetType="Entry">
+        <Setter Property="TextColor" Value="Red" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <StackLayout BackgroundColor="#e6e6e6">
     <Grid>
       <StackLayout Padding="0" Margin="0" HorizontalOptions="FillAndExpand">
@@ -20,7 +28,12 @@
             <StackLayout Padding="10" Margin="20,20">
               <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="50">
                 <StackLayout Orientation="Horizontal">
-                  <Entry Placeholder="Email" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text= "{Binding UserName}"></Entry>
+                  <Entry Placeholder="Email"  FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text= "{Binding UserName}">
+                    <Entry.Behaviors>
+                      <xct:EmailValidationBehavior DecorationFlags="Trim"
+                                                   InvalidStyle="{StaticResource InvalidStyle}"/>
+                    </Entry.Behaviors>
+                  </Entry>
                 </StackLayout>
               </Frame>
               <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,19,0,0" Padding="1" HorizontalOptions="FillAndExpand" CornerRadius="30">

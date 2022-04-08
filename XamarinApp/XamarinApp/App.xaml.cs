@@ -48,7 +48,7 @@ namespace XamarinApp
       InitializeComponent();
       DependencyService.Register<DBConnection>();
 
-      await NavigationService.NavigateAsync("NavigationPage/MainPage");
+      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
 
       CrossFirebasePushNotification.Current.OnTokenRefresh += firebasePushNotificationTokenEventHandler;
       //MainPage = new NavigationPage(new LoginPage());
@@ -78,6 +78,7 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<SelectedItemDetailPage, SelectedItemDetailPageViewModel>();
       containerRegistry.RegisterForNavigation<AddNotesPage, AddNotesPageViewModel>();
       containerRegistry.RegisterForNavigation<GesturePage, GesturePageViewModel>();
+      containerRegistry.RegisterForNavigation<XamarinEssentials, XamarinEssentialsViewModel>();
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

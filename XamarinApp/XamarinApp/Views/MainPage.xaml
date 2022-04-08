@@ -57,6 +57,7 @@
     <Button Text="Save your notes" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EventAggregatorCommand}" />
     <Button Text="Gesture" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
       <Button Text="Module View" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
+      <Button Text="Xamarin Essentials" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EssentialCommand}" />
     </StackLayout>
 
   </pan:PancakeView>

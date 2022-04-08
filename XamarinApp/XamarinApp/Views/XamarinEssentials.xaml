@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XamarinApp.Views.XamarinEssentials">
+  <StackLayout Padding="12" Spacing="6" BackgroundColor="{AppThemeBinding Dark=Black, Light=White}">
+    <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"  />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Label Grid.Column="0" Text="Dark Theam" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" VerticalOptions="Start" />
+    <Switch Grid.Column="1" IsToggled="{Binding Theam}" HorizontalOptions="End" VerticalOptions="End" />
+      <xct:AvatarView Grid.Row="1" FontSize="Medium" TextColor="{AppThemeBinding Dark=White,Light=Black}" Text="{Binding NetConnectivity}" HorizontalOptions="Start" />
+    </Grid>
+    <Label Text="Email Test" TextColor="{AppThemeBinding Dark=White,Light=Black}" HorizontalOptions="Center" />
+    <Entry Text="{Binding EmailId}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" Placeholder="Enter Valid Email" PlaceholderColor="Chocolate"/>
+    <Entry Text="{Binding EmailSubject}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" Placeholder="Enter Subject of Email" PlaceholderColor="Chocolate"/>
+    <Entry Text="{Binding EmailBody}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" Placeholder="Enter Body of Email" PlaceholderColor="Chocolate"/>
+    <Button Text="Send Email" Command="{Binding EmailCommand}" CornerRadius="5" BackgroundColor="Aqua"/>
+    <Button Text="Take ScreenShot" Command="{Binding ScreenShotCommand}" >
+      <Button.Behaviors>
+        <xct:AnimationBehavior EventName="Clicked">
+          <xct:AnimationBehavior.AnimationType>
+            <xct:ShakeAnimation Duration="100" />
+          </xct:AnimationBehavior.AnimationType>
+        </xct:AnimationBehavior>
+      </Button.Behaviors>
+    </Button>
+    <Image VerticalOptions="FillAndExpand"
+           MinimumHeightRequest="400"
+           MinimumWidthRequest="400"
+           Source="{Binding Image}"/>
+    <Button Text="Check Location" Command="{Binding LocationCommand}" CornerRadius="5" />
+    <Label Text="{Binding Location}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" />
+    <Label Text="{Binding AppInfor}" TextColor="{AppThemeBinding Dark=White,Light=Black}" VerticalOptions="End" HorizontalOptions="Center" />
+    <Label Text="{Binding AppVersion}" TextColor="{AppThemeBinding Dark=White,Light=Black}" VerticalOptions="End" HorizontalOptions="Center" />
+    <Label Text="{Binding DeviceDetail}" TextColor="{AppThemeBinding Dark=White,Light=Black}" VerticalOptions="End" HorizontalOptions="Center" />
+  </StackLayout>
+</ContentPage>
