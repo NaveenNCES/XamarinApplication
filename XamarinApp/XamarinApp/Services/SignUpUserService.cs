@@ -1,5 +1,7 @@
+using SQLite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using XamarinApp.Models;
@@ -9,12 +11,18 @@ namespace XamarinApp.Services
 {
   public class SignUpUserService : ISignUpUserService
   {
-    public async Task<bool> SaveUser(UserModel user)
+    //private readonly IRepository<UserModel> _userRepo;
+    private readonly IRepository<UserModel> _userRepo;
+    public SignUpUserService(IRepository<UserModel> repository)
     {
-       await App.Database.SaveUser(new UserModel
+      _userRepo = repository;
+    }
+    public async Task<bool> SaveUserAsync(UserModel user)
+    {
+      await _userRepo.Insert(new UserModel
       {
         UserName = user.UserName,
-        Password = user.Password,
+        Password = user.Password
       });
 
       return true;

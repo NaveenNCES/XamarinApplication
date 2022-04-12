@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinApp.Models;
+using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
@@ -18,8 +19,8 @@ namespace XamarinApp.ViewModels
     private readonly IPageDialogService _pageDialogService;
     private readonly ISignUpUserService _signUpUserService;
 
-    public ICommand SignUpCommand { get; set; }
-    public ICommand LoginCommand { get; set; }
+    public DelegateCommand SignUpCommand { get; set; }
+    public DelegateCommand LoginCommand { get; set; }
     public UserModel _userModel { get; }
     private string _userName;
     private string _password;
@@ -63,8 +64,8 @@ namespace XamarinApp.ViewModels
       Navigation = navigationService;
       _pageDialogService = pageDialogService;
       _signUpUserService = signUpUserService;
-      SignUpCommand = new Command(OnSignUpClicked);
-      LoginCommand = new Command(OnSignInClicked);
+      SignUpCommand = new DelegateCommand(OnSignUpClicked);
+      LoginCommand = new DelegateCommand(OnSignInClicked);
     }
     private async void OnSignInClicked()
     {
@@ -74,13 +75,13 @@ namespace XamarinApp.ViewModels
     {
       if(PassWord != ConfirmPassWord)
       {
-        await _pageDialogService.DisplayAlertAsync("Failed", "Password and Confirm Password doesn't match", "OK");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, "OK");
       }
       else
       {
         var user = new UserModel { Password = PassWord, UserName = UserName };
 
-        var result = await _signUpUserService.SaveUser(user);
+        var result = await _signUpUserService.SaveUserAsync(user);
 
         if(result != false)
         {
@@ -88,7 +89,7 @@ namespace XamarinApp.ViewModels
         }
         else
         {
-          await _pageDialogService.DisplayAlertAsync("Failed", "Please enter valid Details", "OK");
+          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, "OK");
         }
       }   
     }

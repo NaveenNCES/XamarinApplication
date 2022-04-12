@@ -61,6 +61,24 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alert.
+        /// </summary>
+        internal static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Displaying Api Data.
+        /// </summary>
+        internal static string ApiDataDisplaying {
+            get {
+                return ResourceManager.GetString("ApiDataDisplaying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Lets get Started.
         /// </summary>
         internal static string BodyText {
@@ -88,11 +106,74 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to What&apos;s your name?.
+        /// </summary>
+        internal static string GetName {
+            get {
+                return ResourceManager.GetString("GetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a sample app.
         /// </summary>
         internal static string HeaderText {
             get {
                 return ResourceManager.GetString("HeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter valid Details.
+        /// </summary>
+        internal static string InValidCredential {
+            get {
+                return ResourceManager.GetString("InValidCredential", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect Username or Password.
+        /// </summary>
+        internal static string InValidUser {
+            get {
+                return ResourceManager.GetString("InValidUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do You want to Sign Up.
+        /// </summary>
+        internal static string PageDialogRequest {
+            get {
+                return ResourceManager.GetString("PageDialogRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password and Confirm Password doesn&apos;t match.
+        /// </summary>
+        internal static string PasswordNotMatching {
+            get {
+                return ResourceManager.GetString("PasswordNotMatching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        internal static string Question {
+            get {
+                return ResourceManager.GetString("Question", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Request.
+        /// </summary>
+        internal static string Request {
+            get {
+                return ResourceManager.GetString("Request", resourceCulture);
             }
         }
         

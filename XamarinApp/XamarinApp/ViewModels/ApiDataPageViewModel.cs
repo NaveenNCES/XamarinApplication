@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.CommunityToolkit.ObjectModel;
 using Xamarin.Forms;
+using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 using static XamarinApp.Models.ApiModel;
 
@@ -21,7 +22,7 @@ namespace XamarinApp.ViewModels
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IRandomApiService _randomApiService;
-    public ICommand ApiCommand { get; set; }
+
     public DelegateCommand<object> ItemTappedCommand { get; set; }
 
     private ObservableCollection<Result> _apiDatas;
@@ -57,7 +58,7 @@ namespace XamarinApp.ViewModels
 
     public async void OnNavigatedTo(INavigationParameters parameters)
     {
-      var result = await _randomApiService.getRandomApiData();
+      var result = await _randomApiService.GetRandomApiDataAsync();
 
       ObservableCollection<Result> data = new ObservableCollection<Result>(result as List<Result>);
       ApiData = data;
@@ -69,8 +70,7 @@ namespace XamarinApp.ViewModels
 
     public void OnAppearing()
     {
-      //Console.WriteLine("We are appearing");
-      _pageDialogService.DisplayAlertAsync("Alert", "Displaying Api Data", "OK");
+      _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.ApiDataDisplaying , "OK");
     }
 
     public void OnDisappearing()

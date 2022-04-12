@@ -13,6 +13,7 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using XamarinApp.Composite_Command;
+using XamarinApp.Models;
 using XamarinApp.Resx;
 using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
@@ -24,7 +25,7 @@ namespace XamarinApp
   public partial class App 
   {
     static DBConnection database;
-
+    public string DatabaseLocation;
     public static DBConnection Database
     {
       get
@@ -37,6 +38,8 @@ namespace XamarinApp
         return database;
       }
     }
+
+
     public App(IPlatformInitializer initializer)
         : base(initializer)
     {
@@ -47,11 +50,10 @@ namespace XamarinApp
       LocalizationResourceManager.Current.Init(AppResource.ResourceManager);
       InitializeComponent();
       DependencyService.Register<DBConnection>();
-
-      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+      DatabaseLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "user.db5");
+      await NavigationService.NavigateAsync("NavigationPage/MainPage");
 
       CrossFirebasePushNotification.Current.OnTokenRefresh += firebasePushNotificationTokenEventHandler;
-      //MainPage = new NavigationPage(new LoginPage());
     }
 
     private void firebasePushNotificationTokenEventHandler(object source, FirebasePushNotificationTokenEventArgs e)
@@ -69,6 +71,8 @@ namespace XamarinApp
       containerRegistry.Register<ILogManager,NLogManagerService>();
       containerRegistry.Register<Services.Interfaces.ILogger, NLogLogger>();
       containerRegistry.RegisterSingleton<Logger>();
+      containerRegistry.Register(typeof(IRepository<>),typeof(Repository<>));
+      //containerRegistry.RegisterInstance<IRepository<UserModel>>(new GenericRepository<UserModel>(DatabaseLocation));
 
       containerRegistry.RegisterForNavigation<NavigationPage>();
       containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

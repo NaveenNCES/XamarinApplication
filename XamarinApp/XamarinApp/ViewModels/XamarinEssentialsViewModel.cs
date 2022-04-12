@@ -89,13 +89,13 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _location, value); }
     }
     public DelegateCommand ScreenShotCommand { get; set; }
-    public ICommand EmailCommand { get; set; }
-    public ICommand LocationCommand { get; set; }
+    public DelegateCommand EmailCommand { get; set; }
+    public DelegateCommand LocationCommand { get; set; }
     public XamarinEssentialsViewModel()
     {
       ScreenShotCommand = new DelegateCommand(CaptureScreenshot);
-      EmailCommand = new Command(OnEmailClicked);
-      LocationCommand = new Command(OnLocationClicked);
+      EmailCommand = new DelegateCommand(OnEmailClicked);
+      LocationCommand = new DelegateCommand(OnLocationClicked);
       AppTheme appTheme = AppInfo.RequestedTheme;
       App.Current.UserAppTheme = (OSAppTheme)appTheme;
       AppInfor = AppInfo.Name;
@@ -104,14 +104,14 @@ namespace XamarinApp.ViewModels
       DeviceDetail = DeviceInfo.Manufacturer;
     }
 
-    private async void OnLocationClicked(object obj)
+    private async void OnLocationClicked()
     {
       var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
       var location = await Geolocation.GetLocationAsync();
       Location = $"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}";
     }
 
-    private async void OnEmailClicked(object obj)
+    private async void OnEmailClicked()
     {
       var EmailAddress = new List<string>();
       EmailAddress.Add(EmailId);

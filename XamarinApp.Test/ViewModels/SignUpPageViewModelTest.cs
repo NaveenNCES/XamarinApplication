@@ -20,15 +20,15 @@ namespace XamarinApp.Test.ViewModels
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly Fixture _fixture = new Fixture();
-    private readonly Mock<ISignUpUserService> _serviceMock; 
+    private readonly Mock<ISignUpUserService> _signUpUserService; 
     private readonly SignUpPageViewModel viewModel;
 
     public SignUpPageViewModelTest()
     {
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
-      _serviceMock = new Mock<ISignUpUserService>();
-      viewModel = new SignUpPageViewModel(_navigationService.Object, _pageDialogService.Object,_serviceMock.Object);
+      _signUpUserService = new Mock<ISignUpUserService>();
+      viewModel = new SignUpPageViewModel(_navigationService.Object, _pageDialogService.Object, _signUpUserService.Object);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(n => n.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.LoginCommand.Execute(new object());
+      viewModel.LoginCommand.Execute();
 
       //Assert
       _navigationService.Verify(n => n.NavigateAsync("LoginPage"));
@@ -53,8 +53,8 @@ namespace XamarinApp.Test.ViewModels
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = user.Password;
       _navigationService.Setup(n => n.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _serviceMock.Setup(n => n.SaveUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
-      viewModel.SignUpCommand.Execute(new object());
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      viewModel.SignUpCommand.Execute();
 
       //Assert
       _navigationService.Verify(n => n.NavigateAsync("LoginPage"));
@@ -70,10 +70,8 @@ namespace XamarinApp.Test.ViewModels
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = user.Password;
-      _navigationService.Setup(n => n.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Please enter valid Details", "OK"));
-      _serviceMock.Setup(n => n.SaveUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
-      viewModel.SignUpCommand.Execute(new object());
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      viewModel.SignUpCommand.Execute();
 
       //Assert
       _pageDialogService.Verify(n => n.DisplayAlertAsync("Failed", "Please enter valid Details", "OK"));

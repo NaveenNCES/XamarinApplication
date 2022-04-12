@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XamarinApp.Models;
 using XamarinApp.Services;
+using XamarinApp.Services.Interfaces;
 using Xunit;
 
 namespace XamarinApp.Test.Services
@@ -15,10 +16,12 @@ namespace XamarinApp.Test.Services
   {
     private readonly SignUpUserService _signUpUserService;
     private readonly Fixture _fixture = new Fixture();
+    private readonly Mock<IRepository<UserModel>> _iRepository;
 
     public SignUpPageServiceTest()
     {
-      _signUpUserService = new SignUpUserService();
+      _iRepository = new Mock<IRepository<UserModel>>();
+      _signUpUserService = new SignUpUserService(_iRepository.Object);
     }
 
     [Fact]
@@ -28,7 +31,7 @@ namespace XamarinApp.Test.Services
       var user = _fixture.Create<UserModel>();
 
       //Act
-      var result =await _signUpUserService.SaveUser(user);
+      var result =await _signUpUserService.SaveUserAsync(user);
 
       //Arrange
       Assert.True(result);

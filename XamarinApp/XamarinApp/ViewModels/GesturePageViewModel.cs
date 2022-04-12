@@ -29,10 +29,6 @@ namespace XamarinApp.ViewModels
 
     public void OnTapGestureRecognizerTapped(object e)
     {
-
-      //var swip = new SwipeGestureRecognizer { Direction = (SwipeDirection)e };
-      //var a = new SwipedEventArgs(e, (SwipeDirection)e);
-      //Direction = (SwipeDirection)e;
       tapCount++;
       CountLable = "I was tapped " + tapCount + " times";
       if(e != null)

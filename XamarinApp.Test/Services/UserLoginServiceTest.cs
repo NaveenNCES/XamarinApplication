@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XamarinApp.Models;
 using XamarinApp.Services;
+using XamarinApp.Services.Interfaces;
 using Xunit;
 
 namespace XamarinApp.Test.Services
@@ -15,10 +16,11 @@ namespace XamarinApp.Test.Services
   public class UserLoginServiceTest
   {
     private readonly Fixture _fixture = new Fixture();
-    private readonly UserLoginService loginService;
+    private readonly UserLoginService _loginService;
+    private readonly Mock<IRepository<UserModel>> _repo;
     public UserLoginServiceTest()
     {
-      loginService = new UserLoginService();
+      _loginService = new UserLoginService(_repo.Object);
     }
 
     [Fact]
@@ -27,7 +29,7 @@ namespace XamarinApp.Test.Services
       //Arrange
       var user = new UserModel { Password = "nn", UserName = "nn" };
       //Act
-      var result = await loginService.LoginUser(user);
+      var result = await _loginService.LoginUser(user);
 
       //Assert
       Assert.False(result);

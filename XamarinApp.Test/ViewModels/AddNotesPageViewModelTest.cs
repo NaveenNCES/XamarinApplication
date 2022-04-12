@@ -68,9 +68,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
-      //var mockedEvent = new Mock<NoteSentEvent>();
       var expectedAction = new Action<object>(obj => { });
-      //Action<object> receivedEvent = null;
 
       //Act
       var executedDelegates = new List<string>();

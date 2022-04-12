@@ -31,21 +31,13 @@ namespace XamarinApp.Test.Services
         httpTest.ForCallsTo("https://randomuser.me/api/?results=50").AllowRealHttp();
 
         //Act
-        var result = await apiService.getRandomApiData();
+        var result = await apiService.GetRandomApiDataAsync();
 
         //Assert
         httpTest.RespondWithJson("https://randomuser.me/api/?results=50");
         Assert.Equal(50, result.Count);
         Assert.Equal("System.Collections.Generic.List`1[XamarinApp.Models.ApiModel+Result]", result.GetType().ToString());
       }
-
-      ////Act
-      //var data =await apiService.getRandomApiData();
-      //var type = data.GetType().ToString();
-
-      ////Assert
-      //Assert.Equal(50, data.Count);
-      //Assert.Equal("System.Collections.Generic.List`1[XamarinApp.Models.ApiModel+Result]", type);
     }
   }
 }

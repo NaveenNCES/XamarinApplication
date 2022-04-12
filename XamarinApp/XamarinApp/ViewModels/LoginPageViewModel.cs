@@ -11,21 +11,22 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinApp.Models;
+using XamarinApp.Resx;
+using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
   public class LoginPageViewModel : ViewModelBase
-  {
-    private static Services.Interfaces.ILogger deplogger = DependencyService.Get<ILogManager>().GetLog();
+  {    
     private readonly ILogManager _logManager;
     private readonly Services.Interfaces.ILogger _logger;
     private readonly INavigationService Navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserLoginService _userLoginService;
 
-    public ICommand LoginCommand { get; set; }
-    public ICommand SignUPCommand { get; set; }
+    public DelegateCommand LoginCommand { get; set; }
+    public DelegateCommand SignUPCommand { get; set; }
     private string _userName;
     private string _password;
 
@@ -67,22 +68,23 @@ namespace XamarinApp.ViewModels
       _userLoginService = userLoginService;
       _logger = logManager.GetLog();
       _logManager = logManager;
-      LoginCommand = new Command(OnLoginClicked);
-      SignUPCommand = new Command(OnSignUpClicked);
+      LoginCommand = new DelegateCommand(OnLoginClicked);
+      SignUPCommand = new DelegateCommand(OnSignUpClicked);
     }
 
     private async void OnSignUpClicked()
     {
-      var answer = await _pageDialogService.DisplayAlertAsync("Request", "Do You want to Sign Up", "Yes", "No");
-      if(answer)
-        await Navigation.NavigateAsync("SignUpPage");
+      var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
+      if (answer)
+      {
+         await Navigation.NavigateAsync("SignUpPage");
+      }
     }
     public async void OnLoginClicked()
     {
-      deplogger.Info("na");
-      _logger.Info("Logging");
+      _logger.Info("User given details are passing");
 
-      Name = await _pageDialogService.DisplayPromptAsync("Question", "Whats ur name");
+      Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
 
       var user = new UserModel { Password = PassWord, UserName = UserName };
 
@@ -93,12 +95,14 @@ namespace XamarinApp.ViewModels
 
       if (result == true)
       {
+        _logger.Info("User given details are valid and navigating to MainPage");
+
         await Navigation.NavigateAsync("MainPage", data);
-        MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", "Naveen");
+        MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);
       }
       else
       {
-        await _pageDialogService.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK");
       }
     }
   }

@@ -9,6 +9,6 @@ namespace XamarinApp.Services.Interfaces
 {
   public interface IRandomApiService
   {
-    Task<List<Result>> getRandomApiData();
+    Task<List<Result>> GetRandomApiDataAsync();
   }
 }

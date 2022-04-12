@@ -13,7 +13,7 @@ namespace XamarinApp.Services
 {
   public class RamdomApiService : IRandomApiService
   {
-    public async Task<List<Result>> getRandomApiData()
+    public async Task<List<Result>> GetRandomApiDataAsync()
     {
       string url = "https://randomuser.me/api/?results=50";
       var apidata = await url.GetJsonAsync<Root>();

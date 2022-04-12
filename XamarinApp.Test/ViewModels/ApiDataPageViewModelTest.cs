@@ -40,7 +40,7 @@ namespace XamarinApp.Test.ViewModels
       var data = new NavigationParameters();
 
       //Act
-      _randomApiService.Setup(x => x.getRandomApiData()).ReturnsAsync(apiData);
+      _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
       viewModel.OnNavigatedTo(data);
 
       //Assert
@@ -52,12 +52,14 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
+      var dataNavigationPrameter = new NavigationParameters();
       ObservableCollection<Result> data = new ObservableCollection<Result>(apiData as List<Result>);
       var list = apiData.Where(x => x ==  apiData.FirstOrDefault()).ToList();
       var specificData = list.FirstOrDefault();
 
       //Act
-      viewModel.ApiData = data;
+      _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
+      viewModel.OnNavigatedTo(dataNavigationPrameter);
       viewModel.getSpecificData = specificData;
       viewModel.ItemTappedCommand.Execute(new object());
 

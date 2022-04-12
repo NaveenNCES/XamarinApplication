@@ -8,6 +8,6 @@ namespace XamarinApp.Services.Interfaces
 {
   public interface ISignUpUserService
   {
-    Task<bool> SaveUser(UserModel user);
+    Task<bool> SaveUserAsync(UserModel user);
   }
 }

@@ -12,7 +12,7 @@ namespace XamarinApp.ViewModels
 {
   public class AddNotesPageViewModel : ViewModelBase
   {
-    private IEventAggregator _ea;
+    private IEventAggregator _eventaggregator;
     ////////////////SendingNote
     private string _notes;
 
@@ -40,13 +40,13 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _applicationCommand, value); }
     }
     
-    public AddNotesPageViewModel(IEventAggregator ea,IApplicationCommand applicationCommand)
-    {      
-      _ea = ea;
+    public AddNotesPageViewModel(IEventAggregator eventaggregator,IApplicationCommand applicationCommand)
+    {
+      _eventaggregator = eventaggregator;
       ApplicationCommand = applicationCommand;
       SendNoteCommand = new DelegateCommand(SendNote);
       ApplicationCommand.SaveAllCommand.RegisterCommand(SendNoteCommand);
-      _ea.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);
+      _eventaggregator.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);
     }
    
     private void NotesReceived(string parameter)
@@ -56,7 +56,7 @@ namespace XamarinApp.ViewModels
 
     private void SendNote()
     {
-      _ea.GetEvent<NoteSentEvent>().Publish(Notes);      
+      _eventaggregator.GetEvent<NoteSentEvent>().Publish(Notes);      
     }
   }
 }

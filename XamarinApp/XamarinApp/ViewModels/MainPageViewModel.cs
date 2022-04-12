@@ -23,13 +23,13 @@ namespace XamarinApp.ViewModels
     private readonly IModuleManager _moduleManager;
     private readonly INavigationService Navigation;
     private readonly IPageDialogService _pageDialogService;
-    public ICommand LoginCommand { get; set; }
-    public ICommand ApiCommand { get; set; }
-    public ICommand GestureCommand { get; set; }
-    public ICommand ChangeLanguageCommand { get; set; }
+    public DelegateCommand LoginCommand { get; set; }
+    public DelegateCommand ApiCommand { get; set; }
+    public DelegateCommand GestureCommand { get; set; }
+    public DelegateCommand ChangeLanguageCommand { get; set; }
     public DelegateCommand EventAggregatorCommand { get; set; }
-    public ICommand ModuleCommand { get; set; }
-    public ICommand EssentialCommand { get; set; }
+    public DelegateCommand ModuleCommand { get; set; }
+    public DelegateCommand EssentialCommand { get; set; }
 
     private string _name;
     public string Name
@@ -67,13 +67,13 @@ namespace XamarinApp.ViewModels
       Navigation = navigationService;
       _pageDialogService = pageDialogService;
       _moduleManager = moduleManager;
-      LoginCommand = new Command(OnLoginClicked);
-      ApiCommand = new Command(OnApiClicked);
-      GestureCommand = new Command(OnGestureClicked);
-      ModuleCommand = new Command(OnModuleClicked);
+      LoginCommand = new DelegateCommand(OnLoginClicked);
+      ApiCommand = new DelegateCommand(OnApiClicked);
+      GestureCommand = new DelegateCommand(OnGestureClicked);
+      ModuleCommand = new DelegateCommand(OnModuleClicked);
       EventAggregatorCommand = new DelegateCommand(OnEventClicked);
-      ChangeLanguageCommand = new Command(PerformOperation);
-      EssentialCommand = new Command(EssentialClicked);
+      ChangeLanguageCommand = new DelegateCommand(PerformOperation);
+      EssentialCommand = new DelegateCommand(EssentialClicked);
       ///////Language//////
       SupportedLanguage = new ObservableCollection<MyLanguage>()
       {
@@ -86,18 +86,18 @@ namespace XamarinApp.ViewModels
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
     }
 
-    private void EssentialClicked(object obj)
+    private void EssentialClicked()
     {
       Navigation.NavigateAsync("XamarinEssentials");
     }
 
-    private async void OnModuleClicked(object obj)
+    private async void OnModuleClicked()
     {
       _moduleManager.LoadModule("Module1Module");
       await Navigation.NavigateAsync("ViewA");
     }
 
-    private void PerformOperation(object obj)
+    private void PerformOperation()
     {
       //CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.UserCustomCulture | CultureTypes.SpecificCultures);
       //var getCulture = CultureInfo.CurrentUICulture.Name;

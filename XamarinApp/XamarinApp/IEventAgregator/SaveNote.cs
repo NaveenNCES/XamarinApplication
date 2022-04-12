@@ -8,7 +8,6 @@ namespace XamarinApp.IEventAgregator
 {
   public class SaveNote
   {
-    //private ObservableCollection<string> _savedNote = new ObservableCollection<string>();
 
     public ObservableCollection<string> SavedNotes { get; set; }
 
