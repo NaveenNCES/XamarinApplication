@@ -21,7 +21,7 @@ namespace XamarinApp.ViewModels
   {    
     private readonly ILogManager _logManager;
     private readonly Services.Interfaces.ILogger _logger;
-    private readonly INavigationService Navigation;
+    private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserLoginService _userLoginService;
 
@@ -63,7 +63,7 @@ namespace XamarinApp.ViewModels
     public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
       IUserLoginService userLoginService, Services.Interfaces.ILogger logger, ILogManager logManager)
     {
-      Navigation = navigationService;
+      _navigation = navigationService;
       _pageDialogService = pageDialogService;
       _userLoginService = userLoginService;
       _logger = logManager.GetLog();
@@ -77,7 +77,7 @@ namespace XamarinApp.ViewModels
       var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
       if (answer)
       {
-         await Navigation.NavigateAsync("SignUpPage");
+         await _navigation.NavigateAsync("SignUpPage");
       }
     }
     public async void OnLoginClicked()
@@ -88,7 +88,7 @@ namespace XamarinApp.ViewModels
 
       var user = new UserModel { Password = PassWord, UserName = UserName };
 
-      var result = await _userLoginService.LoginUser(user);
+      var result = await _userLoginService.LoginUserAsync(user);
 
       var data = new NavigationParameters();
       data.Add("Name", Name);
@@ -97,7 +97,7 @@ namespace XamarinApp.ViewModels
       {
         _logger.Info("User given details are valid and navigating to MainPage");
 
-        await Navigation.NavigateAsync("MainPage", data);
+        await _navigation.NavigateAsync("MainPage", data);
         MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);
       }
       else

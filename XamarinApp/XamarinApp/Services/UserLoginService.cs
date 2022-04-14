@@ -18,7 +18,7 @@ namespace XamarinApp.Services
       _userRepo = repository;
     }
 
-    public async Task<bool> LoginUser(UserModel user)
+    public async Task<bool> LoginUserAsync(UserModel user)
     {
       var result = await _userRepo.GetAllDetailsAsync();
 

@@ -13,7 +13,7 @@ namespace XamarinApp.ViewModels
   {
     private string _countLable;
     public int tapCount = 0;
-    public Xamarin.Forms.SwipeDirection Direction { get; set; }
+    public SwipeDirection Direction { get; set; }
 
     public EventHandler<SwipedEventArgs> Swipe;
     public DelegateCommand<object> TapCommand { get; set; }
@@ -42,8 +42,7 @@ namespace XamarinApp.ViewModels
           CountLable = "Swip Up";
         else if (direction == "Down")
           CountLable = "Swip Down";
-      }
-      
+      }      
     }
   }
 }

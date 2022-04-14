@@ -29,7 +29,7 @@ namespace XamarinApp.Test.Services
       //Arrange
       var user = new UserModel { Password = "nn", UserName = "nn" };
       //Act
-      var result = await _loginService.LoginUser(user);
+      var result = await _loginService.LoginUserAsync(user);
 
       //Assert
       Assert.False(result);

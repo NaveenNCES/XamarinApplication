@@ -11,7 +11,6 @@ namespace XamarinApp.Services
 {
   public class SignUpUserService : ISignUpUserService
   {
-    //private readonly IRepository<UserModel> _userRepo;
     private readonly IRepository<UserModel> _userRepo;
     public SignUpUserService(IRepository<UserModel> repository)
     {

@@ -21,8 +21,7 @@ namespace XamarinApp.ViewModels
   public class MainPageViewModel : ViewModelBase, INavigatedAware
   {
     private readonly IModuleManager _moduleManager;
-    private readonly INavigationService Navigation;
-    private readonly IPageDialogService _pageDialogService;
+    private readonly INavigationService _navigation;
     public DelegateCommand LoginCommand { get; set; }
     public DelegateCommand ApiCommand { get; set; }
     public DelegateCommand GestureCommand { get; set; }
@@ -62,10 +61,9 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _selectedLanguage, value); }
     }
     //////////////////////
-    public MainPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IModuleManager moduleManager)
+    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager)
     {
-      Navigation = navigationService;
-      _pageDialogService = pageDialogService;
+      _navigation = navigationService;
       _moduleManager = moduleManager;
       LoginCommand = new DelegateCommand(OnLoginClicked);
       ApiCommand = new DelegateCommand(OnApiClicked);
@@ -88,41 +86,38 @@ namespace XamarinApp.ViewModels
 
     private void EssentialClicked()
     {
-      Navigation.NavigateAsync("XamarinEssentials");
+      _navigation.NavigateAsync("XamarinEssentials");
     }
 
     private async void OnModuleClicked()
     {
       _moduleManager.LoadModule("Module1Module");
-      await Navigation.NavigateAsync("ViewA");
+      await _navigation.NavigateAsync("ViewA");
     }
 
     private void PerformOperation()
     {
-      //CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.UserCustomCulture | CultureTypes.SpecificCultures);
-      //var getCulture = CultureInfo.CurrentUICulture.Name;
-
       LocalizationResourceManager.Current.SetCulture(CultureInfo.GetCultureInfo(SelectedLanguage.CI));
     }
 
     private async void OnGestureClicked()
     {
-      await Navigation.NavigateAsync("GesturePage");
+      await _navigation.NavigateAsync("GesturePage");
     }
 
     private async void OnEventClicked()
     {
-      await Navigation.NavigateAsync("AddNotesPage");       
+      await _navigation.NavigateAsync("AddNotesPage");       
     }
 
     private async void OnApiClicked()
     {
-      await Navigation.NavigateAsync("ApiDataPage");
+      await _navigation.NavigateAsync("ApiDataPage");
     }
 
     private async void OnLoginClicked()
     {
-      await Navigation.NavigateAsync("LoginPage");
+      await _navigation.NavigateAsync("LoginPage");
     }
     
     public void OnNavigatedFrom(INavigationParameters parameters)

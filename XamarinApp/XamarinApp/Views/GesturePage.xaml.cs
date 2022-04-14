@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 
 namespace XamarinApp.Views
 {
@@ -7,11 +7,6 @@ namespace XamarinApp.Views
     public GesturePage()
     {
       InitializeComponent();
-    }
-
-    private void SwipeGestureRecognizer_Swiped(object sender, SwipedEventArgs e)
-    {
-
     }
   }
 }

@@ -52,7 +52,7 @@ namespace XamarinApp.Test.ViewModels
       var user = _fixture.Create<UserModel>();
 
       //Act
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       
@@ -74,7 +74,7 @@ namespace XamarinApp.Test.ViewModels
       });
 
       //Act
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
 
@@ -96,7 +96,7 @@ namespace XamarinApp.Test.ViewModels
       });
 
       //Act
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
 
@@ -117,7 +117,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.PassWord = user.Password;
       _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
       _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
-      _loginService.Setup(x => x.LoginUser(user)).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(user)).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
@@ -134,7 +134,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.PassWord = user.Password;
       _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
       _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == "" && x.Password == user.Password))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
@@ -151,7 +151,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.UserName = user.UserName;
       _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
       _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == ""))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
@@ -167,7 +167,7 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
       _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == "" && x.Password == ""))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
@@ -183,7 +183,7 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
       _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
       viewModel.PassWord = "2000";
 
@@ -200,7 +200,7 @@ namespace XamarinApp.Test.ViewModels
       var user = _fixture.Create<UserModel>();
 
       //Act
-      _loginService.Setup(x => x.LoginUser(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password))).ReturnsAsync(false);
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = "naveen";
       viewModel.PassWord = user.Password;
 

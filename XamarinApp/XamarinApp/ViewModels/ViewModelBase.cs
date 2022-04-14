@@ -1,4 +1,4 @@
-﻿using Prism.Commands;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -14,16 +14,5 @@ namespace XamarinApp.ViewModels
 {
     public class ViewModelBase : BindableBase
     {
-       
-        //public INavigationService Navigation;
-        //public IPageDialogService _pageDialogService;
-
-
-        //public IUserLoginService UserLoginService = DependencyService.Get<IUserLoginService>();
-        //public ViewModelBase(INavigationService navigationService, IPageDialogService pageDialogService)
-        //{
-        //    Navigation = navigationService;
-        //    _pageDialogService = pageDialogService;
-        //}
     }
 }

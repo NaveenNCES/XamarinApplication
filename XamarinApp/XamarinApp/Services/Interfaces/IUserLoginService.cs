@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +8,6 @@ namespace XamarinApp.Services.Interfaces
 {
     public interface IUserLoginService
     {
-        Task<bool> LoginUser(UserModel user);
+        Task<bool> LoginUserAsync(UserModel user);
     }
 }

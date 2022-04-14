@@ -15,7 +15,7 @@ namespace XamarinApp.ViewModels
 {
   public class SignUpPageViewModel : BindableBase
   {
-    private readonly INavigationService Navigation;
+    private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly ISignUpUserService _signUpUserService;
 
@@ -61,7 +61,7 @@ namespace XamarinApp.ViewModels
     }
     public SignUpPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,ISignUpUserService signUpUserService)
     {
-      Navigation = navigationService;
+      _navigation = navigationService;
       _pageDialogService = pageDialogService;
       _signUpUserService = signUpUserService;
       SignUpCommand = new DelegateCommand(OnSignUpClicked);
@@ -69,7 +69,7 @@ namespace XamarinApp.ViewModels
     }
     private async void OnSignInClicked()
     {
-      await Navigation.NavigateAsync("LoginPage");
+      await _navigation.NavigateAsync("LoginPage");
     }
     private async void OnSignUpClicked()
     {
@@ -85,7 +85,7 @@ namespace XamarinApp.ViewModels
 
         if(result != false)
         {
-          await Navigation.NavigateAsync("LoginPage");
+          await _navigation.NavigateAsync("LoginPage");
         }
         else
         {
