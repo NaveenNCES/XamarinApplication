@@ -9,6 +9,7 @@ using Prism.Modularity;
 using System;
 using System.IO;
 using Xamarin.CommunityToolkit.Helpers;
+using Xamarin.Essentials;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -72,6 +73,13 @@ namespace XamarinApp
       containerRegistry.Register<Services.Interfaces.ILogger, NLogLogger>();
       containerRegistry.RegisterSingleton<Logger>();
       containerRegistry.Register(typeof(IRepository<>),typeof(Repository<>));
+      containerRegistry.Register<IEmail, EmailImplementation>();
+      containerRegistry.Register<IGeolocation, GeolocationImplementation>();
+      containerRegistry.Register<IScreenshot, ScreenshotImplementation>();
+      containerRegistry.Register<IDeviceInfo, DeviceInfoImplementation>();
+      containerRegistry.Register<IConnectivity, ConnectivityImplementation>();
+      containerRegistry.Register<IPermissions, PermissionsImplementation>();
+      //containerRegistry.Register<>
       //containerRegistry.RegisterInstance<IRepository<UserModel>>(new GenericRepository<UserModel>(DatabaseLocation));
 
       containerRegistry.RegisterForNavigation<NavigationPage>();

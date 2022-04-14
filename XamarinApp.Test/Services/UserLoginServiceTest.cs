@@ -20,6 +20,7 @@ namespace XamarinApp.Test.Services
     private readonly Mock<IRepository<UserModel>> _repo;
     public UserLoginServiceTest()
     {
+      _repo = new Mock<IRepository<UserModel>>();
       _loginService = new UserLoginService(_repo.Object);
     }
 
@@ -27,9 +28,27 @@ namespace XamarinApp.Test.Services
     public async void Given_Valid_Credentials_Retruns_True()
     {
       //Arrange
-      var user = new UserModel { Password = "nn", UserName = "nn" };
+      var fixture = _fixture.Build<UserModel>().CreateMany(5).ToList();
+      var specifiedUser = fixture.FirstOrDefault();
+
       //Act
-      var result = await _loginService.LoginUserAsync(user);
+      _repo.Setup(x => x.GetAllDetailsAsync()).ReturnsAsync(fixture);
+      var result = await _loginService.LoginUserAsync(specifiedUser);
+
+      //Assert
+      Assert.True(result);
+    }
+
+    [Fact]
+    public async void Given_InValid_Credentials_Retruns_False()
+    {
+      //Arrange
+      var fixture = _fixture.Build<UserModel>().CreateMany(5).ToList();      
+      var specifiedUser = new UserModel { Password = "admin", UserName = "admin" };
+
+      //Act
+      _repo.Setup(x => x.GetAllDetailsAsync()).ReturnsAsync(fixture);
+      var result = await _loginService.LoginUserAsync(specifiedUser);
 
       //Assert
       Assert.False(result);

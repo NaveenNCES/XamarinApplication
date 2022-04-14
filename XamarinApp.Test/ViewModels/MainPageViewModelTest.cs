@@ -30,7 +30,7 @@ namespace XamarinApp.Test.ViewModels
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
       _module = new Mock<IModuleManager>();
-      viewModel = new MainPageViewModel(_navigationService.Object,_pageDialogService.Object,_module.Object);
+      viewModel = new MainPageViewModel(_navigationService.Object,_module.Object);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(x => x.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.LoginCommand.Execute(new object());
+      viewModel.LoginCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("LoginPage"));
@@ -49,7 +49,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(x => x.NavigateAsync("ApiDataPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.ApiCommand.Execute(new object());
+      viewModel.ApiCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("ApiDataPage"));
@@ -60,7 +60,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Act
       _navigationService.Setup(x => x.NavigateAsync("GesturePage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.GestureCommand.Execute(new object());
+      viewModel.GestureCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("GesturePage"));
@@ -116,7 +116,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       _navigationService.Setup(x => x.NavigateAsync("ViewA")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      viewModel.ModuleCommand.Execute(new object());
+      viewModel.ModuleCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync("ViewA"));
@@ -129,7 +129,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.SelectedLanguage = viewModel.SupportedLanguage.FirstOrDefault(x => x.CI == "ta");
 
       //Act
-      viewModel.ChangeLanguageCommand.Execute(new object());
+      viewModel.ChangeLanguageCommand.Execute();
       var result = LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName;
 
       //Assert

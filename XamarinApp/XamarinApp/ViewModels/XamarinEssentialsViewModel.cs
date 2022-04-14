@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
 namespace XamarinApp.ViewModels
@@ -88,26 +89,50 @@ namespace XamarinApp.ViewModels
       get { return _location; }
       set { SetProperty(ref _location, value); }
     }
+    private AppTheme _appTheamDetail;
+    public AppTheme AppTheamDetail
+    {
+      get { return _appTheamDetail; }
+      set { SetProperty(ref _appTheamDetail, value); }
+    }
     public DelegateCommand ScreenShotCommand { get; set; }
     public DelegateCommand EmailCommand { get; set; }
     public DelegateCommand LocationCommand { get; set; }
-    public XamarinEssentialsViewModel()
+
+    /////Interface Declaration////
+    private readonly IAppInfo _appInfo;
+    private readonly IScreenshot _screenShot;
+    private readonly IGeolocation _geoLocation;
+    private readonly IDeviceInfo _ideviceInfo;
+    private readonly IConnectivity _iconnectivity;
+    private readonly IEmail _iemail;
+    private readonly IPermissions _permissions;
+
+    public XamarinEssentialsViewModel(IAppInfo appInfo,IScreenshot screenshot,IGeolocation geolocation,
+      IDeviceInfo deviceInfo,IConnectivity connectivity,IEmail email,IPermissions permissions)
     {
+      _appInfo = appInfo;
+      _screenShot = screenshot;
+      _geoLocation = geolocation;
+      _ideviceInfo = deviceInfo;
+      _iconnectivity = connectivity;
+      _iemail = email;
+      _permissions = permissions;
       ScreenShotCommand = new DelegateCommand(CaptureScreenshot);
       EmailCommand = new DelegateCommand(OnEmailClicked);
       LocationCommand = new DelegateCommand(OnLocationClicked);
-      AppTheme appTheme = AppInfo.RequestedTheme;
-      App.Current.UserAppTheme = (OSAppTheme)appTheme;
-      AppInfor = AppInfo.Name;
-      AppVersion = AppInfo.Version.ToString();
-      NetConnectivity = $"The Mobile has {Connectivity.NetworkAccess}";
-      DeviceDetail = DeviceInfo.Manufacturer;
+      AppTheamDetail = _appInfo.RequestedTheme;
+      //App.Current.UserAppTheme = (OSAppTheme)appTheme;
+      AppInfor = _appInfo.Name;
+      AppVersion = _appInfo.Version.ToString();
+      NetConnectivity = $"The Mobile has {_iconnectivity.NetworkAccess}";
+      DeviceDetail = _ideviceInfo.Manufacturer;
     }
 
     private async void OnLocationClicked()
     {
-      var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-      var location = await Geolocation.GetLocationAsync();
+      var status = await _permissions.RequestAsync<Permissions.LocationWhenInUse>();
+      var location = await _geoLocation.GetLocationAsync();
       Location = $"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}";
     }
 
@@ -122,12 +147,12 @@ namespace XamarinApp.ViewModels
         Subject = EmailSubject
       };
 
-      await Email.ComposeAsync(message);  
+      await _iemail.ComposeAsync(message);  
     }
 
     private async void CaptureScreenshot()
     {
-      var screenshot = await Screenshot.CaptureAsync();
+      var screenshot = await _screenShot.CaptureAsync();
       var stream = await screenshot.OpenReadAsync();
 
       Image = ImageSource.FromStream(() => stream);
