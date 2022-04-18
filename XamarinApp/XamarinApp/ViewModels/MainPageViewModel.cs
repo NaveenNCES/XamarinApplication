@@ -1,19 +1,15 @@
-using Module1.ViewModels;
 using Prism.Commands;
 using Prism.Modularity;
 using Prism.Navigation;
-using Prism.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
-using System.Windows.Input;
-using Windows.UI.Xaml;
+using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using XamarinApp.Models;
+using XamarinApp.PageName;
 using XamarinApp.Resx;
 
 namespace XamarinApp.ViewModels
@@ -86,13 +82,13 @@ namespace XamarinApp.ViewModels
 
     private void EssentialClicked()
     {
-      _navigation.NavigateAsync("XamarinEssentials");
+      _navigation.NavigateAsync(PageNames.XamarinEssentials);
     }
 
     private async void OnModuleClicked()
     {
-      _moduleManager.LoadModule("Module1Module");
-      await _navigation.NavigateAsync("ViewA");
+      _moduleManager.LoadModule(PageNames.Module1);
+      await _navigation.NavigateAsync(PageNames.ModuleViewA);
     }
 
     private void PerformOperation()
@@ -102,36 +98,49 @@ namespace XamarinApp.ViewModels
 
     private async void OnGestureClicked()
     {
-      await _navigation.NavigateAsync("GesturePage");
+      await _navigation.NavigateAsync(PageNames.GesturePage);
     }
 
     private async void OnEventClicked()
     {
-      await _navigation.NavigateAsync("AddNotesPage");       
+      await _navigation.NavigateAsync(PageNames.AddNotesPage);       
     }
 
     private async void OnApiClicked()
     {
-      await _navigation.NavigateAsync("ApiDataPage");
+      await _navigation.NavigateAsync(PageNames.ApiDataPage);
     }
 
     private async void OnLoginClicked()
     {
-      await _navigation.NavigateAsync("LoginPage");
+      IsLoading = true;
+      IndicatorVisible = true;
+
+      await _navigation.NavigateAsync(PageNames.LoginPage);
+
+      IsLoading = false;
+      IndicatorVisible = false;
+      
     }
     
     public void OnNavigatedFrom(INavigationParameters parameters)
-    {     
+    {
+      
     }
 
     public void OnNavigatedTo(INavigationParameters parameters)
     {
+      IsLoading = true;
+      IndicatorVisible = true;
       Name = parameters.GetValue<string>("Name");
 
       MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
       {
         Message = args;
       });
+
+      IsLoading = false;
+      IndicatorVisible = false;
     }
   }
 }

@@ -52,7 +52,7 @@ namespace XamarinApp
       InitializeComponent();
       DependencyService.Register<DBConnection>();
       DatabaseLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "user.db5");
-      await NavigationService.NavigateAsync("NavigationPage/LoginPage");
+      await NavigationService.NavigateAsync("NavigationPage/MainPage");
 
       CrossFirebasePushNotification.Current.OnTokenRefresh += firebasePushNotificationTokenEventHandler;
     }

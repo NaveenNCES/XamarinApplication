@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:prism="http://prismlibrary.com" xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="XamarinApp.Views.GesturePage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="Invalid" TargetType="Entry">
+        <Setter Property="TextColor" Value="Red" />
+      </Style>
+      <xct:BoolToObjectConverter x:Key="BoolToObjectConverter" TrueObject="16" FalseObject="10" />
+    </ResourceDictionary>
+  </ContentPage.Resources>
   <StackLayout>
     <Label Text="{Binding CountLable}" FontSize="Large" />
     <StackLayout BackgroundColor="Green" HeightRequest="100" WidthRequest="100">
@@ -16,5 +24,76 @@
         <SwipeGestureRecognizer CommandParameter="Down" Direction="Down" Command="{Binding TapCommand}" />
       </StackLayout.GestureRecognizers>
     </StackLayout>
+    <Label Text="--------Community Toolkit functions for Practice--------" FontSize="Medium" HorizontalOptions="Center" />
+    <Entry Placeholder="Debit Card Number" Keyboard="Numeric">
+      <Entry.Behaviors>
+        <xct:MaskedBehavior 
+            Mask="1111-1111-1111-1111" 
+            UnMaskedCharacter="1"
+        />
+      </Entry.Behaviors>
+    </Entry>
+    <Entry Placeholder="Numeric Check if greater than or less than 1 to 100">
+      <Entry.Behaviors>
+        <xct:NumericValidationBehavior
+                InvalidStyle="{StaticResource Invalid}"
+                MinimumValue="1.0"
+                MaximumValue="100.0" />
+      </Entry.Behaviors>
+    </Entry>
+    <Entry Placeholder="URL Check">
+      <Entry.Behaviors>
+        <xct:UriValidationBehavior InvalidStyle="{StaticResource Invalid}" />
+      </Entry.Behaviors>
+    </Entry>
+    <Label Text="Hi there from the Docs!" FontSize="{Binding MyBoolean, Converter={StaticResource BoolToObjectConverter}}" />
+    <xct:BadgeView
+      BackgroundColor="Beige"
+      FontAttributes="Bold"
+      FontSize="Medium"
+      Text="1">
+      <Label Text="Hi This is Badge View Sample" FontSize="Medium" />
+    </xct:BadgeView>
+    <xct:DockLayout LastChildFill="False">
+      <Button xct:DockLayout.Dock="Right" Text="Right" HeightRequest="50" />
+    </xct:DockLayout>
+    <xct:Shield Subject="shield"
+                Status="example"
+                TextColor="Black"
+                Margin="2,0" />
+    <Grid>
+      <xct:TabView TabStripPlacement="Bottom"
+                   TabStripBackgroundColor="Blue"
+                   TabStripHeight="60"
+                   TabIndicatorColor="Yellow"
+                   TabContentBackgroundColor="Yellow">
+        <xct:TabViewItem
+          Icon="pickawood.jpg"
+          Text="Tab 1"
+          TextColor="White"
+          TextColorSelected="Yellow"
+          FontSize="12">
+          <Grid BackgroundColor="Gray">
+          <Label HorizontalOptions="Center"
+                 VerticalOptions="Center"
+                 Text="TabContent1" />
+    </Grid>
+    </xct:TabViewItem>
+        <xct:TabViewItem
+                    Icon="nessie.png"
+                    Text="Tab 2"
+                    TextColor="White"
+                    TextColorSelected="Yellow"
+                    FontSize="12">
+          <Grid>
+            <Label HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="TabContent2" />
+          </Grid>
+        </xct:TabViewItem>
+      </xct:TabView>
+        
+    </Grid>
+    
   </StackLayout>
 </ContentPage>

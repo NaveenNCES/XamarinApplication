@@ -1,18 +1,10 @@
-using NLog;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinApp.Models;
+using XamarinApp.PageName;
 using XamarinApp.Resx;
-using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
@@ -61,7 +53,7 @@ namespace XamarinApp.ViewModels
       }
     }
     public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
-      IUserLoginService userLoginService, Services.Interfaces.ILogger logger, ILogManager logManager)
+      IUserLoginService userLoginService, ILogger logger, ILogManager logManager)
     {
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
@@ -74,14 +66,23 @@ namespace XamarinApp.ViewModels
 
     private async void OnSignUpClicked()
     {
+      IsLoading = true;
+      IndicatorVisible = true;
       var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
       if (answer)
       {
-         await _navigation.NavigateAsync("SignUpPage");
+         await _navigation.NavigateAsync(PageNames.SignUpPage);
+        IsLoading = false;
+        IndicatorVisible = false;
       }
+      IsLoading = false;
+      IndicatorVisible = false;
     }
     public async void OnLoginClicked()
     {
+      IsLoading = true;
+      IndicatorVisible = true;
+
       _logger.Info("User given details are passing");
 
       Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
@@ -97,12 +98,16 @@ namespace XamarinApp.ViewModels
       {
         _logger.Info("User given details are valid and navigating to MainPage");
 
-        await _navigation.NavigateAsync("MainPage", data);
+        await _navigation.NavigateAsync(PageNames.MainPage, data);
         MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);
+        IsLoading = false;
+        IndicatorVisible = false;
       }
       else
       {
         await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK");
+        IsLoading = false;
+        IndicatorVisible = false;
       }
     }
   }

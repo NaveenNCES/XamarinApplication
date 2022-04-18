@@ -1,16 +1,12 @@
 using Prism.AppModel;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.CommunityToolkit.ObjectModel;
-using Xamarin.Forms;
+using XamarinApp.PageName;
 using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 using static XamarinApp.Models.ApiModel;
@@ -53,7 +49,11 @@ namespace XamarinApp.ViewModels
       var data = new NavigationParameters();
       var list = ApiData.Where(x => x == result).ToList();
       data.Add("selectedData", list);
-      await _navigation.NavigateAsync("SelectedItemDetailPage", data);
+      IsLoading = true;
+      IndicatorVisible = true;
+      await _navigation.NavigateAsync(PageNames.SelectedItemDetailPage, data);
+      IsLoading = false;
+      IndicatorVisible = false;
     }
 
     public async void OnNavigatedTo(INavigationParameters parameters)

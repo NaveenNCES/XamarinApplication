@@ -1,3 +1,4 @@
+using Prism.AppModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -12,7 +13,20 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
-    public class ViewModelBase : BindableBase
+  public class ViewModelBase : BindableBase
+  {
+    private bool _isLoading;
+    public bool IsLoading
     {
+      get { return _isLoading; }
+      set { SetProperty(ref _isLoading, value); }
     }
+
+    private bool _iIndicatorVisible;
+    public bool IndicatorVisible
+    {
+      get { return _iIndicatorVisible; }
+      set { SetProperty(ref _iIndicatorVisible, value); }
+    }
+  }
 }

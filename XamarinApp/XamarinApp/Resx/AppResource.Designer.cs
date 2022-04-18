@@ -142,6 +142,15 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I Was Tabbed.
+        /// </summary>
+        internal static string IWasTapped {
+            get {
+                return ResourceManager.GetString("IWasTapped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do You want to Sign Up.
         /// </summary>
         internal static string PageDialogRequest {
@@ -201,6 +210,15 @@ namespace XamarinApp.Resx {
         internal static string Tamil {
             get {
                 return ResourceManager.GetString("Tamil", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Times.
+        /// </summary>
+        internal static string Times {
+            get {
+                return ResourceManager.GetString("Times", resourceCulture);
             }
         }
     }

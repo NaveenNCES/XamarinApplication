@@ -1,11 +1,7 @@
 using Prism.Commands;
-using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Input;
 using Xamarin.Forms;
-using Module1;
+using XamarinApp.Resx;
 
 namespace XamarinApp.ViewModels
 {
@@ -13,6 +9,7 @@ namespace XamarinApp.ViewModels
   {
     private string _countLable;
     public int tapCount = 0;
+    public bool MyBoolean = false;
     public SwipeDirection Direction { get; set; }
 
     public EventHandler<SwipedEventArgs> Swipe;
@@ -30,7 +27,7 @@ namespace XamarinApp.ViewModels
     public void OnTapGestureRecognizerTapped(object e)
     {
       tapCount++;
-      CountLable = "I was tapped " + tapCount + " times";
+      CountLable = AppResource.IWasTapped + tapCount + AppResource.Times;
       if(e != null)
       {
         var direction = e.ToString();

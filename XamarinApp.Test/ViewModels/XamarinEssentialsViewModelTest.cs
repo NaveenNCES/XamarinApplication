@@ -84,20 +84,6 @@ namespace XamarinApp.Test.ViewModels
     }
 
     [Fact]
-    public void OnScreenShot_Clicked_Should_Take_ScreenShot()
-    {
-      //Arrange
-      var a = _fixture.Create<ScreenshotResult>();
-
-      //Act
-      _screenShot.Setup(x => x.CaptureAsync()).ReturnsAsync(a);
-      viewModel.ScreenShotCommand.Execute();
-
-      //Assert
-      _screenShot.Verify(x => x.CaptureAsync(), Times.Once);
-    }
-
-    [Fact]
     public void Chec_Net_Connectivity()
     {
       //Arrange

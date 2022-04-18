@@ -41,7 +41,7 @@ namespace XamarinApp.ViewModels
     public void OnNavigatedTo(INavigationParameters parameters)
     {
       var result = parameters.GetValue<List<Result>>("selectedData");
-      ObservableCollection<Result> data = new ObservableCollection<Result>(result as List<Result>);
+      ObservableCollection<Result> data = new ObservableCollection<Result>(result);
 
       getSelectedData = data;
     }

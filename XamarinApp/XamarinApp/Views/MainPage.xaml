@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:effects="clr-namespace:XamarinApp.Effects" xmlns:pan="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="XamarinApp.Views.MainPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             Title="{Binding Title}" FlowDirection="RightToLeft" >
+             Title="{Binding Title}" FlowDirection="MatchParent" >
   <pan:PancakeView BackgroundGradientEndPoint="0,1">
     <pan:PancakeView.BackgroundGradientStops>
       <pan:GradientStopCollection>
@@ -22,12 +22,15 @@
               Command="{Binding ChangeLanguageCommand}" />
       
       <Grid BackgroundColor="LightBlue">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto"  />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-      <Label Grid.Column="0"
+        <Grid.Behaviors>
+          <xct:ImpliedOrderGridBehavior />
+        </Grid.Behaviors>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"  />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0"
                 Text="Hi "
                 HorizontalOptions="CenterAndExpand"
                 VerticalTextAlignment="Start"
@@ -47,18 +50,21 @@
                 LineBreakMode="NoWrap"
                 FontSize="Large" ></Label>
     </Grid>
-
-    <Button Text="SIGN IN" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">
-      <Button.Effects>
-        <effects:CustomEffects Radius="5" DistanceX="10" DistanceY="0" Color="SkyBlue"></effects:CustomEffects>
-      </Button.Effects>
-    </Button>
-    <Button Text="Random Api" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" />
-    <Button Text="Save your notes" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EventAggregatorCommand}" />
-    <Button Text="Gesture" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
-      <Button Text="Module View" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
-      <Button Text="Xamarin Essentials" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EssentialCommand}" />
+      <ActivityIndicator IsVisible="{Binding IndicatorVisible}" IsRunning="{Binding IsLoading}" Color="Red" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+      <Grid>
+        <Button Grid.Column="0" Grid.Row="0" Text="SIGN IN" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">
+          <Button.Effects>
+            <effects:CustomEffects Radius="5" DistanceX="10" DistanceY="0" Color="SkyBlue"></effects:CustomEffects>
+          </Button.Effects>
+        </Button>
+        <Button Grid.Column="0" Grid.Row="1" Text="Random Api" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" />
+        <Button Grid.Column="0" Grid.Row="2" Text="Save your notes" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EventAggregatorCommand}" />
+        <Button Grid.Column="1" Grid.Row="0" Text="Gesture" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
+        <Button Grid.Column="1" Grid.Row="1" Text="Module View" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
+        <Button Grid.Column="1" Grid.Row="2" Text="Xamarin Essentials" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EssentialCommand}" />
+      </Grid>
+      
     </StackLayout>
-
   </pan:PancakeView>
+
 </ContentPage>
