@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
     <PackageReference Include="Flurl" Version="3.0.4" />
     <PackageReference Include="Flurl.Http" Version="3.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -40,7 +41,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resx\AppResource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\AddNotesPage.xaml">

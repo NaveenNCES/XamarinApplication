@@ -2,12 +2,8 @@ using AutoFixture;
 using Moq;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Navigation;
-using Prism.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using XamarinApp.Composite_Command;
 using XamarinApp.IEventAgregator;
 using XamarinApp.ViewModels;
@@ -81,8 +77,8 @@ namespace XamarinApp.Test.ViewModels
             "Filter");
         return true;
       });
-      var a = new EventSubscription<object>((IDelegateReference)actionDelegateReference, (IDelegateReference)filterDelegateReference.Object);
-      var publishAction = a.GetExecutionStrategy();
+      var eventArgs = new EventSubscription<object>((IDelegateReference)actionDelegateReference, (IDelegateReference)filterDelegateReference.Object);
+      var publishAction = eventArgs.GetExecutionStrategy();
       Assert.NotNull(publishAction);
 
       publishAction.Invoke(null);

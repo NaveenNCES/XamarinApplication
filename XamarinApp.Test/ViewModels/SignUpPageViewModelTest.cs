@@ -2,13 +2,9 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XamarinApp.Models;
-using XamarinApp.Services;
+using XamarinApp.PageName;
+using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -35,11 +31,11 @@ namespace XamarinApp.Test.ViewModels
     public void When_User_Click_SignIn_Navigate_to_LoginPage()
     {
       //Act
-      _navigationService.Setup(n => n.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(n => n.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _navigationService.Verify(n => n.NavigateAsync("LoginPage"));
+      _navigationService.Verify(n => n.NavigateAsync(PageNames.LoginPage));
     }
 
     [Fact]
@@ -52,12 +48,12 @@ namespace XamarinApp.Test.ViewModels
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = user.Password;
-      _navigationService.Setup(n => n.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(n => n.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.SignUpCommand.Execute();
 
       //Assert
-      _navigationService.Verify(n => n.NavigateAsync("LoginPage"));
+      _navigationService.Verify(n => n.NavigateAsync(PageNames.LoginPage));
     }
 
     [Fact]
@@ -74,7 +70,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.SignUpCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(n => n.DisplayAlertAsync("Failed", "Please enter valid Details", "OK"));
+      _pageDialogService.Verify(n => n.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, "OK"));
     }
   }
 }

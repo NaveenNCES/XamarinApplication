@@ -55,8 +55,6 @@
                 <Label Text="Remember me" TextColor="Black" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
                 <ActivityIndicator IsVisible="{Binding IndicatorVisible}" IsRunning="{Binding IsLoading}" Color="Red" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                 <Label Text="Forgot Password" TextColor="Black" FontAttributes="Bold" HorizontalOptions="EndAndExpand" FontSize="Small" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
-
-
               </StackLayout>
 
               <Button Text="SIGN IN" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding LoginCommand}">

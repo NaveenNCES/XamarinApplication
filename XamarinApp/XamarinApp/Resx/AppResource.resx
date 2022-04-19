@@ -132,6 +132,9 @@
   <data name="French" xml:space="preserve">
     <value>French</value>
   </data>
+  <data name="Gesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
   <data name="GetName" xml:space="preserve">
     <value>What's your name?</value>
   </data>
@@ -147,6 +150,9 @@
   <data name="IWasTapped" xml:space="preserve">
     <value>I Was Tabbed</value>
   </data>
+  <data name="ModuleView" xml:space="preserve">
+    <value>Module View</value>
+  </data>
   <data name="PageDialogRequest" xml:space="preserve">
     <value>Do You want to Sign Up</value>
   </data>
@@ -156,11 +162,20 @@
   <data name="Question" xml:space="preserve">
     <value>Question</value>
   </data>
+  <data name="RandomApi" xml:space="preserve">
+    <value>Random Api</value>
+  </data>
   <data name="Request" xml:space="preserve">
     <value>Request</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Saveyournotes" xml:space="preserve">
+    <value>Save your notes</value>
+  </data>
+  <data name="SIGNIN" xml:space="preserve">
+    <value>SIGN IN</value>
   </data>
   <data name="Spanish" xml:space="preserve">
     <value>Spanish</value>
@@ -170,5 +185,8 @@
   </data>
   <data name="Times" xml:space="preserve">
     <value>Times</value>
+  </data>
+  <data name="XamarinEssentials" xml:space="preserve">
+    <value>Xamarin Essentials</value>
   </data>
 </root>

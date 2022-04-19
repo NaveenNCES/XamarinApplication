@@ -1,6 +1,7 @@
 using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using Xamarin.Forms;
 using XamarinApp.Models;
 using XamarinApp.PageName;
@@ -12,7 +13,7 @@ namespace XamarinApp.ViewModels
   public class LoginPageViewModel : ViewModelBase
   {    
     private readonly ILogManager _logManager;
-    private readonly Services.Interfaces.ILogger _logger;
+    private readonly ILogger _logger;
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserLoginService _userLoginService;
@@ -66,49 +67,69 @@ namespace XamarinApp.ViewModels
 
     private async void OnSignUpClicked()
     {
-      IsLoading = true;
-      IndicatorVisible = true;
-      var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
-      if (answer)
+      try
       {
-         await _navigation.NavigateAsync(PageNames.SignUpPage);
+        IsLoading = true;
+        IndicatorVisible = true;
+        var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
+        if (answer)
+        {
+          await _navigation.NavigateAsync(PageNames.SignUpPage);          
+        }
+      }
+
+      catch (Exception ex)
+      {
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+      }
+
+      finally
+      {
         IsLoading = false;
         IndicatorVisible = false;
       }
-      IsLoading = false;
-      IndicatorVisible = false;
     }
     public async void OnLoginClicked()
     {
-      IsLoading = true;
-      IndicatorVisible = true;
-
-      _logger.Info("User given details are passing");
-
-      Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
-
-      var user = new UserModel { Password = PassWord, UserName = UserName };
-
-      var result = await _userLoginService.LoginUserAsync(user);
-
-      var data = new NavigationParameters();
-      data.Add("Name", Name);
-
-      if (result == true)
+      try
       {
-        _logger.Info("User given details are valid and navigating to MainPage");
+        IsLoading = true;
+        IndicatorVisible = true;
 
-        await _navigation.NavigateAsync(PageNames.MainPage, data);
-        MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);
+        _logger.Info("User given details are passing");
+
+        Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
+
+        var user = new UserModel { Password = PassWord, UserName = UserName };
+
+        var result = await _userLoginService.LoginUserAsync(user);
+
+        var data = new NavigationParameters();
+        data.Add("Name", Name);
+
+        if (result == true)
+        {
+          _logger.Info("User given details are valid and navigating to MainPage");
+
+          await _navigation.NavigateAsync(PageNames.MainPage, data);
+          MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);          
+        }
+        else
+        {
+          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK");
+        }
+      }
+
+      catch (Exception ex)
+      {
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+      }
+
+      finally
+      {
         IsLoading = false;
         IndicatorVisible = false;
-      }
-      else
-      {
-        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK");
-        IsLoading = false;
-        IndicatorVisible = false;
-      }
+      }      
     }
   }
 }

@@ -2,13 +2,11 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XamarinApp.Models;
+using XamarinApp.PageName;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -37,11 +35,11 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
-      var data = new NavigationParameters();
-
+      var data = (INavigationParametersInternal)new NavigationParameters();
+      data.Add("__NavigationMode", NavigationMode.New);
       //Act
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
-      viewModel.OnNavigatedTo(data);
+      viewModel.OnNavigatedTo(data as INavigationParameters);
 
       //Assert
       Assert.Equal(apiData, viewModel.ApiData);
@@ -52,19 +50,20 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
-      var dataNavigationPrameter = new NavigationParameters();
+      var dataNavigationPrameter = (INavigationParametersInternal)new NavigationParameters();
       ObservableCollection<Result> data = new ObservableCollection<Result>(apiData as List<Result>);
       var list = apiData.Where(x => x ==  apiData.FirstOrDefault()).ToList();
       var specificData = list.FirstOrDefault();
+      dataNavigationPrameter.Add("__NavigationMode", NavigationMode.New);
 
       //Act
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
-      viewModel.OnNavigatedTo(dataNavigationPrameter);
+      viewModel.OnNavigatedTo(dataNavigationPrameter as INavigationParameters);
       viewModel.getSpecificData = specificData;
       viewModel.ItemTappedCommand.Execute(new object());
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("SelectedItemDetailPage", It.Is<NavigationParameters>(x => x.ContainsKey("selectedData"))));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.SelectedItemDetailPage, It.Is<NavigationParameters>(x => x.ContainsKey("selectedData"))));
     }
   }
 }

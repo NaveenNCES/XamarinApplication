@@ -13,7 +13,7 @@ using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.ViewModels
 {
-  public class SelectedItemDetailPageViewModel : ViewModelBase, INavigationAware
+  public class SelectedItemDetailPageViewModel : ViewModelBase
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
@@ -34,11 +34,8 @@ namespace XamarinApp.ViewModels
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
     }
-    public void OnNavigatedFrom(INavigationParameters parameters)
-    {
-    }
 
-    public void OnNavigatedTo(INavigationParameters parameters)
+    public override void OnNavigatedTo(INavigationParameters parameters)
     {
       var result = parameters.GetValue<List<Result>>("selectedData");
       ObservableCollection<Result> data = new ObservableCollection<Result>(result);

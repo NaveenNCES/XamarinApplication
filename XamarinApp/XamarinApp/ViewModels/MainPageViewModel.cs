@@ -1,6 +1,9 @@
+using Acr.UserDialogs;
 using Prism.Commands;
 using Prism.Modularity;
 using Prism.Navigation;
+using Prism.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -14,10 +17,12 @@ using XamarinApp.Resx;
 
 namespace XamarinApp.ViewModels
 {
-  public class MainPageViewModel : ViewModelBase, INavigatedAware
+  public class MainPageViewModel : ViewModelBase
   {
     private readonly IModuleManager _moduleManager;
     private readonly INavigationService _navigation;
+    private readonly IPageDialogService _pageDialogService;
+    //private readonly IUserDialogs _userDialogs;
     public DelegateCommand LoginCommand { get; set; }
     public DelegateCommand ApiCommand { get; set; }
     public DelegateCommand GestureCommand { get; set; }
@@ -57,10 +62,12 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _selectedLanguage, value); }
     }
     //////////////////////
-    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager)
+    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager, IPageDialogService pageDialogService)
     {
       _navigation = navigationService;
       _moduleManager = moduleManager;
+      _pageDialogService = pageDialogService;
+      //_userDialogs = userDialogs;
       LoginCommand = new DelegateCommand(OnLoginClicked);
       ApiCommand = new DelegateCommand(OnApiClicked);
       GestureCommand = new DelegateCommand(OnGestureClicked);
@@ -80,9 +87,16 @@ namespace XamarinApp.ViewModels
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
     }
 
-    private void EssentialClicked()
+    private async void EssentialClicked()
     {
-      _navigation.NavigateAsync(PageNames.XamarinEssentials);
+      using (UserDialogs.Instance.Loading("Loading..."))
+      {
+        await Task.Delay(3000);
+      }      
+
+      await _navigation.NavigateAsync(PageNames.XamarinEssentials);
+
+      UserDialogs.Instance.HideLoading();
     }
 
     private async void OnModuleClicked()
@@ -113,34 +127,33 @@ namespace XamarinApp.ViewModels
 
     private async void OnLoginClicked()
     {
-      IsLoading = true;
-      IndicatorVisible = true;
+      try
+      {
+        IsLoading = true;
+        IndicatorVisible = true;
 
-      await _navigation.NavigateAsync(PageNames.LoginPage);
+        await _navigation.NavigateAsync(PageNames.LoginPage);
+      }
+      catch (Exception ex)
+      {
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+      }
 
-      IsLoading = false;
-      IndicatorVisible = false;
-      
+      finally
+      {
+        IsLoading = false;
+        IndicatorVisible = false;
+      }      
     }
     
-    public void OnNavigatedFrom(INavigationParameters parameters)
+    public override void OnNavigatedTo(INavigationParameters parameters)
     {
-      
-    }
+        Name = parameters.GetValue<string>("Name");
 
-    public void OnNavigatedTo(INavigationParameters parameters)
-    {
-      IsLoading = true;
-      IndicatorVisible = true;
-      Name = parameters.GetValue<string>("Name");
-
-      MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
-      {
-        Message = args;
-      });
-
-      IsLoading = false;
-      IndicatorVisible = false;
+        MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
+        {
+          Message = args;
+        });
     }
   }
 }

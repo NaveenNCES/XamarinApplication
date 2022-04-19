@@ -13,7 +13,7 @@
     </Grid.ColumnDefinitions>
     <Label Grid.Column="0" Text="Dark Theam" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" VerticalOptions="Start" />
     <Switch Grid.Column="1" IsToggled="{Binding Theam}" HorizontalOptions="End" VerticalOptions="End" />
-      <xct:AvatarView Grid.Row="1" FontSize="Medium" TextColor="{AppThemeBinding Dark=White,Light=Black}" Text="{Binding NetConnectivity}" HorizontalOptions="Start" />
+      <Label Grid.Row="1" FontSize="Medium" TextColor="{AppThemeBinding Dark=White,Light=Black}" Text="{Binding NetConnectivity}" HorizontalOptions="Start" />
     </Grid>
     <Label Text="Email Test" TextColor="{AppThemeBinding Dark=White,Light=Black}" HorizontalOptions="Center" />
     <Entry Text="{Binding EmailId}" TextColor="{AppThemeBinding Dark=White,Light=Black}" FontSize="Medium" Placeholder="Enter Valid Email" PlaceholderColor="Chocolate"/>

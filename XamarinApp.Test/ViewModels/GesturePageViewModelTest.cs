@@ -1,7 +1,4 @@
 using AutoFixture;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 using XamarinApp.ViewModels;
 using Xunit;

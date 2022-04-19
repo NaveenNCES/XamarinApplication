@@ -8,7 +8,7 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
-  public class SignUpPageViewModel : BindableBase
+  public class SignUpPageViewModel : ViewModelBase
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;

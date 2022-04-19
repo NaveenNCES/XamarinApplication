@@ -200,6 +200,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs">
+      <Version>7.1.0.514</Version>
+    </PackageReference>
     <PackageReference Include="Flurl">
       <Version>3.0.4</Version>
     </PackageReference>

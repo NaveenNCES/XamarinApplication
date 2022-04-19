@@ -2,21 +2,14 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
-using Xamarin.Forms.Mocks;
 using XamarinApp.Services;
 using XamarinApp.Models;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
-using NLog;
-using System.Globalization;
+using XamarinApp.Resx;
+using XamarinApp.PageName;
 
 namespace XamarinApp.Test.ViewModels
 {
@@ -37,7 +30,7 @@ namespace XamarinApp.Test.ViewModels
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
       _loginService = new Mock<IUserLoginService>();
-      _logger = new Mock<XamarinApp.Services.Interfaces.ILogger>();
+      _logger = new Mock<ILogger>();
       _logManager = new Mock<ILogManager>();
       var a = log.GetLog();
       _logManager.Setup(x => x.GetLog(It.IsAny<string>())).Returns(a);
@@ -59,7 +52,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("MainPage", It.Is<NavigationParameters>(x => x.ContainsKey("Name"))));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey("Name"))));
     }
 
     [Fact]
@@ -115,13 +108,11 @@ namespace XamarinApp.Test.ViewModels
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
-      _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
       _loginService.Setup(x => x.LoginUserAsync(user)).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -132,13 +123,11 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       viewModel.PassWord = user.Password;
-      _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -149,13 +138,11 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       viewModel.UserName = user.UserName;
-      _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -165,13 +152,11 @@ namespace XamarinApp.Test.ViewModels
       var user = _fixture.Create<UserModel>();
 
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -181,8 +166,6 @@ namespace XamarinApp.Test.ViewModels
       var user = _fixture.Create<UserModel>();
 
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("MainPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _pageDialogService.Setup(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
       viewModel.PassWord = "2000";
@@ -190,7 +173,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -207,7 +190,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync("Failed", "Incorrect Username or Password", "OK"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
     }
 
     [Fact]
@@ -219,10 +202,11 @@ namespace XamarinApp.Test.ViewModels
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No")).ReturnsAsync(true);
       viewModel.SignUPCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("SignUpPage"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.SignUpPage));
     }
   }
 }

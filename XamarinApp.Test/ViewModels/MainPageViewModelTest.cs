@@ -3,14 +3,10 @@ using Moq;
 using Prism.Modularity;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using XamarinApp.PageName;
 using XamarinApp.ViewModels;
 using Xunit;
 
@@ -30,51 +26,51 @@ namespace XamarinApp.Test.ViewModels
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
       _module = new Mock<IModuleManager>();
-      viewModel = new MainPageViewModel(_navigationService.Object,_module.Object);
+      viewModel = new MainPageViewModel(_navigationService.Object,_module.Object,_pageDialogService.Object);
     }
 
     [Fact]
     public void When_User_Click_SignIn_Navigate_to_SignInPage()
     {
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("LoginPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("LoginPage"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.LoginPage));
     }
 
     [Fact]
     public void When_User_Click_API_Navigate_to_ApiDataPage()
     {
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("ApiDataPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.ApiDataPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.ApiCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("ApiDataPage"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.ApiDataPage));
     }
 
     [Fact]
     public void When_User_Click_GesturePage_Navigate_to_GesturePage()
     {
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("GesturePage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.GesturePage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.GestureCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("GesturePage"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.GesturePage));
     }
 
     [Fact]
     public void When_User_Click_AddNotesPage_Navigate_to_AddNotesPage()
     {
       //Act
-      _navigationService.Setup(x => x.NavigateAsync("AddNotesPage")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.AddNotesPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.EventAggregatorCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("AddNotesPage"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.AddNotesPage));
     }
 
     [Fact]
@@ -97,7 +93,8 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
-      var data = new NavigationParameters();
+      var data = (INavigationParametersInternal)new NavigationParameters();
+      data.Add("__NavigationMode", NavigationMode.New);
       MessagingCenter.Subscribe<MainPageViewModelTest, string>(this, "Hi", (sender, args) =>
       {
         viewModel.Message = args;
@@ -105,7 +102,7 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       MessagingCenter.Send(this, "Hi", fixture);
-      viewModel.OnNavigatedTo(data);
+      viewModel.OnNavigatedTo(data as INavigationParameters);
 
       //Arrange
       Assert.Equal(fixture, viewModel.Message);
@@ -115,11 +112,11 @@ namespace XamarinApp.Test.ViewModels
     public void On_Module_Click_Navigate_to_ViewA()
     {
       //Arrange
-      _navigationService.Setup(x => x.NavigateAsync("ViewA")).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.ModuleViewA)).ReturnsAsync(_fixture.Create<NavigationResult>());
       viewModel.ModuleCommand.Execute();
 
       //Assert
-      _navigationService.Verify(x => x.NavigateAsync("ViewA"));
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.ModuleViewA));
     }
 
     [Fact]

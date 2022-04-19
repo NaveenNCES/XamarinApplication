@@ -2,11 +2,8 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using XamarinApp.PageName;
 using XamarinApp.ViewModels;
 using Xunit;
 using static XamarinApp.Models.ApiModel;
@@ -35,7 +32,7 @@ namespace XamarinApp.Test
 
       //Act
       var data = new NavigationParameters();
-      data.Add("selectedData", fixture);
+      data.Add(NavigationKeys.selectedData, fixture);
       viewModel.OnNavigatedTo(data);
 
       var result = viewModel.getSelectedData;

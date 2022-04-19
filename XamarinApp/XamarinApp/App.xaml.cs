@@ -1,3 +1,4 @@
+using Acr.UserDialogs;
 using Module1;
 using Module1.ViewModels;
 using Module1.Views;
@@ -79,6 +80,7 @@ namespace XamarinApp
       containerRegistry.Register<IDeviceInfo, DeviceInfoImplementation>();
       containerRegistry.Register<IConnectivity, ConnectivityImplementation>();
       containerRegistry.Register<IPermissions, PermissionsImplementation>();
+      containerRegistry.Register<IUserDialogs, AbstractUserDialogs>();
       //containerRegistry.Register<>
       //containerRegistry.RegisterInstance<IRepository<UserModel>>(new GenericRepository<UserModel>(DatabaseLocation));
 

@@ -13,7 +13,7 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {
-  public class ViewModelBase : BindableBase
+  public class ViewModelBase : BindableBase, INavigatedAware,IPageLifecycleAware
   {
     private bool _isLoading;
     public bool IsLoading
@@ -27,6 +27,22 @@ namespace XamarinApp.ViewModels
     {
       get { return _iIndicatorVisible; }
       set { SetProperty(ref _iIndicatorVisible, value); }
+    }
+
+    public virtual void OnNavigatedFrom(INavigationParameters parameters)
+    {
+    }
+
+    public virtual void OnNavigatedTo(INavigationParameters parameters)
+    {
+    }
+
+    public virtual void OnAppearing()
+    {
+    }
+
+    public virtual void OnDisappearing()
+    {
     }
   }
 }

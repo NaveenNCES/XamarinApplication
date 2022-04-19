@@ -1,13 +1,9 @@
 using AutoFixture;
 using Moq;
-using Prism;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
-using Xamarin.Forms;
 using XamarinApp.ViewModels;
 using Xunit;
 

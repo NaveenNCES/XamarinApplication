@@ -13,7 +13,7 @@ using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp.ViewModels
 {
-  public class ApiDataPageViewModel : ViewModelBase, INavigatedAware, IPageLifecycleAware
+  public class ApiDataPageViewModel : ViewModelBase
   {
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
@@ -45,35 +45,48 @@ namespace XamarinApp.ViewModels
 
     async void ItemTapped(object specificData)
     {
-      var result = specificData as Result;
-      var data = new NavigationParameters();
-      var list = ApiData.Where(x => x == result).ToList();
-      data.Add("selectedData", list);
-      IsLoading = true;
-      IndicatorVisible = true;
-      await _navigation.NavigateAsync(PageNames.SelectedItemDetailPage, data);
-      IsLoading = false;
-      IndicatorVisible = false;
+      try
+      {
+        IsLoading = true;
+        IndicatorVisible = true;
+
+        var result = specificData as Result;
+        var data = new NavigationParameters();
+        var list = ApiData.Where(x => x == result).ToList();
+        data.Add(NavigationKeys.selectedData, list);        
+        await _navigation.NavigateAsync(PageNames.SelectedItemDetailPage, data);
+      }
+
+      catch(Exception ex)
+      {
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+      }
+
+      finally
+      {
+        IsLoading = false;
+        IndicatorVisible = false;
+      }    
+      
     }
 
-    public async void OnNavigatedTo(INavigationParameters parameters)
+    public async override void OnNavigatedTo(INavigationParameters parameters)
     {
-      var result = await _randomApiService.GetRandomApiDataAsync();
+      if (parameters.GetNavigationMode() == NavigationMode.New)
+      {
+        var result = await _randomApiService.GetRandomApiDataAsync();
 
-      ObservableCollection<Result> data = new ObservableCollection<Result>(result as List<Result>);
-      ApiData = data;
+        ObservableCollection<Result> data = new ObservableCollection<Result>(result);
+        ApiData = data;
+      }      
     }
 
-    public void OnNavigatedFrom(INavigationParameters parameters)
-    {
-    }
-
-    public void OnAppearing()
+    public override void OnAppearing()
     {
       _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.ApiDataDisplaying , "OK");
     }
 
-    public void OnDisappearing()
+    public override void OnDisappearing()
     {
       Console.WriteLine("We are disappearing");
     }

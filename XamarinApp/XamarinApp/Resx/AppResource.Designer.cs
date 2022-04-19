@@ -22,7 +22,7 @@ namespace XamarinApp.Resx {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResource {
+    public class AppResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace XamarinApp.Resx {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XamarinApp.Resx.AppResource", typeof(AppResource).Assembly);
@@ -51,7 +51,7 @@ namespace XamarinApp.Resx {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Alert.
         /// </summary>
-        internal static string Alert {
+        public static string Alert {
             get {
                 return ResourceManager.GetString("Alert", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Displaying Api Data.
         /// </summary>
-        internal static string ApiDataDisplaying {
+        public static string ApiDataDisplaying {
             get {
                 return ResourceManager.GetString("ApiDataDisplaying", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Lets get Started.
         /// </summary>
-        internal static string BodyText {
+        public static string BodyText {
             get {
                 return ResourceManager.GetString("BodyText", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
-        internal static string English {
+        public static string English {
             get {
                 return ResourceManager.GetString("English", resourceCulture);
             }
@@ -99,16 +99,25 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to French.
         /// </summary>
-        internal static string French {
+        public static string French {
             get {
                 return ResourceManager.GetString("French", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Gesture.
+        /// </summary>
+        public static string Gesture {
+            get {
+                return ResourceManager.GetString("Gesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to What&apos;s your name?.
         /// </summary>
-        internal static string GetName {
+        public static string GetName {
             get {
                 return ResourceManager.GetString("GetName", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to This is a sample app.
         /// </summary>
-        internal static string HeaderText {
+        public static string HeaderText {
             get {
                 return ResourceManager.GetString("HeaderText", resourceCulture);
             }
@@ -126,7 +135,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Please enter valid Details.
         /// </summary>
-        internal static string InValidCredential {
+        public static string InValidCredential {
             get {
                 return ResourceManager.GetString("InValidCredential", resourceCulture);
             }
@@ -135,7 +144,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Incorrect Username or Password.
         /// </summary>
-        internal static string InValidUser {
+        public static string InValidUser {
             get {
                 return ResourceManager.GetString("InValidUser", resourceCulture);
             }
@@ -144,16 +153,25 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to I Was Tabbed.
         /// </summary>
-        internal static string IWasTapped {
+        public static string IWasTapped {
             get {
                 return ResourceManager.GetString("IWasTapped", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Module View.
+        /// </summary>
+        public static string ModuleView {
+            get {
+                return ResourceManager.GetString("ModuleView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do You want to Sign Up.
         /// </summary>
-        internal static string PageDialogRequest {
+        public static string PageDialogRequest {
             get {
                 return ResourceManager.GetString("PageDialogRequest", resourceCulture);
             }
@@ -162,7 +180,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Password and Confirm Password doesn&apos;t match.
         /// </summary>
-        internal static string PasswordNotMatching {
+        public static string PasswordNotMatching {
             get {
                 return ResourceManager.GetString("PasswordNotMatching", resourceCulture);
             }
@@ -171,16 +189,25 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Question.
         /// </summary>
-        internal static string Question {
+        public static string Question {
             get {
                 return ResourceManager.GetString("Question", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Random Api.
+        /// </summary>
+        public static string RandomApi {
+            get {
+                return ResourceManager.GetString("RandomApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Request.
         /// </summary>
-        internal static string Request {
+        public static string Request {
             get {
                 return ResourceManager.GetString("Request", resourceCulture);
             }
@@ -189,16 +216,34 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
-        internal static string Save {
+        public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save your notes.
+        /// </summary>
+        public static string Saveyournotes {
+            get {
+                return ResourceManager.GetString("Saveyournotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SIGN IN.
+        /// </summary>
+        public static string SIGNIN {
+            get {
+                return ResourceManager.GetString("SIGNIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spanish.
         /// </summary>
-        internal static string Spanish {
+        public static string Spanish {
             get {
                 return ResourceManager.GetString("Spanish", resourceCulture);
             }
@@ -207,7 +252,7 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Tamil.
         /// </summary>
-        internal static string Tamil {
+        public static string Tamil {
             get {
                 return ResourceManager.GetString("Tamil", resourceCulture);
             }
@@ -216,9 +261,18 @@ namespace XamarinApp.Resx {
         /// <summary>
         ///   Looks up a localized string similar to Times.
         /// </summary>
-        internal static string Times {
+        public static string Times {
             get {
                 return ResourceManager.GetString("Times", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xamarin Essentials.
+        /// </summary>
+        public static string XamarinEssentials {
+            get {
+                return ResourceManager.GetString("XamarinEssentials", resourceCulture);
             }
         }
     }
