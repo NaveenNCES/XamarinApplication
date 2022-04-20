@@ -88,6 +88,15 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Down.
+        /// </summary>
+        public static string Down {
+            get {
+                return ResourceManager.GetString("Down", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
@@ -160,11 +169,47 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left.
+        /// </summary>
+        public static string Left {
+            get {
+                return ResourceManager.GetString("Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string MessageCenterKey {
+            get {
+                return ResourceManager.GetString("MessageCenterKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Module View.
         /// </summary>
         public static string ModuleView {
             get {
                 return ResourceManager.GetString("ModuleView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
             }
         }
         
@@ -214,6 +259,15 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Right.
+        /// </summary>
+        public static string Right {
+            get {
+                return ResourceManager.GetString("Right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -250,6 +304,42 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Swip Down.
+        /// </summary>
+        public static string SwipDown {
+            get {
+                return ResourceManager.GetString("SwipDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Swip Left.
+        /// </summary>
+        public static string SwipLeft {
+            get {
+                return ResourceManager.GetString("SwipLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Swip Right.
+        /// </summary>
+        public static string SwipRight {
+            get {
+                return ResourceManager.GetString("SwipRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Swip Up.
+        /// </summary>
+        public static string SwipUp {
+            get {
+                return ResourceManager.GetString("SwipUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tamil.
         /// </summary>
         public static string Tamil {
@@ -264,6 +354,15 @@ namespace XamarinApp.Resx {
         public static string Times {
             get {
                 return ResourceManager.GetString("Times", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Up.
+        /// </summary>
+        public static string Up {
+            get {
+                return ResourceManager.GetString("Up", resourceCulture);
             }
         }
         

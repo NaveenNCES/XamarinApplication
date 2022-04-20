@@ -53,5 +53,7 @@
                        IndicatorColor="LightGray"
                        SelectedIndicatorColor="DarkGray"
                        HorizontalOptions="Center" />
+    <Button Grid.Column="0" Text="Call the Person" Command="{Binding PhoneDialerCommand}" HorizontalOptions="Center" />
+    <Button Grid.Column="1" Text="Email to the Person" Command="{Binding EmailCommand}" HorizontalOptions="Center" />
   </StackLayout>
 </ContentPage>

@@ -9,18 +9,18 @@ using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.Services
 {
-  public class UserLoginService : IUserLoginService
+  public class LoginService : ILoginService
   {
-    private readonly IRepository<UserModel> _userRepo;
+    private readonly IRepository<UserModel> _userRepository;
 
-    public UserLoginService(IRepository<UserModel> repository)
+    public LoginService(IRepository<UserModel> userRepository)
     {
-      _userRepo = repository;
+      _userRepository = userRepository;
     }
 
     public async Task<bool> LoginUserAsync(UserModel user)
     {
-      var result = await _userRepo.GetAllDetailsAsync();
+      var result = await _userRepository.GetAllDetailsAsync();
 
       var userData = result.FirstOrDefault(x => x.Password == user.Password && x.UserName == user.UserName);
 

@@ -6,7 +6,7 @@ using XamarinApp.Models;
 
 namespace XamarinApp.Services.Interfaces
 {
-    public interface IUserLoginService
+    public interface ILoginService
     {
         Task<bool> LoginUserAsync(UserModel user);
     }

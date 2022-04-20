@@ -1,4 +1,5 @@
 using Acr.UserDialogs;
+using AutoMapper;
 using Module1;
 using Module1.ViewModels;
 using Module1.Views;
@@ -21,6 +22,7 @@ using XamarinApp.Services;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using XamarinApp.Views;
+using static XamarinApp.Models.ApiModel;
 
 namespace XamarinApp
 {
@@ -66,8 +68,8 @@ namespace XamarinApp
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
       containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-      containerRegistry.Register<IUserLoginService, UserLoginService>();
-      containerRegistry.Register<IRandomApiService, RamdomApiService>();
+      containerRegistry.Register<ILoginService, LoginService>();
+      containerRegistry.Register<IRandomApiService, RandomApiService>();
       containerRegistry.Register<ISignUpUserService, SignUpUserService>();
       containerRegistry.Register<IApplicationCommand, ApplicationCommands>();
       containerRegistry.Register<ILogManager,NLogManagerService>();
@@ -80,7 +82,18 @@ namespace XamarinApp
       containerRegistry.Register<IDeviceInfo, DeviceInfoImplementation>();
       containerRegistry.Register<IConnectivity, ConnectivityImplementation>();
       containerRegistry.Register<IPermissions, PermissionsImplementation>();
+      containerRegistry.Register<IPhoneDialer, PhoneDialerImplementation>();
       containerRegistry.Register<IUserDialogs, AbstractUserDialogs>();
+      containerRegistry.RegisterInstance(UserDialogs.Instance);
+      //containerRegistry.Register(typeof(IMapper), typeof(Mapper));
+      var config = new MapperConfiguration(cfg =>
+      {
+        cfg.CreateMap<Result, ApiModel>();
+      });
+      var mapper = config.CreateMapper();
+      containerRegistry.RegisterInstance(mapper);
+      //containerRegistry.Register<IMapper, Mapper>();
+      //containerRegistry.RegisterInstance<IUserDialogs>(new AbstractUserDialogs());
       //containerRegistry.Register<>
       //containerRegistry.RegisterInstance<IRepository<UserModel>>(new GenericRepository<UserModel>(DatabaseLocation));
 

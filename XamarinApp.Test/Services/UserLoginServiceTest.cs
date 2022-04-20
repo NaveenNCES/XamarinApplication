@@ -16,12 +16,12 @@ namespace XamarinApp.Test.Services
   public class UserLoginServiceTest
   {
     private readonly Fixture _fixture = new Fixture();
-    private readonly UserLoginService _loginService;
+    private readonly LoginService _loginService;
     private readonly Mock<IRepository<UserModel>> _repo;
     public UserLoginServiceTest()
     {
       _repo = new Mock<IRepository<UserModel>>();
-      _loginService = new UserLoginService(_repo.Object);
+      _loginService = new LoginService(_repo.Object);
     }
 
     [Fact]

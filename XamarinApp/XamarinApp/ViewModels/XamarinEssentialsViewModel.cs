@@ -1,5 +1,6 @@
 using Prism.Commands;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -89,9 +90,9 @@ namespace XamarinApp.ViewModels
       get { return _appTheamDetail; }
       set { SetProperty(ref _appTheamDetail, value); }
     }
-    public DelegateCommand ScreenShotCommand { get; set; }
-    public DelegateCommand EmailCommand { get; set; }
-    public DelegateCommand LocationCommand { get; set; }
+    public DelegateCommand ScreenShotCommand { get; }
+    public DelegateCommand EmailCommand { get; }
+    public DelegateCommand LocationCommand { get; }
 
     /////Interface Declaration////
     private readonly IAppInfo _appInfo;
@@ -112,9 +113,9 @@ namespace XamarinApp.ViewModels
       _iconnectivity = connectivity;
       _iemail = email;
       _permissions = permissions;
-      ScreenShotCommand = new DelegateCommand(CaptureScreenshot);
-      EmailCommand = new DelegateCommand(OnEmailClicked);
-      LocationCommand = new DelegateCommand(OnLocationClicked);
+      ScreenShotCommand = new DelegateCommand(async () => await CaptureScreenshot());
+      EmailCommand = new DelegateCommand(async () => await OnEmailClicked());
+      LocationCommand = new DelegateCommand(async () => await OnLocationClicked());
       AppTheamDetail = _appInfo.RequestedTheme;
       //App.Current.UserAppTheme = (OSAppTheme)appTheme;
       AppInfor = _appInfo.Name;
@@ -123,14 +124,14 @@ namespace XamarinApp.ViewModels
       DeviceDetail = _ideviceInfo.Manufacturer;
     }
 
-    private async void OnLocationClicked()
+    private async Task OnLocationClicked()
     {
       var status = await _permissions.RequestAsync<Permissions.LocationWhenInUse>();
       var location = await _geoLocation.GetLocationAsync();
       Location = $"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}";
     }
 
-    private async void OnEmailClicked()
+    private async Task OnEmailClicked()
     {
       var EmailAddress = new List<string>();
       EmailAddress.Add(EmailId);
@@ -144,7 +145,7 @@ namespace XamarinApp.ViewModels
       await _iemail.ComposeAsync(message);  
     }
 
-    private async void CaptureScreenshot()
+    private async Task CaptureScreenshot()
     {
       var screenshot = await _screenShot.CaptureAsync();
       var stream = await screenshot.OpenReadAsync();

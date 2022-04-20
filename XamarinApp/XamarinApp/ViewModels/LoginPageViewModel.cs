@@ -2,6 +2,7 @@ using Prism.Commands;
 using Prism.Navigation;
 using Prism.Services;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinApp.Models;
 using XamarinApp.PageName;
@@ -12,14 +13,13 @@ namespace XamarinApp.ViewModels
 {
   public class LoginPageViewModel : ViewModelBase
   {    
-    private readonly ILogManager _logManager;
     private readonly ILogger _logger;
-    private readonly INavigationService _navigation;
+    private readonly INavigationService _navigationService;
     private readonly IPageDialogService _pageDialogService;
-    private readonly IUserLoginService _userLoginService;
+    private readonly ILoginService _userLoginService;
 
-    public DelegateCommand LoginCommand { get; set; }
-    public DelegateCommand SignUPCommand { get; set; }
+    public DelegateCommand LoginCommand { get; }
+    public DelegateCommand SignUPCommand { get; }
     private string _userName;
     private string _password;
 
@@ -42,7 +42,7 @@ namespace XamarinApp.ViewModels
         SetProperty(ref _userName, value);
       }
     }
-    public string PassWord
+    public string Password
     {
       get
       {
@@ -54,18 +54,17 @@ namespace XamarinApp.ViewModels
       }
     }
     public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
-      IUserLoginService userLoginService, ILogger logger, ILogManager logManager)
+      ILoginService userLoginService, ILogManager logManager)
     {
-      _navigation = navigationService;
+      _navigationService = navigationService;
       _pageDialogService = pageDialogService;
       _userLoginService = userLoginService;
       _logger = logManager.GetLog();
-      _logManager = logManager;
-      LoginCommand = new DelegateCommand(OnLoginClicked);
-      SignUPCommand = new DelegateCommand(OnSignUpClicked);
+      LoginCommand = new DelegateCommand(async() =>await OnLoginClicked());
+      SignUPCommand = new DelegateCommand(async() =>await OnSignUpClicked());
     }
 
-    private async void OnSignUpClicked()
+    private async Task OnSignUpClicked()
     {
       try
       {
@@ -74,13 +73,13 @@ namespace XamarinApp.ViewModels
         var answer = await _pageDialogService.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No");
         if (answer)
         {
-          await _navigation.NavigateAsync(PageNames.SignUpPage);          
+          await _navigationService.NavigateAsync(PageNames.SignUpPage);          
         }
       }
 
       catch (Exception ex)
       {
-        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, AppResource.Ok);
       }
 
       finally
@@ -89,7 +88,7 @@ namespace XamarinApp.ViewModels
         IndicatorVisible = false;
       }
     }
-    public async void OnLoginClicked()
+    public async Task OnLoginClicked()
     {
       try
       {
@@ -100,29 +99,29 @@ namespace XamarinApp.ViewModels
 
         Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
 
-        var user = new UserModel { Password = PassWord, UserName = UserName };
+        var user = new UserModel { Password = Password, UserName = UserName };
 
         var result = await _userLoginService.LoginUserAsync(user);
 
         var data = new NavigationParameters();
-        data.Add("Name", Name);
+        data.Add(AppResource.Name, Name);
 
         if (result == true)
         {
           _logger.Info("User given details are valid and navigating to MainPage");
 
-          await _navigation.NavigateAsync(PageNames.MainPage, data);
-          MessagingCenter.Send<LoginPageViewModel, string>(this, "Hi", Name);          
+          await _navigationService.NavigateAsync(PageNames.MainPage, data);
+          MessagingCenter.Send<LoginPageViewModel, string>(this, AppResource.MessageCenterKey, Name);          
         }
         else
         {
-          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK");
+          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok);
         }
       }
 
       catch (Exception ex)
       {
-        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, AppResource.Ok);
       }
 
       finally

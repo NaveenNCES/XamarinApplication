@@ -13,12 +13,12 @@ namespace XamarinApp.Test.Services
 {
   public class RandomApiServiceTest
   {
-    private readonly RamdomApiService apiService;
+    private readonly RandomApiService apiService;
 
 
     public RandomApiServiceTest()
     {
-      apiService = new RamdomApiService();
+      apiService = new RandomApiService();
     }
 
     [Fact]

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Flurl" Version="3.0.4" />
     <PackageReference Include="Flurl.Http" Version="3.2.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

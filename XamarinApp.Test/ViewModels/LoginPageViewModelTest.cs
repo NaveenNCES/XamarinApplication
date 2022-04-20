@@ -17,7 +17,7 @@ namespace XamarinApp.Test.ViewModels
   {    
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
-    private readonly Mock<IUserLoginService> _loginService;
+    private readonly Mock<ILoginService> _loginService;
     private readonly Mock<XamarinApp.Services.Interfaces.ILogger> _logger ;
     private readonly Fixture _fixture = new Fixture();
     private readonly LoginPageViewModel viewModel;
@@ -29,7 +29,7 @@ namespace XamarinApp.Test.ViewModels
       Xamarin.Forms.Mocks.MockForms.Init();
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
-      _loginService = new Mock<IUserLoginService>();
+      _loginService = new Mock<ILoginService>();
       _logger = new Mock<ILogger>();
       _logManager = new Mock<ILogManager>();
       var a = log.GetLog();

@@ -2,7 +2,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using System.Threading.Tasks;
 using XamarinApp.Models;
+using XamarinApp.PageName;
 using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 
@@ -14,8 +16,8 @@ namespace XamarinApp.ViewModels
     private readonly IPageDialogService _pageDialogService;
     private readonly ISignUpUserService _signUpUserService;
 
-    public DelegateCommand SignUpCommand { get; set; }
-    public DelegateCommand LoginCommand { get; set; }
+    public DelegateCommand SignUpCommand { get; }
+    public DelegateCommand LoginCommand { get; }
     public UserModel _userModel { get; }
     private string _userName;
     private string _password;
@@ -59,18 +61,18 @@ namespace XamarinApp.ViewModels
       _navigation = navigationService;
       _pageDialogService = pageDialogService;
       _signUpUserService = signUpUserService;
-      SignUpCommand = new DelegateCommand(OnSignUpClicked);
-      LoginCommand = new DelegateCommand(OnSignInClicked);
+      SignUpCommand = new DelegateCommand(async () => await OnSignUpClicked());
+      LoginCommand = new DelegateCommand(async () => await OnSignInClicked());
     }
-    private async void OnSignInClicked()
+    private async Task OnSignInClicked()
     {
-      await _navigation.NavigateAsync("LoginPage");
+      await _navigation.NavigateAsync(PageNames.LoginPage);
     }
-    private async void OnSignUpClicked()
+    private async Task OnSignUpClicked()
     {
       if(PassWord != ConfirmPassWord)
       {
-        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, "OK");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, AppResource.Ok);
       }
       else
       {
@@ -80,11 +82,11 @@ namespace XamarinApp.ViewModels
 
         if(result != false)
         {
-          await _navigation.NavigateAsync("LoginPage");
+          await _navigation.NavigateAsync(PageNames.LoginPage);
         }
         else
         {
-          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, "OK");
+          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, AppResource.Ok);
         }
       }   
     }

@@ -9,27 +9,33 @@ namespace XamarinApp.ViewModels
   public class AddNotesPageViewModel : ViewModelBase
   {
     private IEventAggregator _eventaggregator;
-    ////////////////SendingNote
+    private ObservableCollection<string> _savedNote = new ObservableCollection<string>();
     private string _notes;
+    private IApplicationCommand _applicationCommand;
+    public DelegateCommand SendNoteCommand { get; private set; }
 
+    /// <summary>
+    /// SendingNote
+    /// </summary>
     public string Notes
     {
       get { return _notes; }
       set{ SetProperty(ref _notes, value); }
     }
 
-    public DelegateCommand SendNoteCommand { get; private set; }
-
-    //////////////SavedNotes
-    private ObservableCollection<string> _savedNote = new ObservableCollection<string>();
-
+    /// <summary>
+    /// SavedNotes
+    /// </summary>
     public ObservableCollection<string> SavedNotes
     {
       get { return _savedNote; }
       set { SetProperty(ref _savedNote, value); }
     }
-    /////////Composite Command
-    private IApplicationCommand _applicationCommand;
+
+    /// <summary>
+    /// Composite Command
+    /// </summary>
+
     public IApplicationCommand ApplicationCommand
     {
       get { return _applicationCommand; }

@@ -22,14 +22,14 @@ namespace XamarinApp.ViewModels
     private readonly IModuleManager _moduleManager;
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
-    //private readonly IUserDialogs _userDialogs;
-    public DelegateCommand LoginCommand { get; set; }
-    public DelegateCommand ApiCommand { get; set; }
-    public DelegateCommand GestureCommand { get; set; }
-    public DelegateCommand ChangeLanguageCommand { get; set; }
-    public DelegateCommand EventAggregatorCommand { get; set; }
-    public DelegateCommand ModuleCommand { get; set; }
-    public DelegateCommand EssentialCommand { get; set; }
+    private readonly IUserDialogs _userDialogs;
+    public DelegateCommand LoginCommand { get; }
+    public DelegateCommand ApiCommand { get; }
+    public DelegateCommand GestureCommand { get;}
+    public DelegateCommand ChangeLanguageCommand { get; }
+    public DelegateCommand EventAggregatorCommand { get; }
+    public DelegateCommand ModuleCommand { get; }
+    public DelegateCommand EssentialCommand { get; }
 
     private string _name;
     public string Name
@@ -62,19 +62,19 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _selectedLanguage, value); }
     }
     //////////////////////
-    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager, IPageDialogService pageDialogService)
+    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager, IPageDialogService pageDialogService,IUserDialogs userDialogs)
     {
       _navigation = navigationService;
       _moduleManager = moduleManager;
       _pageDialogService = pageDialogService;
-      //_userDialogs = userDialogs;
-      LoginCommand = new DelegateCommand(OnLoginClicked);
-      ApiCommand = new DelegateCommand(OnApiClicked);
-      GestureCommand = new DelegateCommand(OnGestureClicked);
-      ModuleCommand = new DelegateCommand(OnModuleClicked);
-      EventAggregatorCommand = new DelegateCommand(OnEventClicked);
+      _userDialogs = userDialogs;
+      LoginCommand = new DelegateCommand(async () => await OnLoginClicked());
+      ApiCommand = new DelegateCommand(async () => await OnApiClicked());
+      GestureCommand = new DelegateCommand(async () => await OnGestureClicked());
+      ModuleCommand = new DelegateCommand(async () => await OnModuleClicked());
+      EventAggregatorCommand = new DelegateCommand(async () => await OnEventClicked());
       ChangeLanguageCommand = new DelegateCommand(PerformOperation);
-      EssentialCommand = new DelegateCommand(EssentialClicked);
+      EssentialCommand = new DelegateCommand(async () => await EssentialClicked());
       ///////Language//////
       SupportedLanguage = new ObservableCollection<MyLanguage>()
       {
@@ -87,19 +87,23 @@ namespace XamarinApp.ViewModels
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
     }
 
-    private async void EssentialClicked()
+    private async Task EssentialClicked()
     {
-      using (UserDialogs.Instance.Loading("Loading..."))
+      //using (UserDialogs.Instance.Loading("Loading..."))
+      //{
+      //  await Task.Delay(3000);
+      //}      
+      using (_userDialogs.Loading("Loading..."))
       {
         await Task.Delay(3000);
-      }      
+      }
 
       await _navigation.NavigateAsync(PageNames.XamarinEssentials);
 
-      UserDialogs.Instance.HideLoading();
+      _userDialogs.HideLoading();
     }
 
-    private async void OnModuleClicked()
+    private async Task OnModuleClicked()
     {
       _moduleManager.LoadModule(PageNames.Module1);
       await _navigation.NavigateAsync(PageNames.ModuleViewA);
@@ -110,22 +114,22 @@ namespace XamarinApp.ViewModels
       LocalizationResourceManager.Current.SetCulture(CultureInfo.GetCultureInfo(SelectedLanguage.CI));
     }
 
-    private async void OnGestureClicked()
+    private async Task OnGestureClicked()
     {
       await _navigation.NavigateAsync(PageNames.GesturePage);
     }
 
-    private async void OnEventClicked()
+    private async Task OnEventClicked()
     {
       await _navigation.NavigateAsync(PageNames.AddNotesPage);       
     }
 
-    private async void OnApiClicked()
+    private async Task OnApiClicked()
     {
       await _navigation.NavigateAsync(PageNames.ApiDataPage);
     }
 
-    private async void OnLoginClicked()
+    private async Task OnLoginClicked()
     {
       try
       {
@@ -136,7 +140,7 @@ namespace XamarinApp.ViewModels
       }
       catch (Exception ex)
       {
-        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, "Ok");
+        await _pageDialogService.DisplayAlertAsync(AppResource.Alert, ex.Message, AppResource.Ok);
       }
 
       finally
@@ -148,9 +152,9 @@ namespace XamarinApp.ViewModels
     
     public override void OnNavigatedTo(INavigationParameters parameters)
     {
-        Name = parameters.GetValue<string>("Name");
+        Name = parameters.GetValue<string>(AppResource.Name);
 
-        MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
+        MessagingCenter.Subscribe<LoginPageViewModel, string>(this, AppResource.MessageCenterKey, (sender, args) =>
         {
           Message = args;
         });
