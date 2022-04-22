@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+using System;
+using Xamarin.Forms;
 
 namespace XamarinApp.Views
 {
@@ -8,5 +9,5 @@ namespace XamarinApp.Views
         {
             InitializeComponent();
         }
-    }
+  }
 }

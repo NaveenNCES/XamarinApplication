@@ -92,10 +92,7 @@ namespace XamarinApp
       });
       var mapper = config.CreateMapper();
       containerRegistry.RegisterInstance(mapper);
-      //containerRegistry.Register<IMapper, Mapper>();
-      //containerRegistry.RegisterInstance<IUserDialogs>(new AbstractUserDialogs());
-      //containerRegistry.Register<>
-      //containerRegistry.RegisterInstance<IRepository<UserModel>>(new GenericRepository<UserModel>(DatabaseLocation));
+      containerRegistry.RegisterInstance(typeof(IGoogleManager));
 
       containerRegistry.RegisterForNavigation<NavigationPage>();
       containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();

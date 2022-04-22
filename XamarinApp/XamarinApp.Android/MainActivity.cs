@@ -1,11 +1,14 @@
 using Acr.UserDialogs;
 using Android.App;
 using Android.Content.PM;
+using Android.Gms.Auth.Api;
+using Android.Gms.Auth.Api.SignIn;
 using Android.OS;
 using Firebase;
 using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
+using XamarinApp.Models;
 using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.Droid
@@ -29,6 +32,16 @@ namespace XamarinApp.Droid
 
     }
 
+    protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+    {
+      base.OnActivityResult(requestCode, resultCode, data);
+      if (requestCode == 1)
+      {
+        GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+        GoogleManager.Instance.OnAuthCompleted(result);
+      }
+    }
+
     public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
     {
       Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -42,6 +55,7 @@ namespace XamarinApp.Droid
     public void RegisterTypes(IContainerRegistry containerRegistry)
     {
       containerRegistry.RegisterSingleton<ILogManager, NLogManager>();
+      containerRegistry.RegisterSingleton<IGoogleManager, GoogleManager>();
       // Register any platform specific implementations
     }
   }

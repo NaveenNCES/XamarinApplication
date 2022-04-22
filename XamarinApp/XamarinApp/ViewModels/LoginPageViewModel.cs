@@ -17,9 +17,11 @@ namespace XamarinApp.ViewModels
     private readonly INavigationService _navigationService;
     private readonly IPageDialogService _pageDialogService;
     private readonly ILoginService _userLoginService;
+    private readonly IGoogleManager _googleManager;
 
     public DelegateCommand LoginCommand { get; }
     public DelegateCommand SignUPCommand { get; }
+    public DelegateCommand GoogleCommand { get; }
     private string _userName;
     private string _password;
 
@@ -54,14 +56,30 @@ namespace XamarinApp.ViewModels
       }
     }
     public LoginPageViewModel(INavigationService navigationService, IPageDialogService pageDialogService,
-      ILoginService userLoginService, ILogManager logManager)
+      ILoginService userLoginService, ILogManager logManager,IGoogleManager googleManager)
     {
       _navigationService = navigationService;
       _pageDialogService = pageDialogService;
       _userLoginService = userLoginService;
+      _googleManager = googleManager;
       _logger = logManager.GetLog();
       LoginCommand = new DelegateCommand(async() =>await OnLoginClicked());
       SignUPCommand = new DelegateCommand(async() =>await OnSignUpClicked());
+      GoogleCommand = new DelegateCommand(OnGoogleClicked);
+    }
+
+    private void OnGoogleClicked()
+    {
+       _googleManager.Login(OnLoginComplete);
+    }
+
+    private void OnLoginComplete(GoogleUser googleUser, string message)
+    {
+      if(googleUser != null)
+      {
+        Name = googleUser.Name;
+        _navigationService.NavigateAsync(PageNames.MainPage);
+      }
     }
 
     private async Task OnSignUpClicked()

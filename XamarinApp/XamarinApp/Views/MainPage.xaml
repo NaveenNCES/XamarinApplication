@@ -37,19 +37,13 @@
                 LineBreakMode="WordWrap"
                 FontSize="Large"/>
 
-      <Label Grid.Column="1"
+        <Label Grid.Column="1"
                 Text="{Binding Name}"
-                HorizontalOptions="StartAndExpand"
+                HorizontalOptions="CenterAndExpand"
                 VerticalTextAlignment="Center"
                 LineBreakMode="NoWrap"
                 FontSize="Large"/>
-      <Label Grid.Column="2"
-                Text="{Binding Message}"
-                HorizontalOptions="StartAndExpand"
-                VerticalTextAlignment="Center"
-                LineBreakMode="NoWrap"
-                FontSize="Large" ></Label>
-    </Grid>
+      </Grid>
       <ActivityIndicator IsVisible="{Binding IndicatorVisible}" IsRunning="{Binding IsLoading}" Color="Red" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
       <Grid>
         <Button Grid.Column="0" Grid.Row="0" Text="{xct:Translate SIGNIN}" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">
@@ -62,6 +56,7 @@
         <Button Grid.Column="1" Grid.Row="0" Text="{xct:Translate Gesture}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
         <Button Grid.Column="1" Grid.Row="1" Text="{xct:Translate ModuleView}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
         <Button Grid.Column="1" Grid.Row="2" Text="{xct:Translate XamarinEssentials}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EssentialCommand}" />
+        <Button Grid.Column="0" Grid.Row="3" Text="Google Logout" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GoogleLogOutCommand}" />
       </Grid>      
     </StackLayout>
   </pan:PancakeView>

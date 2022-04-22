@@ -23,6 +23,8 @@ namespace XamarinApp.ViewModels
     private readonly INavigationService _navigation;
     private readonly IPageDialogService _pageDialogService;
     private readonly IUserDialogs _userDialogs;
+    private readonly IGoogleManager _googleManager;
+
     public DelegateCommand LoginCommand { get; }
     public DelegateCommand ApiCommand { get; }
     public DelegateCommand GestureCommand { get;}
@@ -30,6 +32,7 @@ namespace XamarinApp.ViewModels
     public DelegateCommand EventAggregatorCommand { get; }
     public DelegateCommand ModuleCommand { get; }
     public DelegateCommand EssentialCommand { get; }
+    public DelegateCommand GoogleLogOutCommand { get; }
 
     private string _name;
     public string Name
@@ -68,6 +71,7 @@ namespace XamarinApp.ViewModels
       _moduleManager = moduleManager;
       _pageDialogService = pageDialogService;
       _userDialogs = userDialogs;
+      _googleManager = DependencyService.Get<IGoogleManager>();
       LoginCommand = new DelegateCommand(async () => await OnLoginClicked());
       ApiCommand = new DelegateCommand(async () => await OnApiClicked());
       GestureCommand = new DelegateCommand(async () => await OnGestureClicked());
@@ -75,6 +79,7 @@ namespace XamarinApp.ViewModels
       EventAggregatorCommand = new DelegateCommand(async () => await OnEventClicked());
       ChangeLanguageCommand = new DelegateCommand(PerformOperation);
       EssentialCommand = new DelegateCommand(async () => await EssentialClicked());
+      GoogleLogOutCommand = new DelegateCommand(GoogleLogoutClicked);
       ///////Language//////
       SupportedLanguage = new ObservableCollection<MyLanguage>()
       {
@@ -85,6 +90,13 @@ namespace XamarinApp.ViewModels
       };
 
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
+    }
+
+    private void GoogleLogoutClicked()
+    {
+      _googleManager.Logout();
+
+      _navigation.NavigateAsync(PageNames.LoginPage);
     }
 
     private async Task EssentialClicked()
