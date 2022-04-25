@@ -65,13 +65,13 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _selectedLanguage, value); }
     }
     //////////////////////
-    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager, IPageDialogService pageDialogService,IUserDialogs userDialogs)
+    public MainPageViewModel(INavigationService navigationService, IModuleManager moduleManager, IPageDialogService pageDialogService,IUserDialogs userDialogs,IGoogleManager googleManager)
     {
       _navigation = navigationService;
       _moduleManager = moduleManager;
       _pageDialogService = pageDialogService;
       _userDialogs = userDialogs;
-      _googleManager = DependencyService.Get<IGoogleManager>();
+      _googleManager = googleManager;
       LoginCommand = new DelegateCommand(async () => await OnLoginClicked());
       ApiCommand = new DelegateCommand(async () => await OnApiClicked());
       GestureCommand = new DelegateCommand(async () => await OnGestureClicked());
@@ -101,14 +101,7 @@ namespace XamarinApp.ViewModels
 
     private async Task EssentialClicked()
     {
-      //using (UserDialogs.Instance.Loading("Loading..."))
-      //{
-      //  await Task.Delay(3000);
-      //}      
-      using (_userDialogs.Loading("Loading..."))
-      {
-        await Task.Delay(3000);
-      }
+      _userDialogs.Loading("Loading...");
 
       await _navigation.NavigateAsync(PageNames.XamarinEssentials);
 

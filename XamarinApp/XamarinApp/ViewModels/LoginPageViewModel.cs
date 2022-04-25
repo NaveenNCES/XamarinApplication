@@ -68,12 +68,12 @@ namespace XamarinApp.ViewModels
       GoogleCommand = new DelegateCommand(OnGoogleClicked);
     }
 
-    private void OnGoogleClicked()
+    public void OnGoogleClicked()
     {
        _googleManager.Login(OnLoginComplete);
     }
 
-    private void OnLoginComplete(GoogleUser googleUser, string message)
+    public void OnLoginComplete(GoogleUser googleUser, string message)
     {
       if(googleUser != null)
       {

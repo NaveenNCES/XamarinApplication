@@ -1,3 +1,4 @@
+using Acr.UserDialogs;
 using AutoFixture;
 using Moq;
 using Prism.Modularity;
@@ -6,6 +7,7 @@ using Prism.Services;
 using System.Linq;
 using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
+using XamarinApp.Models;
 using XamarinApp.PageName;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -17,7 +19,9 @@ namespace XamarinApp.Test.ViewModels
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly Mock<IModuleManager> _module;
+    private readonly Mock<IUserDialogs> _userDialogs;
     private readonly MainPageViewModel viewModel;
+    private readonly Mock<IGoogleManager> _googleManager;
     private readonly Fixture _fixture = new Fixture();
 
 
@@ -26,7 +30,9 @@ namespace XamarinApp.Test.ViewModels
       _navigationService = new Mock<INavigationService>();
       _pageDialogService = new Mock<IPageDialogService>();
       _module = new Mock<IModuleManager>();
-      viewModel = new MainPageViewModel(_navigationService.Object,_module.Object,_pageDialogService.Object);
+      _userDialogs = new Mock<IUserDialogs>();
+      _googleManager = new Mock<IGoogleManager>();
+      viewModel = new MainPageViewModel(_navigationService.Object,_module.Object,_pageDialogService.Object,_userDialogs.Object,_googleManager.Object);
     }
 
     [Fact]
@@ -131,6 +137,26 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       Assert.Equal("ta", result);
+    }
+
+    [Fact]
+    public void On_Xamarin_Essentials_Clicked_Should_Navigate_to_XamarinEssentials_Page()
+    {
+      //Act
+      viewModel.EssentialCommand.Execute();
+
+      //Assert
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.XamarinEssentials));
+    }
+
+    [Fact]
+    public void On_GoogleLogoutClicked_should_navigate_to_LoginPage()
+    {
+      //Act
+      viewModel.GoogleLogOutCommand.Execute();
+
+      //Assert
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.LoginPage));
     }
   }
 }

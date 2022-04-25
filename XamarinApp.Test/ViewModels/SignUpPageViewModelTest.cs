@@ -68,9 +68,27 @@ namespace XamarinApp.Test.ViewModels
       viewModel.ConfirmPassWord = user.Password;
       _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.SignUpCommand.Execute();
-
+      
       //Assert
       _pageDialogService.Verify(n => n.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, "OK"));
+    }
+
+    [Fact]
+    public void on_diffeent_Password_and_confirmPassword_should_Show_an_alert()
+    {
+      //Arrange
+      var user = _fixture.Create<UserModel>();
+      var fixture = _fixture.Create<string>();
+
+      //Act
+      viewModel.UserName = user.UserName;
+      viewModel.PassWord = user.Password;
+      viewModel.ConfirmPassWord = fixture;
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      viewModel.SignUpCommand.Execute();
+
+      //Assert
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, AppResource.Ok));
     }
   }
 }

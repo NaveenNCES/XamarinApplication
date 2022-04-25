@@ -10,6 +10,7 @@ using XamarinApp.ViewModels;
 using Xunit;
 using XamarinApp.Resx;
 using XamarinApp.PageName;
+using System;
 
 namespace XamarinApp.Test.ViewModels
 {
@@ -22,6 +23,7 @@ namespace XamarinApp.Test.ViewModels
     private readonly Fixture _fixture = new Fixture();
     private readonly LoginPageViewModel viewModel;
     private readonly Mock<ILogManager> _logManager;
+    private readonly Mock<IGoogleManager> _googleManager;
     NLogManagerService log = new NLogManagerService();
 
     public LoginPageViewModelTest()
@@ -32,10 +34,11 @@ namespace XamarinApp.Test.ViewModels
       _loginService = new Mock<ILoginService>();
       _logger = new Mock<ILogger>();
       _logManager = new Mock<ILogManager>();
+      _googleManager = new Mock<IGoogleManager>();
       var a = log.GetLog();
       _logManager.Setup(x => x.GetLog(It.IsAny<string>())).Returns(a);
       viewModel = new LoginPageViewModel(_navigationService.Object, _pageDialogService.Object, _loginService.Object,
-        _logger.Object,_logManager.Object);
+        _logManager.Object,_googleManager.Object);
     }
 
     [Fact]
@@ -47,7 +50,7 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
       
       viewModel.LoginCommand.Execute();
 
@@ -60,8 +63,9 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      var name = _fixture.Create<string>();
       bool messageSent = false;
-      MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
+      MessagingCenter.Subscribe<LoginPageViewModel, string>(this, AppResource.MessageCenterKey, (sender, args) =>
       {
         messageSent = true;
       });
@@ -69,9 +73,10 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
 
       viewModel.LoginCommand.Execute();
+      
 
       //Assert
       Assert.True(messageSent);
@@ -83,15 +88,11 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var user = _fixture.Create<UserModel>();
       bool messageSent = false;
-      MessagingCenter.Subscribe<LoginPageViewModel, string>(this, "Hi", (sender, args) =>
-      {
-        messageSent = true;
-      });
 
       //Act
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
 
       viewModel.LoginCommand.Execute();
 
@@ -107,7 +108,7 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
       _loginService.Setup(x => x.LoginUserAsync(user)).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
@@ -122,7 +123,7 @@ namespace XamarinApp.Test.ViewModels
       var user = _fixture.Create<UserModel>();
 
       //Act
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
@@ -168,7 +169,7 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = "2000";
+      viewModel.Password = "2000";
 
       viewModel.LoginCommand.Execute();
 
@@ -185,7 +186,7 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = "naveen";
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
 
       viewModel.LoginCommand.Execute();
 
@@ -201,12 +202,46 @@ namespace XamarinApp.Test.ViewModels
 
       //Act
       viewModel.UserName = user.UserName;
-      viewModel.PassWord = user.Password;
+      viewModel.Password = user.Password;
       _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No")).ReturnsAsync(true);
       viewModel.SignUPCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.SignUpPage));
+    }
+
+    [Fact]
+    public void LoginService_Should_return_Exception()
+    {
+      //Arrange
+      var errorMessage = _fixture.Create<string>();
+      var user = _fixture.Create<UserModel>();
+
+      //Act
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ThrowsAsync(new Exception(errorMessage));
+      viewModel.UserName = user.UserName;
+      viewModel.Password = user.Password;
+
+      viewModel.LoginCommand.Execute();
+
+      //Assert
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok));
+
+    }
+
+    [Fact]
+    public void On_Google_Login_Clicked_should_Navigate_to_mainPage()
+    {
+      //Arrange
+      var googleUser = _fixture.Create<GoogleUser>();
+      var fixture = _fixture.Create<string>();
+
+      //Act
+      viewModel.OnLoginComplete(googleUser, fixture);
+      viewModel.GoogleCommand.Execute();
+
+      //Assert
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage));
     }
   }
 }

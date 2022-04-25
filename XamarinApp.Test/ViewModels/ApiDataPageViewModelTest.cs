@@ -2,11 +2,13 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using XamarinApp.Models;
 using XamarinApp.PageName;
+using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -59,11 +61,20 @@ namespace XamarinApp.Test.ViewModels
       //Act
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
       viewModel.OnNavigatedTo(dataNavigationPrameter as INavigationParameters);
-      viewModel.getSpecificData = specificData;
       viewModel.ItemTappedCommand.Execute(new object());
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.SelectedItemDetailPage, It.Is<NavigationParameters>(x => x.ContainsKey("selectedData"))));
+    }
+
+    [Fact]
+    public void OnAppearing_should_display_alert()
+    {
+      //Act
+      viewModel.OnAppearing();
+
+      //Assert
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.ApiDataDisplaying, AppResource.Ok));
     }
   }
 }

@@ -82,10 +82,5 @@ namespace XamarinApp.ViewModels
     {
       _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.ApiDataDisplaying , AppResource.Ok);
     }
-
-    public override void OnDisappearing()
-    {
-      Console.WriteLine("We are disappearing");
-    }
   }
 }
