@@ -126,6 +126,9 @@
   <data name="BodyText" xml:space="preserve">
     <value>Lets get Started</value>
   </data>
+  <data name="DisplayingRandomUsers" xml:space="preserve">
+    <value>Displaying Random Users</value>
+  </data>
   <data name="Down" xml:space="preserve">
     <value>Down</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SaveNote" xml:space="preserve">
+    <value>Save Note</value>
   </data>
   <data name="Saveyournotes" xml:space="preserve">
     <value>Save your notes</value>

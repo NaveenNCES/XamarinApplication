@@ -45,7 +45,7 @@ namespace XamarinApp.ViewModels
     public AddNotesPageViewModel(IEventAggregator eventaggregator,IApplicationCommand applicationCommand)
     {
       _eventaggregator = eventaggregator;
-      ApplicationCommand = applicationCommand;
+      _applicationCommand = applicationCommand;
       SendNoteCommand = new DelegateCommand(SendNote);
       ApplicationCommand.SaveAllCommand.RegisterCommand(SendNoteCommand);
       _eventaggregator.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);

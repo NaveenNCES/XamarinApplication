@@ -1,3 +1,4 @@
+using GraphQLDemo.Api.DataLoaders;
 using GraphQLDemo.Api.Schema;
 using GraphQLDemo.Api.Schema.Services;
 using GraphQLDemo.Api.Schema.Subscriptions;
@@ -30,12 +31,18 @@ namespace GraphQLDemo.Api
       services.AddGraphQLServer()
         .AddQueryType<Query>()
         .AddMutationType<Mutation>()
-        .AddSubscriptionType<Subscription>();
+        .AddSubscriptionType<Subscription>()
+        .AddFiltering()
+        .AddSorting()
+        .AddProjections();
 
       services.AddInMemorySubscriptions();
 
       string connectionString = _configuration.GetConnectionString("default");
       services.AddPooledDbContextFactory<DBContext>(options => options.UseSqlite(connectionString));
+
+      services.AddScoped<CourseRepository>();
+      services.AddScoped<CourseDataLoaders>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

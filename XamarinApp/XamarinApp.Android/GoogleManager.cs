@@ -8,6 +8,7 @@ using System;
 using Xamarin.Forms;
 using XamarinApp.Droid;
 using XamarinApp.Models;
+using XamarinApp.Services.Interfaces;
 
 [assembly: Dependency(typeof(GoogleManager))]
 namespace XamarinApp.Droid

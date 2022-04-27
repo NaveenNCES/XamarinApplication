@@ -68,22 +68,22 @@ namespace XamarinApp
     protected override void RegisterTypes(IContainerRegistry containerRegistry)
     {
       containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-      containerRegistry.Register<ILoginService, LoginService>();
-      containerRegistry.Register<IRandomApiService, RandomApiService>();
-      containerRegistry.Register<ISignUpUserService, SignUpUserService>();
-      containerRegistry.Register<IApplicationCommand, ApplicationCommands>();
-      containerRegistry.Register<ILogManager,NLogManagerService>();
-      containerRegistry.Register<Services.Interfaces.ILogger, NLogLogger>();
+      containerRegistry.RegisterSingleton<ILoginService, LoginService>();
+      containerRegistry.RegisterSingleton<IRandomApiService, RandomApiService>();
+      containerRegistry.RegisterSingleton<ISignUpUserService, SignUpUserService>();
+      containerRegistry.RegisterSingleton<IApplicationCommand, ApplicationCommands>();
+      containerRegistry.RegisterSingleton<ILogManager,NLogManagerService>();
+      containerRegistry.RegisterSingleton<Services.Interfaces.ILogger, NLogLogger>();
       containerRegistry.RegisterSingleton<Logger>();
-      containerRegistry.Register(typeof(IRepository<>),typeof(Repository<>));
-      containerRegistry.Register<IEmail, EmailImplementation>();
-      containerRegistry.Register<IGeolocation, GeolocationImplementation>();
-      containerRegistry.Register<IScreenshot, ScreenshotImplementation>();
-      containerRegistry.Register<IDeviceInfo, DeviceInfoImplementation>();
-      containerRegistry.Register<IConnectivity, ConnectivityImplementation>();
-      containerRegistry.Register<IPermissions, PermissionsImplementation>();
-      containerRegistry.Register<IPhoneDialer, PhoneDialerImplementation>();
-      containerRegistry.Register<IUserDialogs, AbstractUserDialogs>();
+      containerRegistry.RegisterSingleton(typeof(IRepository<>),typeof(Repository<>));
+      containerRegistry.RegisterSingleton<IEmail, EmailImplementation>();
+      containerRegistry.RegisterSingleton<IGeolocation, GeolocationImplementation>();
+      containerRegistry.RegisterSingleton<IScreenshot, ScreenshotImplementation>();
+      containerRegistry.RegisterSingleton<IDeviceInfo, DeviceInfoImplementation>();
+      containerRegistry.RegisterSingleton<IConnectivity, ConnectivityImplementation>();
+      containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
+      containerRegistry.RegisterSingleton<IPhoneDialer, PhoneDialerImplementation>();
+      containerRegistry.RegisterSingleton<IUserDialogs, AbstractUserDialogs>();
       containerRegistry.RegisterInstance(UserDialogs.Instance);
       //containerRegistry.Register(typeof(IMapper), typeof(Mapper));
       var config = new MapperConfiguration(cfg =>

@@ -14,6 +14,7 @@ using Xamarin.Forms;
 using XamarinApp.Models;
 using XamarinApp.PageName;
 using XamarinApp.Resx;
+using XamarinApp.Services.Interfaces;
 
 namespace XamarinApp.ViewModels
 {

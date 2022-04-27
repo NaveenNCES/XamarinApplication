@@ -88,6 +88,15 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Displaying Random Users.
+        /// </summary>
+        public static string DisplayingRandomUsers {
+            get {
+                return ResourceManager.GetString("DisplayingRandomUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Down.
         /// </summary>
         public static string Down {
@@ -273,6 +282,15 @@ namespace XamarinApp.Resx {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Note.
+        /// </summary>
+        public static string SaveNote {
+            get {
+                return ResourceManager.GetString("SaveNote", resourceCulture);
             }
         }
         

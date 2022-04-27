@@ -1,5 +1,11 @@
 using AutoFixture;
+using GraphQLDemo.Api.Schema.Filters;
+using GraphQLDemo.Api.Schema.Models;
+using GraphQLDemo.Api.Schema.NewFolder;
+using GraphQLDemo.Api.Schema.Services;
 using HotChocolate;
+using HotChocolate.Data;
+using HotChocolate.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +15,43 @@ namespace GraphQLDemo.Api.Schema
 {
   public class Query
   {
-    private List<CourseNames> _courseNames;
-    private readonly Fixture _fixture = new Fixture();
+    private readonly CourseRepository _courseRepository;
 
-    public Query()
+    public Query(CourseRepository courseRepository)
     {
-      _courseNames = _fixture.Build<CourseNames>().CreateMany(5).ToList();
+      _courseRepository = courseRepository;
     }
-    public IEnumerable<CourseNames> GetCourses()
+
+    [UsePaging(IncludeTotalCount = true,DefaultPageSize =10)]
+    [UseSorting]
+    public async Task<IEnumerable<CourseType>> GetCourses()
     {
-      return _courseNames;
+      var result = await _courseRepository.GetAll();
+
+      return result.Select(c => new CourseType() { Id = c.Id, CourseFee = c.CourseFee, CourseName = c.CourseName,InstructorID=c.Id });
+    }
+
+    [UseDbContext(typeof(DBContext))]
+    [UsePaging(IncludeTotalCount = true,DefaultPageSize =10)]
+    [UseProjection]
+    [UseFiltering(typeof(CourseFilterType))]
+    [UseSorting(typeof(CourseSortType))]
+    public IQueryable<CourseNames> GetPaginatedCourses([ScopedService] DBContext context)
+    {
+      return context.Courses.Select(c => new CourseNames() { Id = c.Id, CourseFee = c.CourseFee, CourseName = c.CourseName });
+    } 
+
+    [UseOffsetPaging(IncludeTotalCount = true,DefaultPageSize =10)]
+    public async Task<IEnumerable<CourseType>> GetOffSetCourses()
+    {
+      var result = await _courseRepository.GetAll();
+
+      return result.Select(c => new CourseType() { Id = c.Id, CourseFee = c.CourseFee, CourseName = c.CourseName,InstructorID=c.Id });
     }
 
     public async Task<CourseNames> GetCourseNameByIdAsync(Guid id)
     {
-      await Task.Delay(1000);
-
-      var course = _courseNames.Where(x => x.Id == id).FirstOrDefault();
-
-      return course;
+      return await _courseRepository.GetById(id);
     }
 
     [GraphQLDeprecated("This query is deprecated")]

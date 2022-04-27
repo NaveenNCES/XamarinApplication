@@ -6,7 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture.AutoMoq" Version="4.17.0" />
+    <PackageReference Include="HotChocolate" Version="12.8.1" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.8.1" />
+    <PackageReference Include="HotChocolate.Data" Version="12.8.1" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="12.8.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.15">
       <PrivateAssets>all</PrivateAssets>

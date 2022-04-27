@@ -8,7 +8,7 @@ namespace XamarinApp.ViewModels
   public class GesturePageViewModel : ViewModelBase
   {
     private string _countLable;
-    public int tapCount = 0;
+    public int TapCount = 0;
     public bool MyBoolean = false;
     public SwipeDirection Direction { get; set; }
 
@@ -26,8 +26,8 @@ namespace XamarinApp.ViewModels
 
     public void OnTapGestureRecognizerTapped(object e)
     {
-      tapCount++;
-      CountLable = AppResource.IWasTapped + tapCount + AppResource.Times;
+      TapCount++;
+      CountLable = AppResource.IWasTapped + TapCount + AppResource.Times;
       if(e != null)
       {
         var direction = e.ToString();
