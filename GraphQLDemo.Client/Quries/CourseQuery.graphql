@@ -1,0 +1,7 @@
+query GetCourses{
+ courses {
+    id
+    courseName
+    courseFee
+  }
+}

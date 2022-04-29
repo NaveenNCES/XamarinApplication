@@ -1,0 +1,7 @@
+mutation UpdateCourse($courseInput: CourseNamesInput){
+  updateCourse(courseInput: $courseInput){
+    id
+    courseName
+    courseFee
+  }
+}

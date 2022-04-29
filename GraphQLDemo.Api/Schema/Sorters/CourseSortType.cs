@@ -10,7 +10,7 @@ namespace GraphQLDemo.Api.Schema.NewFolder
   {
     protected override void Configure(ISortInputTypeDescriptor<CourseNames> descriptor)
     {
-      descriptor.Field(x => x.Id).Name("CourseID");
+      //descriptor.Field(x => x.Id).Name("CourseID");
       base.Configure(descriptor);
     }
   }

@@ -1,0 +1,6 @@
+query GetCourseNameById($id: UUID!){
+  courseNameById(id: $id) {
+    courseName
+    courseFee
+  }
+}

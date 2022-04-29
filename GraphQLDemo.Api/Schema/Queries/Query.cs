@@ -22,8 +22,6 @@ namespace GraphQLDemo.Api.Schema
       _courseRepository = courseRepository;
     }
 
-    [UsePaging(IncludeTotalCount = true,DefaultPageSize =10)]
-    [UseSorting]
     public async Task<IEnumerable<CourseType>> GetCourses()
     {
       var result = await _courseRepository.GetAll();
@@ -54,7 +52,7 @@ namespace GraphQLDemo.Api.Schema
       return await _courseRepository.GetById(id);
     }
 
-    [GraphQLDeprecated("This query is deprecated")]
+    //[GraphQLDeprecated("This query is deprecated")]
     public string Instruction => "This is a sample GraphQL Application";
   }
 }
