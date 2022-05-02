@@ -4,12 +4,15 @@ using Android.Content.PM;
 using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
 using Android.OS;
+using Android.Widget;
+using Com.Xamarin.Textcounter;
 using Firebase;
 using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using XamarinApp.Models;
 using XamarinApp.Services.Interfaces;
+using XamarinApp.ViewModels;
 
 namespace XamarinApp.Droid
 {
@@ -26,6 +29,11 @@ namespace XamarinApp.Droid
       Xamarin.Essentials.Platform.Init(this, savedInstanceState);
       global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
       UserDialogs.Init(this);
+
+      var gestureViewModel = new GesturePageViewModel();
+      gestureViewModel.Vowels = TextCounter.NumVowels("This is a sample Binding Library");
+      gestureViewModel.Consonents = TextCounter.NumConsonants("This is a sample Binding Library");
+
       LoadApplication(new App(new AndroidInitializer()));
 
       FirebasePushNotificationManager.ProcessIntent(this, Intent);

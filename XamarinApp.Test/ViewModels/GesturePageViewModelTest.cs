@@ -25,7 +25,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.TapCommand.Execute(new object());
 
       //Assert
-      Assert.Equal(1, viewModel.tapCount);
+      Assert.Equal(1, viewModel.TapCount);
     }
 
     [Fact]

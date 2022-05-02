@@ -6,7 +6,12 @@
   <StackLayout VerticalOptions="Center"  HorizontalOptions="FillAndExpand">
     <Entry Text="Module Timer" FontSize="18" Margin="5" />
     <Button Command="{Binding UpdateCommand}" Text="Update Time" Margin="5" />
+    <Entry Text="{Binding BindingText}"  FontSize="18" Margin="5" />
+    <Button Command="{Binding BindingCommand}" Text="Analyze Text" Margin="5" />
     <Entry Text="{Binding UpdatedText}" Margin="5" />
+
+    <Label Text="{Binding Vowels}" FontSize="18" />
+    <Label Text="{Binding Consonents}" FontSize="18" />
   </StackLayout>
     
 </ContentPage>

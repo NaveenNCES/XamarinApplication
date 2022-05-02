@@ -19,6 +19,20 @@ namespace XamarinApp.ViewModels
       get { return _countLable; }
       set { SetProperty(ref _countLable, value); }
     }
+
+    private int _vowels;
+    public int Vowels
+    {
+      get { return _vowels; }
+      set { SetProperty(ref _vowels, value); }
+    }
+
+    private int _consonents;
+    public int Consonents
+    {
+      get { return _consonents; }
+      set { SetProperty(ref _consonents, value); }
+    }
     public GesturePageViewModel()
     {
       TapCommand = new DelegateCommand<object>(OnTapGestureRecognizerTapped);
