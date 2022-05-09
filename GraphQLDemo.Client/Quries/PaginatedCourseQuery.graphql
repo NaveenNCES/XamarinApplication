@@ -1,0 +1,22 @@
+query PaginatedCourse($first: Int, $after: String, $last: Int, $before: String, $order: [CourseNamesSortInput!]){
+  paginatedCourses(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    order: $order
+  ) {
+    nodes {
+      id
+      courseName
+      courseFee
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
+  }
+}

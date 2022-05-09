@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" xmlns:viewmodels="clr-namespace:XamarinApp.ViewModels" x:DataType="viewmodels:SignUpPageViewModel"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="XamarinApp.Views.SignUpPage">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="InvalidStyle" TargetType="Entry">
+        <Setter Property="TextColor" Value="Red" />
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <StackLayout BackgroundColor="#e6e6e6">
+    <Grid>
+      <StackLayout Padding="0" Margin="0" HorizontalOptions="FillAndExpand">
+        <Frame HeightRequest="1000" BackgroundColor="Blue" Padding="0" Margin="0">
+          <Image Source="pickawood.jpg" Aspect="AspectFill" Margin="0" Opacity="1"/>
+        </Frame>
+      </StackLayout>
+      <StackLayout Padding="0" Margin="20" VerticalOptions="Center">
+        <Frame BackgroundColor="White" HeightRequest="500" HasShadow="True" Padding="0" Margin="0" CornerRadius="20">
+          <StackLayout>
+            <StackLayout Margin="30">
+              <Label Text="SignUp" TextColor="Black" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" FontSize="Title" />
+            </StackLayout>
+            <StackLayout Padding="10" Margin="20,20">
+              <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="50">
+                <StackLayout Orientation="Horizontal">
+                  <Entry Placeholder="Email"  FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text= "{Binding UserName}">
+                    <Entry.Behaviors>
+                      <xct:EmailValidationBehavior DecorationFlags="Trim"
+                                                   InvalidStyle="{StaticResource InvalidStyle}"/>
+                    </Entry.Behaviors>
+                  </Entry>
+                </StackLayout>
+              </Frame>
+              <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,19,0,0" Padding="1" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                <StackLayout Orientation="Horizontal">
+                  <Entry Placeholder="Password" IsPassword="True" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding PassWord}"/>
+                </StackLayout>
+              </Frame>
+              <Frame BackgroundColor="Transparent" BorderColor="DarkGray" Margin="0,19,0,0" Padding="1" HorizontalOptions="FillAndExpand" CornerRadius="30">
+                <StackLayout Orientation="Horizontal">
+                  <Entry Placeholder="Confirm Password" IsPassword="False" TextColor="Black" FontAttributes="None" HorizontalOptions="FillAndExpand" Margin="10,0,20,0" Text="{Binding ConfirmPassWord}"/>
+                </StackLayout>
+              </Frame>
+              <Button Text="Sign Up" BackgroundColor="Purple" TextColor="White" CornerRadius="30" Command="{Binding SignUpCommand}" />
+              <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Label Text="Already Have an Account? Sign In" TextColor="DarkGray" FontSize="Small"/>
+                <Button Text="Sign In" TextColor="DarkBlue" FontAttributes="Bold" FontSize="Small" Command="{Binding LoginCommand}"/>
+              </StackLayout>
+            </StackLayout>
+          </StackLayout>
+        </Frame>
+      </StackLayout>
+    </Grid>
+  </StackLayout>
+</ContentPage>

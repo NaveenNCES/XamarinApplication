@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:effects="clr-namespace:XamarinApp.Effects" xmlns:pan="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="XamarinApp.Views.MainPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:resx="clr-namespace:XamarinApp.Resx"
+             FlowDirection="MatchParent">
+  <pan:PancakeView BackgroundGradientEndPoint="0,1">
+    <pan:PancakeView.BackgroundGradientStops>
+      <pan:GradientStopCollection>
+        <pan:GradientStop Color="#48b6a6" Offset="0.1" />
+        <pan:GradientStop Color="#2b78d4" Offset="1" />
+      </pan:GradientStopCollection>
+    </pan:PancakeView.BackgroundGradientStops>
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+      <Label Text="{xct:Translate HeaderText}" HorizontalTextAlignment="Center" FontSize="36" TextColor="White"/>
+      <Label Text="{xct:Translate BodyText}" FontSize="Title" Padding="30,10,30,10" TextColor="White"/>
+      <Picker ItemsSource="{Binding SupportedLanguage}"
+              ItemDisplayBinding="{Binding Name}"
+              SelectedItem="{Binding SelectedLanguage}" />
+      
+      <Button Text="{xct:Translate Save}"
+              Command="{Binding ChangeLanguageCommand}" />
+      
+      <Grid BackgroundColor="LightBlue">
+        <Grid.Behaviors>
+          <xct:ImpliedOrderGridBehavior />
+        </Grid.Behaviors>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"  />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0"
+                Text="Hi "
+                HorizontalOptions="CenterAndExpand"
+                VerticalTextAlignment="Start"
+                LineBreakMode="WordWrap"
+                FontSize="Large"/>
+
+        <Label Grid.Column="1"
+                Text="{Binding Name}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalTextAlignment="Center"
+                LineBreakMode="NoWrap"
+                FontSize="Large"/>
+      </Grid>
+      <ActivityIndicator IsVisible="{Binding IndicatorVisible}" IsRunning="{Binding IsLoading}" Color="Red" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+      <Grid>
+        <Button Grid.Column="0" Grid.Row="0" Text="{xct:Translate SIGNIN}" BorderColor="SkyBlue" BackgroundColor="White" CornerRadius="30" BorderWidth="1.0"  TextColor="Black" Command="{Binding LoginCommand}">
+          <Button.Effects>
+            <effects:CustomEffects Radius="5" DistanceX="10" DistanceY="0" Color="SkyBlue"></effects:CustomEffects>
+          </Button.Effects>
+        </Button>
+        <Button Grid.Column="0" Grid.Row="1" Text="{xct:Translate RandomApi}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ApiCommand}" />
+        <Button Grid.Column="0" Grid.Row="2" Text="{xct:Translate Saveyournotes}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EventAggregatorCommand}" />
+        <Button Grid.Column="1" Grid.Row="0" Text="{xct:Translate Gesture}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GestureCommand}" />
+        <Button Grid.Column="1" Grid.Row="1" Text="{xct:Translate ModuleView}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding ModuleCommand}" />
+        <Button Grid.Column="1" Grid.Row="2" Text="{xct:Translate XamarinEssentials}" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding EssentialCommand}" />
+        <Button Grid.Column="0" Grid.Row="3" Text="Google Logout" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding GoogleLogOutCommand}" />
+        <Button Grid.Column="1" Grid.Row="3" Text="Renderer View" BackgroundColor="SkyBlue" TextColor="White" CornerRadius="30" Command="{Binding RendererCommand}" />
+      </Grid>      
+    </StackLayout>
+  </pan:PancakeView>
+
+</ContentPage>

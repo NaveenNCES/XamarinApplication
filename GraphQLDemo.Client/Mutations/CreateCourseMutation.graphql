@@ -1,0 +1,7 @@
+mutation CreateCourse($courseInput: CourseNamesInput){
+  createCourse(courseInput: $courseInput){
+    id
+    courseName
+    courseFee
+  }
+}
