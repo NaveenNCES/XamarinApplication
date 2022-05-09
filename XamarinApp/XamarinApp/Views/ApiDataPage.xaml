@@ -15,7 +15,7 @@
     <Label Text="{x:Static customrenderer:CustomRender.Description}" HorizontalTextAlignment="Center" />
     <customrenderer:CustomRender EntryBorderColor="DarkOliveGreen"
                                  EntryCornerRadius="10"
-                                 Text="{xct:Translate AppResource.DisplayingRandomUsers}"
+                                 Text="{xct:Translate DisplayingRandomUsers}"
                                  HorizontalOptions="CenterAndExpand"
                                  WidthRequest="220"/>
     <Frame Margin="0,0">

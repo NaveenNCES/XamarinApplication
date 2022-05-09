@@ -39,6 +39,7 @@ namespace XamarinApp.Test.ViewModels
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
       var data = (INavigationParametersInternal)new NavigationParameters();
       data.Add("__NavigationMode", NavigationMode.New);
+      //data.Add("sample", apiData);
       //Act
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
       viewModel.OnNavigatedTo(data as INavigationParameters);

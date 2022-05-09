@@ -20,14 +20,18 @@ namespace XamarinApp.Droid
             ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
   public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
   {
+    internal static MainActivity Instance { get; private set; }
+
     protected override void OnCreate(Bundle savedInstanceState)
     {
       TabLayoutResource = Resource.Layout.Tabbar;
       ToolbarResource = Resource.Layout.Toolbar;
+      Instance = this;
 
       base.OnCreate(savedInstanceState);
       Xamarin.Essentials.Platform.Init(this, savedInstanceState);
       global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+      Xamarin.FormsMaps.Init(this, savedInstanceState);
       UserDialogs.Init(this);
 
       var gestureViewModel = new GesturePageViewModel();

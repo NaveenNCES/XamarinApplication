@@ -18,5 +18,7 @@ namespace XamarinApp.PageName
     public const string XamarinEssentials = nameof(Views.XamarinEssentials);
     public const string Module1 = nameof(Module1Module);
     public const string ModuleViewA = nameof(ViewA);
+    public const string ViewRenderer = nameof(Views.MapPage);
+    public const string CameraPage = nameof(Views.CameraPage);
   }
 }

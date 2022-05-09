@@ -8,7 +8,7 @@
              x:Class="XamarinApp.Views.AddNotesPage">
   <StackLayout>
     <Entry Text="{Binding Notes}" Margin="5"/>
-    <Button Command="{Binding ApplicationCommand.SaveAllCommand}" Text="{xct:Translate AppResource.SaveNote}" Margin="5"/>
+    <Button Command="{Binding ApplicationCommand.SaveAllCommand}" Text="{xct:Translate SaveNote}" Margin="5"/>
     <Grid>
       <ListView ItemsSource="{Binding SavedNotes}" />
     </Grid>

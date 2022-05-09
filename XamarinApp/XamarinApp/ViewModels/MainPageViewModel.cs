@@ -34,6 +34,7 @@ namespace XamarinApp.ViewModels
     public DelegateCommand ModuleCommand { get; }
     public DelegateCommand EssentialCommand { get; }
     public DelegateCommand GoogleLogOutCommand { get; }
+    public DelegateCommand RendererCommand { get; }
 
     private string _name;
     public string Name
@@ -81,6 +82,7 @@ namespace XamarinApp.ViewModels
       ChangeLanguageCommand = new DelegateCommand(PerformOperation);
       EssentialCommand = new DelegateCommand(async () => await EssentialClicked());
       GoogleLogOutCommand = new DelegateCommand(GoogleLogoutClicked);
+      RendererCommand = new DelegateCommand(OnViewRendererClicked);
       ///////Language//////
       SupportedLanguage = new ObservableCollection<MyLanguage>()
       {
@@ -93,6 +95,11 @@ namespace XamarinApp.ViewModels
       SelectedLanguage = SupportedLanguage.FirstOrDefault(x => x.CI == LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName);
     }
 
+    private void OnViewRendererClicked()
+    {
+      _navigation.NavigateAsync(PageNames.CameraPage);
+    }
+
     private void GoogleLogoutClicked()
     {
       _googleManager.Logout();
@@ -102,11 +109,20 @@ namespace XamarinApp.ViewModels
 
     private async Task EssentialClicked()
     {
-      _userDialogs.Loading("Loading...");
+      try
+      {
+        _userDialogs.ShowLoading("Loading...");
 
-      await _navigation.NavigateAsync(PageNames.XamarinEssentials);
+        await _navigation.NavigateAsync(PageNames.XamarinEssentials);
+      }
+      catch(Exception ex)
+      {
 
-      _userDialogs.HideLoading();
+      }
+      finally
+      {
+        _userDialogs.HideLoading();
+      }      
     }
 
     private async Task OnModuleClicked()

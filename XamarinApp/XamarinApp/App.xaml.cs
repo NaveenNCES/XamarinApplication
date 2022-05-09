@@ -83,7 +83,7 @@ namespace XamarinApp
       containerRegistry.RegisterSingleton<IConnectivity, ConnectivityImplementation>();
       containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
       containerRegistry.RegisterSingleton<IPhoneDialer, PhoneDialerImplementation>();
-      containerRegistry.RegisterSingleton<IUserDialogs, AbstractUserDialogs>();
+      //containerRegistry.RegisterSingleton<IUserDialogs, AbstractUserDialogs>();
       containerRegistry.RegisterInstance(UserDialogs.Instance);
       //containerRegistry.Register(typeof(IMapper), typeof(Mapper));
       var config = new MapperConfiguration(cfg =>
@@ -103,6 +103,9 @@ namespace XamarinApp
       containerRegistry.RegisterForNavigation<AddNotesPage, AddNotesPageViewModel>();
       containerRegistry.RegisterForNavigation<GesturePage, GesturePageViewModel>();
       containerRegistry.RegisterForNavigation<XamarinEssentials, XamarinEssentialsViewModel>();
+      containerRegistry.RegisterForNavigation<ViewRendererPage, ViewRendererPageViewModel>();
+      containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+      containerRegistry.RegisterForNavigation<CameraPage, CameraPageViewModel>();
     }
 
     protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
