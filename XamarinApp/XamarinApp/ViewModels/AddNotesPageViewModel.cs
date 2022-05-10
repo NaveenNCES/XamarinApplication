@@ -29,7 +29,6 @@ namespace XamarinApp.ViewModels
     public ObservableCollection<string> SavedNotes
     {
       get { return _savedNote; }
-      set { SetProperty(ref _savedNote, value); }
     }
 
     /// <summary>
@@ -39,7 +38,6 @@ namespace XamarinApp.ViewModels
     public IApplicationCommand ApplicationCommand
     {
       get { return _applicationCommand; }
-      set { SetProperty(ref _applicationCommand, value); }
     }
     
     public AddNotesPageViewModel(IEventAggregator eventaggregator,IApplicationCommand applicationCommand)
@@ -51,12 +49,12 @@ namespace XamarinApp.ViewModels
       _eventaggregator.GetEvent<NoteSentEvent>().Subscribe(NotesReceived);
     }
    
-    private void NotesReceived(string parameter)
+    public void NotesReceived(string parameter)
     {
       SavedNotes.Add(parameter);
     }
 
-    private void SendNote()
+    public void SendNote()
     {
       _eventaggregator.GetEvent<NoteSentEvent>().Publish(Notes);      
     }

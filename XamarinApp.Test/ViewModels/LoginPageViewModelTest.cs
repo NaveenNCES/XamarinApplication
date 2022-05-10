@@ -11,11 +11,14 @@ using Xunit;
 using XamarinApp.Resx;
 using XamarinApp.PageName;
 using System;
+using Prism.AppModel;
+using System.Threading.Tasks;
 
 namespace XamarinApp.Test.ViewModels
 {
   public class LoginPageViewModelTest
-  {    
+  {
+    private readonly MockRepository _mockRepository;
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly Mock<ILoginService> _loginService;
@@ -29,12 +32,13 @@ namespace XamarinApp.Test.ViewModels
     public LoginPageViewModelTest()
     {
       Xamarin.Forms.Mocks.MockForms.Init();
-      _navigationService = new Mock<INavigationService>();
-      _pageDialogService = new Mock<IPageDialogService>();
-      _loginService = new Mock<ILoginService>();
-      _logger = new Mock<ILogger>();
-      _logManager = new Mock<ILogManager>();
-      _googleManager = new Mock<IGoogleManager>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _navigationService = _mockRepository.Create<INavigationService>();
+      _pageDialogService = _mockRepository.Create<IPageDialogService>();
+      _loginService = _mockRepository.Create<ILoginService>();
+      _logger = _mockRepository.Create<ILogger>();
+      _logManager = _mockRepository.Create<ILogManager>();
+      _googleManager = _mockRepository.Create<IGoogleManager>();
       var a = log.GetLog();
       _logManager.Setup(x => x.GetLog(It.IsAny<string>())).Returns(a);
       viewModel = new LoginPageViewModel(_navigationService.Object, _pageDialogService.Object, _loginService.Object,
@@ -46,9 +50,11 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey(AppResource.Name)))).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(()=>"Name");
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
       
@@ -56,6 +62,11 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey("Name"))));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -69,9 +80,11 @@ namespace XamarinApp.Test.ViewModels
       {
         messageSent = true;
       });
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey(AppResource.Name)))).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
 
@@ -80,6 +93,12 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       Assert.True(messageSent);
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey("Name"))));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -88,9 +107,11 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var user = _fixture.Create<UserModel>();
       bool messageSent = false;
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey(AppResource.Name)))).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
 
@@ -98,6 +119,12 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       Assert.False(messageSent);
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage, It.Is<NavigationParameters>(x => x.ContainsKey("Name"))));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -105,15 +132,22 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(()=>Task.CompletedTask);
 
       //Act
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
-      _loginService.Setup(x => x.LoginUserAsync(user)).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -121,14 +155,21 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == null && x.Password == user.Password))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
       viewModel.Password = user.Password;
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      //_loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -136,14 +177,21 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == null))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
       viewModel.UserName = user.UserName;
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      //_loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "")));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -151,47 +199,68 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == null && x.Password == null))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "" && x.Password == ""))).ReturnsAsync(false);
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      //_loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == null && x.Password == null)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public void GIven_Valid_Userdetail_InValid_Password_Navigate_to_MainPage()
+    public void GIven_Valid_Userdetail_InValid_Password_Show_Alert()
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000"))).ReturnsAsync(false);
       viewModel.UserName = user.UserName;
       viewModel.Password = "2000";
 
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == "2000")));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
-    public void GIven_InValid_Userdetail_Valid_Password_Navigate_to_MainPage()
+    public void GIven_InValid_Userdetail_Valid_Password_Show_Alert()
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.UserName = "naveen";
       viewModel.Password = user.Password;
 
       viewModel.LoginCommand.Execute();
 
       //Assert
-      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, "OK"));
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == "naveen" && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -199,15 +268,44 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.SignUpPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No")).ReturnsAsync(true);
 
       //Act
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
-      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No")).ReturnsAsync(true);
       viewModel.SignUPCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.SignUpPage));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No"));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public void When_User_Click_SignUp_Navigate_to_SignUpPage_Throws_Exception()
+    {
+      //Arrange
+      var user = _fixture.Create<UserModel>();
+      var errorMessage = _fixture.Create<string>();
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.SignUpPage)).Throws(new Exception(errorMessage));
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No")).ReturnsAsync(true);
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok)).Returns(() => Task.CompletedTask);
+
+      //Act
+      viewModel.UserName = user.UserName;
+      viewModel.Password = user.Password;
+      viewModel.SignUPCommand.Execute();
+
+      //Assert
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.SignUpPage));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Request, AppResource.PageDialogRequest, "Yes", "No"));
+      _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -216,9 +314,11 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var errorMessage = _fixture.Create<string>();
       var user = _fixture.Create<UserModel>();
+      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ThrowsAsync(new Exception(errorMessage));
+      _pageDialogService.Setup(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>())).ReturnsAsync(() => "Name");
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
-      _loginService.Setup(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ThrowsAsync(new Exception(errorMessage));
       viewModel.UserName = user.UserName;
       viewModel.Password = user.Password;
 
@@ -226,7 +326,11 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok));
-
+      _pageDialogService.Verify(x => x.DisplayPromptAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>(), It.IsAny<KeyboardType>(), It.IsAny<string>()));
+      _loginService.Verify(x => x.LoginUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -235,6 +339,8 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var googleUser = _fixture.Create<GoogleUser>();
       var fixture = _fixture.Create<string>();
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.MainPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _googleManager.Setup(x => x.Login(viewModel.OnLoginComplete));
 
       //Act
       viewModel.OnLoginComplete(googleUser, fixture);
@@ -242,6 +348,10 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.MainPage));
+      _googleManager.Verify(x => x.Login(viewModel.OnLoginComplete));
+      _logManager.Verify(x => x.GetLog(It.IsAny<string>()));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

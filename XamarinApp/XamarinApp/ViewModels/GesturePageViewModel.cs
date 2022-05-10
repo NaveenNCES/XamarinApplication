@@ -10,7 +10,6 @@ namespace XamarinApp.ViewModels
     private string _countLable;
     public int TapCount = 0;
     public bool MyBoolean = false;
-    public SwipeDirection Direction { get; set; }
 
     public EventHandler<SwipedEventArgs> Swipe;
     public DelegateCommand<object> TapCommand { get; }
@@ -20,19 +19,6 @@ namespace XamarinApp.ViewModels
       set { SetProperty(ref _countLable, value); }
     }
 
-    private int _vowels;
-    public int Vowels
-    {
-      get { return _vowels; }
-      set { SetProperty(ref _vowels, value); }
-    }
-
-    private int _consonents;
-    public int Consonents
-    {
-      get { return _consonents; }
-      set { SetProperty(ref _consonents, value); }
-    }
     public GesturePageViewModel()
     {
       TapCommand = new DelegateCommand<object>(OnTapGestureRecognizerTapped);

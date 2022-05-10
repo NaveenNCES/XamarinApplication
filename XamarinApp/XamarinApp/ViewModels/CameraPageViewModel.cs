@@ -10,7 +10,6 @@ namespace XamarinApp.ViewModels
   {
     public CameraPageViewModel()
     {
-
     }
   }
 }

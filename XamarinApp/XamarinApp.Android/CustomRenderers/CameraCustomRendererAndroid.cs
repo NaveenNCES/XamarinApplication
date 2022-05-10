@@ -49,6 +49,7 @@ namespace XamarinApp.Droid.CustomRenderers
     {
       base.OnElementChanged(e);
 
+      var status = Permissions.RequestAsync<Permissions.Camera>();
       if (e.OldElement != null || Element == null)
       {
         return;
@@ -106,7 +107,7 @@ namespace XamarinApp.Droid.CustomRenderers
 
     public void OnSurfaceTextureAvailable(SurfaceTexture surface, int width, int height)
     {
-      var status =  Permissions.RequestAsync<Permissions.Camera>();
+      
       camera = global::Android.Hardware.Camera.Open((int)cameraType);
       textureView.LayoutParameters = new FrameLayout.LayoutParams(width, height);
       surfaceTexture = surface;

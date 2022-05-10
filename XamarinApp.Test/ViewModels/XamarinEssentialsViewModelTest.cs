@@ -2,6 +2,7 @@ using AutoFixture;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using XamarinApp.ViewModels;
@@ -13,6 +14,7 @@ namespace XamarinApp.Test.ViewModels
   {
     private readonly XamarinEssentialsViewModel viewModel;
     private readonly Fixture _fixture = new Fixture();
+    private readonly MockRepository _mockRepository;
     private readonly Mock<IAppInfo> _appInfo;
     private readonly Mock<IScreenshot> _screenShot;
     private readonly Mock<IGeolocation> _geoLocation;
@@ -23,13 +25,14 @@ namespace XamarinApp.Test.ViewModels
 
     public XamarinEssentialsViewModelTest()
     {
-      _appInfo = new Mock<IAppInfo>();
-      _screenShot = new Mock<IScreenshot>();
-      _geoLocation = new Mock<IGeolocation>();
-      _ideviceInfo = new Mock<IDeviceInfo>();
-      _iconnectivity = new Mock<IConnectivity>();
-      _iemail = new Mock<IEmail>();
-      _permissions = new Mock<IPermissions>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _appInfo = _mockRepository.Create<IAppInfo>();
+      _screenShot = _mockRepository.Create<IScreenshot>();
+      _geoLocation = _mockRepository.Create<IGeolocation>();
+      _ideviceInfo = _mockRepository.Create<IDeviceInfo>();
+      _iconnectivity = _mockRepository.Create<IConnectivity>();
+      _iemail = _mockRepository.Create<IEmail>();
+      _permissions = _mockRepository.Create<IPermissions>();
       _appInfo.Setup(x => x.RequestedTheme).Returns(AppTheme.Light);
       _appInfo.Setup(x => x.Name).Returns("Xamarin");
       _appInfo.Setup(x => x.Version).Returns(new Version("1.1.1"));
@@ -46,12 +49,22 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var a = await _geoLocation.Object.GetLocationAsync();
       var result = $"Latitude: {a.Latitude}, Longitude: {a.Longitude}, Altitude: {a.Altitude}";
+      _permissions.Setup(x => x.RequestAsync<Permissions.LocationWhenInUse>()).ReturnsAsync(PermissionStatus.Granted);
 
       //Act
       viewModel.LocationCommand.Execute();
 
       //Assert
       Assert.Equal(result, viewModel.Location);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _geoLocation.Verify(x => x.GetLocationAsync());
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _permissions.Verify(x => x.RequestAsync<Permissions.LocationWhenInUse>());
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -67,7 +80,7 @@ namespace XamarinApp.Test.ViewModels
         Body = fixture,
         Subject = fixture
       };
-
+      _iemail.Setup(x => x.ComposeAsync(It.IsAny<EmailMessage>())).Returns(() => Task.CompletedTask);
 
       //Act
       viewModel.EmailBody = fixture;
@@ -77,28 +90,41 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       _iemail.Verify(x => x.ComposeAsync(It.IsAny<EmailMessage>()), Times.Once);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void Chec_Net_Connectivity()
     {
       //Arrange
-      var net = NetworkAccess.Internet;
-      var actual = $"The Mobile has {net}";
+      var actual = $"The Mobile has {_iconnectivity.Object.NetworkAccess}";
 
       //Act
       var result = viewModel.NetConnectivity;
 
       //Assert
       Assert.Equal(actual, result);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void AppInfo_Details()
     {
       //Arrange
-      var appName = "Xamarin";
-      var appVersion = "1.1.1";
+      var appName = _appInfo.Object.Name;
+      var appVersion = _appInfo.Object.Version.ToString();
 
       //Act
       var actualAppName = viewModel.AppInfor;
@@ -107,32 +133,53 @@ namespace XamarinApp.Test.ViewModels
       //Assert
       Assert.Equal(appName, actualAppName);
       Assert.Equal(appVersion, actualAppVersion);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void Check_DeviceInfo_Details()
     {
       //Arrange
-      var manufacturer = "Samsung";
+      var manufacturer = _ideviceInfo.Object.Manufacturer;
 
       //Act
       var result = viewModel.DeviceDetail;
 
       //Assert
       Assert.Equal(result, manufacturer);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void Check_App_Requested_Theam()
     {
       //Arrange
-      var actualTheam = AppTheme.Light;
+      var actualTheam = _appInfo.Object.RequestedTheme;
 
       //Act
       var result = viewModel.AppTheamDetail;
 
       //Assert
       Assert.Equal(actualTheam, result);
+      _appInfo.Verify(x => x.RequestedTheme);
+      _appInfo.Verify(x => x.Name);
+      _appInfo.Verify(x => x.Version);
+      _iconnectivity.Verify(x => x.NetworkAccess);
+      _ideviceInfo.Verify(x => x.Manufacturer);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

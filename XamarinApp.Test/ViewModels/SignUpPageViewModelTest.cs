@@ -2,6 +2,7 @@ using AutoFixture;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
+using System.Threading.Tasks;
 using XamarinApp.Models;
 using XamarinApp.PageName;
 using XamarinApp.Resx;
@@ -13,6 +14,7 @@ namespace XamarinApp.Test.ViewModels
 {
   public class SignUpPageViewModelTest
   {
+    private readonly MockRepository _mockRepository;
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly Fixture _fixture = new Fixture();
@@ -21,21 +23,26 @@ namespace XamarinApp.Test.ViewModels
 
     public SignUpPageViewModelTest()
     {
-      _navigationService = new Mock<INavigationService>();
-      _pageDialogService = new Mock<IPageDialogService>();
-      _signUpUserService = new Mock<ISignUpUserService>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _navigationService = _mockRepository.Create<INavigationService>();
+      _pageDialogService = _mockRepository.Create<IPageDialogService>();
+      _signUpUserService = _mockRepository.Create<ISignUpUserService>();
       viewModel = new SignUpPageViewModel(_navigationService.Object, _pageDialogService.Object, _signUpUserService.Object);
     }
 
     [Fact]
     public void When_User_Click_SignIn_Navigate_to_LoginPage()
     {
-      //Act
+      //Arrange
       _navigationService.Setup(n => n.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
       viewModel.LoginCommand.Execute();
 
       //Assert
       _navigationService.Verify(n => n.NavigateAsync(PageNames.LoginPage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -43,17 +50,20 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _navigationService.Setup(n => n.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
 
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = user.Password;
-      _navigationService.Setup(n => n.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
-      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(true);
       viewModel.SignUpCommand.Execute();
 
       //Assert
       _navigationService.Verify(n => n.NavigateAsync(PageNames.LoginPage));
+      _signUpUserService.Verify(x => x.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -61,16 +71,20 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var user = _fixture.Create<UserModel>();
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, AppResource.Ok)).Returns(() => Task.CompletedTask);
 
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = user.Password;
-      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.SignUpCommand.Execute();
       
       //Assert
-      _pageDialogService.Verify(n => n.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, "OK"));
+      _pageDialogService.Verify(n => n.DisplayAlertAsync(AppResource.Alert, AppResource.InValidCredential, AppResource.Ok));
+      _signUpUserService.Verify(x => x.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password)));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -79,16 +93,18 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var user = _fixture.Create<UserModel>();
       var fixture = _fixture.Create<string>();
-
+      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
+      _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, AppResource.Ok)).Returns(() => Task.CompletedTask);
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;
       viewModel.ConfirmPassWord = fixture;
-      _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       viewModel.SignUpCommand.Execute();
 
       //Assert
       _pageDialogService.Verify(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, AppResource.Ok));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

@@ -4,6 +4,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using XamarinApp.Composite_Command;
 using XamarinApp.IEventAgregator;
 using XamarinApp.ViewModels;
@@ -13,6 +14,7 @@ namespace XamarinApp.Test.ViewModels
 {
   public class AddNotesPageViewModelTest
   {
+    private readonly MockRepository _mockRepository;
     private readonly Mock<IApplicationCommand> _applicationCommand;
     private readonly Mock<IEventAggregator> _eventAgregator;
     private readonly Mock<NoteSentEvent> mockEvent;
@@ -22,12 +24,15 @@ namespace XamarinApp.Test.ViewModels
 
     public AddNotesPageViewModelTest()
     {
-      _applicationCommand = new Mock<IApplicationCommand>();
-      _eventAgregator = new Mock<IEventAggregator>();
-      mockEvent = new Mock<NoteSentEvent>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _applicationCommand = _mockRepository.Create<IApplicationCommand>();
+      _eventAgregator = _mockRepository.Create<IEventAggregator>();
+      mockEvent = _mockRepository.Create<NoteSentEvent>();
       CompositeCommand composite = _fixture.Create<CompositeCommand>();
       _applicationCommand.Setup(x => x.SaveAllCommand).Returns(composite);      
-      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(mockEvent.Object);
+      //_eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(mockEvent.Object);
+      var subscriptionToken = _fixture.Create<NoteSentEvent>();
+      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(subscriptionToken);
       viewModel = new AddNotesPageViewModel(_eventAgregator.Object, _applicationCommand.Object);      
     }
 
@@ -36,13 +41,17 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
+      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>().Publish(fixture));
 
       //Act
       viewModel.Notes = fixture;
       viewModel.SendNoteCommand.Execute();
 
       //Assert
-      mockEvent.Verify(x => x.Publish(viewModel.Notes), Times.Once);
+      _eventAgregator.Verify(x => x.GetEvent<NoteSentEvent>().Publish(fixture), Times.Once);
+      _applicationCommand.Verify(x => x.SaveAllCommand);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -50,13 +59,17 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
+      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>().Publish(fixture));
 
       //Act
       viewModel.Notes = fixture;
       viewModel.ApplicationCommand.SaveAllCommand.Execute(new object());
 
       //Assert
-      mockEvent.Verify(x => x.Publish(viewModel.Notes), Times.Once);
+      _eventAgregator.Verify(x => x.GetEvent<NoteSentEvent>().Publish(fixture), Times.Once);
+      _applicationCommand.Verify(x => x.SaveAllCommand);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -64,29 +77,19 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
-      var expectedAction = new Action<object>(obj => { });
+      ObservableCollection<string> expectedResult = new ObservableCollection<string>();
+      expectedResult.Add(fixture);
 
       //Act
-      var executedDelegates = new List<string>();
-      var actionDelegateReference =
-          new Mock<NoteSentEvent>((Action<object>)delegate { executedDelegates.Add("Action"); });
+      viewModel.Notes = fixture;
+      viewModel.ApplicationCommand.SaveAllCommand.Execute(new object());
 
-      var filterDelegateReference = new Mock<NoteSentEvent>((Predicate<object>)delegate
-      {
-        executedDelegates.Add(
-            "Filter");
-        return true;
-      });
-      var eventArgs = new EventSubscription<object>((IDelegateReference)actionDelegateReference, (IDelegateReference)filterDelegateReference.Object);
-      var publishAction = eventArgs.GetExecutionStrategy();
-      Assert.NotNull(publishAction);
-
-      publishAction.Invoke(null);
-
-      Assert.Equal(2, executedDelegates.Count);
-      Assert.Equal("Filter", executedDelegates[0]);
-      Assert.Equal("Action", executedDelegates[1]);
-      
+      //Assert
+      Assert.Equal(viewModel.SavedNotes, expectedResult);
+      _eventAgregator.Verify(x => x.GetEvent<NoteSentEvent>());
+      _applicationCommand.Verify(x => x.SaveAllCommand);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

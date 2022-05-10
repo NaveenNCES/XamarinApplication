@@ -29,10 +29,54 @@ namespace XamarinApp.Test.ViewModels
     }
 
     [Fact]
-    public void Will_Return_Gesture_as_String()
+    public void Will_Return_Gesture_as_String_Right()
     {
       //Arrange
       var fixture = _fixture.Create<SwipeDirection>();
+      string expectedResult = $"Swip {fixture}";
+      //Act
+      viewModel.TapCommand.Execute(fixture);
+
+      //Assert
+      Assert.Equal(expectedResult, viewModel.CountLable);
+    }
+
+    [Fact]
+    public void Will_Return_Gesture_as_String_Left()
+    {
+      //Arrange
+      var fixture = _fixture.Create<SwipeDirection>();
+      fixture = SwipeDirection.Left;
+      string expectedResult = $"Swip {fixture}";
+
+      //Act
+      viewModel.TapCommand.Execute(fixture);
+
+      //Assert
+      Assert.Equal(expectedResult, viewModel.CountLable);
+    }
+
+    [Fact]
+    public void Will_Return_Gesture_as_String_Up()
+    {
+      //Arrange
+      var fixture = _fixture.Create<SwipeDirection>();
+      fixture = SwipeDirection.Up;
+      string expectedResult = $"Swip {fixture}";
+
+      //Act
+      viewModel.TapCommand.Execute(fixture);
+
+      //Assert
+      Assert.Equal(expectedResult, viewModel.CountLable);
+    }
+
+    [Fact]
+    public void Will_Return_Gesture_as_String_Down()
+    {
+      //Arrange
+      var fixture = _fixture.Create<SwipeDirection>();
+      fixture = SwipeDirection.Down;
       string expectedResult = $"Swip {fixture}";
       //Act
       viewModel.TapCommand.Execute(fixture);

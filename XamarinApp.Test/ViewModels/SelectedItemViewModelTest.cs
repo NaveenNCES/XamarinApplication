@@ -4,6 +4,7 @@ using Prism.Navigation;
 using Prism.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using XamarinApp.PageName;
@@ -15,6 +16,7 @@ namespace XamarinApp.Test
 {
   public class SelectedItemViewModelTest
   {
+    private readonly MockRepository _mockRepository;
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly SelectedItemDetailPageViewModel viewModel;
@@ -24,10 +26,11 @@ namespace XamarinApp.Test
 
     public SelectedItemViewModelTest()
     {
-      _navigationService = new Mock<INavigationService>();
-      _pageDialogService = new Mock<IPageDialogService>();
-      _phoneDialor = new Mock<IPhoneDialer>();
-      _email = new Mock<IEmail>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _navigationService = _mockRepository.Create<INavigationService>();
+      _pageDialogService = _mockRepository.Create<IPageDialogService>();
+      _phoneDialor = _mockRepository.Create<IPhoneDialer>();
+      _email = _mockRepository.Create<IEmail>();
       viewModel = new SelectedItemDetailPageViewModel(_navigationService.Object, _pageDialogService.Object,_phoneDialor.Object,_email.Object);
     }
 
@@ -46,6 +49,8 @@ namespace XamarinApp.Test
 
       //Assert
       Assert.Equal(fixture, result);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -53,6 +58,7 @@ namespace XamarinApp.Test
     {
       //Arrange
       var fixture = _fixture.Build<Result>().CreateMany(1).ToList();
+      _email.Setup(x => x.ComposeAsync(It.IsAny<EmailMessage>())).Returns(()=>Task.CompletedTask);
 
       //Act
       var data = new NavigationParameters();
@@ -62,6 +68,8 @@ namespace XamarinApp.Test
 
       //Arrange
       _email.Verify(x => x.ComposeAsync(It.IsAny<EmailMessage>()), Times.Once);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -69,6 +77,7 @@ namespace XamarinApp.Test
     {
       //Arrange
       var fixture = _fixture.Build<Result>().CreateMany(1).ToList();
+      _phoneDialor.Setup(x => x.Open(fixture.FirstOrDefault().Phone));
 
       //Act
       var data = new NavigationParameters();
@@ -78,6 +87,8 @@ namespace XamarinApp.Test
 
       //Assert
       _phoneDialor.Verify(x => x.Open(viewModel.getSelectedData.FirstOrDefault().Phone),Times.Once);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

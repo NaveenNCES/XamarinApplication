@@ -9,6 +9,7 @@ using Xamarin.CommunityToolkit.Helpers;
 using Xamarin.Forms;
 using XamarinApp.Models;
 using XamarinApp.PageName;
+using XamarinApp.Resx;
 using XamarinApp.Services.Interfaces;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -17,6 +18,7 @@ namespace XamarinApp.Test.ViewModels
 {
   public class MainPageViewModelTest
   {
+    private readonly MockRepository _mockRepository;
     private readonly Mock<INavigationService> _navigationService;
     private readonly Mock<IPageDialogService> _pageDialogService;
     private readonly Mock<IModuleManager> _module;
@@ -28,56 +30,73 @@ namespace XamarinApp.Test.ViewModels
 
     public MainPageViewModelTest()
     {
-      _navigationService = new Mock<INavigationService>();
-      _pageDialogService = new Mock<IPageDialogService>();
-      _module = new Mock<IModuleManager>();
-      _userDialogs = new Mock<IUserDialogs>();
-      _googleManager = new Mock<IGoogleManager>();
+      _mockRepository = new MockRepository(MockBehavior.Strict);
+      _navigationService = _mockRepository.Create<INavigationService>();
+      _pageDialogService = _mockRepository.Create<IPageDialogService>();
+      _module = _mockRepository.Create<IModuleManager>();
+      _userDialogs = _mockRepository.Create<IUserDialogs>();
+      _googleManager = _mockRepository.Create<IGoogleManager>();
       viewModel = new MainPageViewModel(_navigationService.Object,_module.Object,_pageDialogService.Object,_userDialogs.Object,_googleManager.Object);
     }
 
     [Fact]
     public void When_User_Click_SignIn_Navigate_to_SignInPage()
     {
-      //Act
+      //Arrange
       _navigationService.Setup(x => x.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
       viewModel.LoginCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.LoginPage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void When_User_Click_API_Navigate_to_ApiDataPage()
     {
-      //Act
+      //Arrange
       _navigationService.Setup(x => x.NavigateAsync(PageNames.ApiDataPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
       viewModel.ApiCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.ApiDataPage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void When_User_Click_GesturePage_Navigate_to_GesturePage()
     {
-      //Act
+      //Arrange
       _navigationService.Setup(x => x.NavigateAsync(PageNames.GesturePage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
       viewModel.GestureCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.GesturePage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void When_User_Click_AddNotesPage_Navigate_to_AddNotesPage()
     {
-      //Act
+      //Arrange
       _navigationService.Setup(x => x.NavigateAsync(PageNames.AddNotesPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
       viewModel.EventAggregatorCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.AddNotesPage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -93,6 +112,8 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       Assert.Equal(Name, viewModel.Name);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -102,17 +123,19 @@ namespace XamarinApp.Test.ViewModels
       var fixture = _fixture.Create<string>();
       var data = (INavigationParametersInternal)new NavigationParameters();
       data.Add("__NavigationMode", NavigationMode.New);
-      MessagingCenter.Subscribe<MainPageViewModelTest, string>(this, "Hi", (sender, args) =>
+      MessagingCenter.Subscribe<MainPageViewModelTest, string>(this, AppResource.MessageCenterKey, (sender, args) =>
       {
         viewModel.Message = args;
       });
 
       //Act
-      MessagingCenter.Send(this, "Hi", fixture);
+      MessagingCenter.Send(this, AppResource.MessageCenterKey, fixture);
       viewModel.OnNavigatedTo(data as INavigationParameters);
 
       //Arrange
       Assert.Equal(fixture, viewModel.Message);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -120,10 +143,16 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       _navigationService.Setup(x => x.NavigateAsync(PageNames.ModuleViewA)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _module.Setup(x => x.LoadModule(PageNames.Module1));
+
+      //Act
       viewModel.ModuleCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.ModuleViewA));
+      _module.Verify(x => x.LoadModule(PageNames.Module1));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -138,26 +167,59 @@ namespace XamarinApp.Test.ViewModels
 
       //Assert
       Assert.Equal("ta", result);
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void On_Xamarin_Essentials_Clicked_Should_Navigate_to_XamarinEssentials_Page()
     {
+      //Arrange
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.XamarinEssentials)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _userDialogs.Setup(x => x.ShowLoading("Loading...", null));
+      _userDialogs.Setup(x => x.HideLoading());
+
       //Act
       viewModel.EssentialCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.XamarinEssentials));
+      _userDialogs.Verify(x => x.ShowLoading("Loading...", null));
+      _userDialogs.Verify(x => x.HideLoading());
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
 
     [Fact]
     public void On_GoogleLogoutClicked_should_navigate_to_LoginPage()
     {
+      //Arrange
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.LoginPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+      _googleManager.Setup(x => x.Logout());
+
       //Act
       viewModel.GoogleLogOutCommand.Execute();
 
       //Assert
       _navigationService.Verify(x => x.NavigateAsync(PageNames.LoginPage));
+      _googleManager.Verify(x => x.Logout());
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
+    }
+
+    [Fact]
+    public void On_Renderer_Button_Clicked_Should_Navigate_to_CustomRenderer_Page()
+    {
+      //Arrange
+      _navigationService.Setup(x => x.NavigateAsync(PageNames.CameraPage)).ReturnsAsync(_fixture.Create<NavigationResult>());
+
+      //Act
+      viewModel.RendererCommand.Execute();
+
+      //Assert
+      _navigationService.Verify(x => x.NavigateAsync(PageNames.CameraPage));
+      _mockRepository.Verify();
+      _mockRepository.VerifyNoOtherCalls();
     }
   }
 }

@@ -119,6 +119,11 @@ namespace XamarinApp.ViewModels
 
         var user = new UserModel { Password = Password, UserName = UserName };
 
+        if (user.UserName == null || user.Password == null)
+        {
+          await _pageDialogService.DisplayAlertAsync(AppResource.Alert, AppResource.InValidUser, AppResource.Ok);
+          return;
+        }
         var result = await _userLoginService.LoginUserAsync(user);
 
         var data = new NavigationParameters();

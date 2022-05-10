@@ -34,9 +34,8 @@ namespace XamarinApp.Droid
       Xamarin.FormsMaps.Init(this, savedInstanceState);
       UserDialogs.Init(this);
 
-      var gestureViewModel = new GesturePageViewModel();
-      gestureViewModel.Vowels = TextCounter.NumVowels("This is a sample Binding Library");
-      gestureViewModel.Consonents = TextCounter.NumConsonants("This is a sample Binding Library");
+      int Vowels = TextCounter.NumVowels("This is a sample Binding Library");
+      int Consonents = TextCounter.NumConsonants("This is a sample Binding Library");
 
       LoadApplication(new App(new AndroidInitializer()));
 
