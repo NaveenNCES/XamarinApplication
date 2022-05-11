@@ -83,6 +83,7 @@ namespace XamarinApp
       containerRegistry.RegisterSingleton<IConnectivity, ConnectivityImplementation>();
       containerRegistry.RegisterSingleton<IPermissions, PermissionsImplementation>();
       containerRegistry.RegisterSingleton<IPhoneDialer, PhoneDialerImplementation>();
+      //containerRegistry.RegisterSingleton<IMessagingCenter, MessagingCenter>();
       //containerRegistry.RegisterSingleton<IUserDialogs, AbstractUserDialogs>();
       containerRegistry.RegisterInstance(UserDialogs.Instance);
       //containerRegistry.Register(typeof(IMapper), typeof(Mapper));

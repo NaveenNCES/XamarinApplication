@@ -1,4 +1,5 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using SQLite;
 using System;
@@ -30,13 +31,13 @@ namespace XamarinApp.Test.Services
       //Arrange
       var fixture = _fixture.Build<UserModel>().CreateMany(5).ToList();
       var specifiedUser = fixture.FirstOrDefault();
+      _repo.Setup(x => x.GetAllDetailsAsync()).ReturnsAsync(fixture);
 
       //Act
-      _repo.Setup(x => x.GetAllDetailsAsync()).ReturnsAsync(fixture);
       var result = await _loginService.LoginUserAsync(specifiedUser);
 
       //Assert
-      Assert.True(result);
+      result.Should().Be(true);
     }
 
     [Fact]

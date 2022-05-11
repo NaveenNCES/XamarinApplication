@@ -1,4 +1,5 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace XamarinApp.Test.Services
       var result =await _signUpUserService.SaveUserAsync(user);
 
       //Arrange
-      Assert.True(result);
+      result.Should().BeTrue();
     }
   }
 }

@@ -159,6 +159,12 @@
   <data name="Left" xml:space="preserve">
     <value>Left</value>
   </data>
+  <data name="Log_UserDetailsAreValidAndNavigating" xml:space="preserve">
+    <value>User given details are valid and navigating to MainPage</value>
+  </data>
+  <data name="Log_UserGivenDetailsArePassing" xml:space="preserve">
+    <value>User given details are passing</value>
+  </data>
   <data name="MessageCenterKey" xml:space="preserve">
     <value>Message</value>
   </data>

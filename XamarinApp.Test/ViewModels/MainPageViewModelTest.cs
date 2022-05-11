@@ -1,5 +1,6 @@
 using Acr.UserDialogs;
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using Prism.Modularity;
 using Prism.Navigation;
@@ -104,14 +105,14 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var Name = _fixture.Create<string>();
-      var data = new NavigationParameters();
+      var data =_fixture.Create<NavigationParameters>();
       data.Add("Name", Name);
 
       //Act
       viewModel.OnNavigatedTo(data);
 
       //Assert
-      Assert.Equal(Name, viewModel.Name);
+      viewModel.Name.Should().BeEquivalentTo(Name);
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
     }
@@ -121,7 +122,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
-      var data = (INavigationParametersInternal)new NavigationParameters();
+      var data = (INavigationParametersInternal)_fixture.Create<NavigationParameters>();
       data.Add("__NavigationMode", NavigationMode.New);
       MessagingCenter.Subscribe<MainPageViewModelTest, string>(this, AppResource.MessageCenterKey, (sender, args) =>
       {
@@ -133,7 +134,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.OnNavigatedTo(data as INavigationParameters);
 
       //Arrange
-      Assert.Equal(fixture, viewModel.Message);
+      viewModel.Message.Should().BeEquivalentTo(fixture);
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
     }
@@ -166,7 +167,7 @@ namespace XamarinApp.Test.ViewModels
       var result = LocalizationResourceManager.Current.CurrentCulture.TwoLetterISOLanguageName;
 
       //Assert
-      Assert.Equal("ta", result);
+      result.Should().BeEquivalentTo("ta");
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
     }

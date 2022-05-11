@@ -1,4 +1,5 @@
 using AutoFixture;
+using FluentAssertions;
 using Xamarin.Forms;
 using XamarinApp.ViewModels;
 using Xunit;
@@ -25,7 +26,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.TapCommand.Execute(new object());
 
       //Assert
-      Assert.Equal(1, viewModel.TapCount);
+      viewModel.TapCount.Should().BeGreaterThan(0);
     }
 
     [Fact]
@@ -34,11 +35,12 @@ namespace XamarinApp.Test.ViewModels
       //Arrange
       var fixture = _fixture.Create<SwipeDirection>();
       string expectedResult = $"Swip {fixture}";
+
       //Act
       viewModel.TapCommand.Execute(fixture);
 
       //Assert
-      Assert.Equal(expectedResult, viewModel.CountLable);
+      viewModel.CountLable.Should().BeEquivalentTo(expectedResult);
     }
 
     [Fact]
@@ -53,7 +55,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.TapCommand.Execute(fixture);
 
       //Assert
-      Assert.Equal(expectedResult, viewModel.CountLable);
+      viewModel.CountLable.Should().BeEquivalentTo(expectedResult);
     }
 
     [Fact]
@@ -68,7 +70,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.TapCommand.Execute(fixture);
 
       //Assert
-      Assert.Equal(expectedResult, viewModel.CountLable);
+      viewModel.CountLable.Should().BeEquivalentTo(expectedResult);
     }
 
     [Fact]
@@ -82,7 +84,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.TapCommand.Execute(fixture);
 
       //Assert
-      Assert.Equal(expectedResult, viewModel.CountLable);
+      viewModel.CountLable.Should().BeEquivalentTo(expectedResult);
     }
   }
 }

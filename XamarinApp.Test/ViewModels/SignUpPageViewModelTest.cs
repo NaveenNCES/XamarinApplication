@@ -95,6 +95,7 @@ namespace XamarinApp.Test.ViewModels
       var fixture = _fixture.Create<string>();
       _signUpUserService.Setup(n => n.SaveUserAsync(It.Is<UserModel>(x => x.UserName == user.UserName && x.Password == user.Password))).ReturnsAsync(false);
       _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, AppResource.PasswordNotMatching, AppResource.Ok)).Returns(() => Task.CompletedTask);
+
       //Act
       viewModel.UserName = user.UserName;
       viewModel.PassWord = user.Password;

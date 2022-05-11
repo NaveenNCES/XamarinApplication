@@ -1,10 +1,12 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using XamarinApp.Composite_Command;
 using XamarinApp.IEventAgregator;
 using XamarinApp.ViewModels;
@@ -20,7 +22,6 @@ namespace XamarinApp.Test.ViewModels
     private readonly Mock<NoteSentEvent> mockEvent;
     private readonly AddNotesPageViewModel viewModel;
     private readonly Fixture _fixture = new Fixture();
-    private readonly CompositeCommand compositeCommand = new CompositeCommand();
 
     public AddNotesPageViewModelTest()
     {
@@ -31,8 +32,8 @@ namespace XamarinApp.Test.ViewModels
       CompositeCommand composite = _fixture.Create<CompositeCommand>();
       _applicationCommand.Setup(x => x.SaveAllCommand).Returns(composite);      
       //_eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(mockEvent.Object);
-      var subscriptionToken = _fixture.Create<NoteSentEvent>();
-      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(subscriptionToken);
+      var noteSentEventObject = _fixture.Create<NoteSentEvent>();
+      _eventAgregator.Setup(x => x.GetEvent<NoteSentEvent>()).Returns(noteSentEventObject);
       viewModel = new AddNotesPageViewModel(_eventAgregator.Object, _applicationCommand.Object);      
     }
 
@@ -77,15 +78,14 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var fixture = _fixture.Create<string>();
-      ObservableCollection<string> expectedResult = new ObservableCollection<string>();
-      expectedResult.Add(fixture);
+      var expectedResult = _fixture.CreateMany<string>(1).ToList();
 
       //Act
-      viewModel.Notes = fixture;
+      viewModel.Notes = expectedResult[0];
       viewModel.ApplicationCommand.SaveAllCommand.Execute(new object());
 
       //Assert
-      Assert.Equal(viewModel.SavedNotes, expectedResult);
+      viewModel.SavedNotes.Should().BeEquivalentTo(expectedResult);
       _eventAgregator.Verify(x => x.GetEvent<NoteSentEvent>());
       _applicationCommand.Verify(x => x.SaveAllCommand);
       _mockRepository.Verify();

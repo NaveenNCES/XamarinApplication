@@ -113,7 +113,7 @@ namespace XamarinApp.ViewModels
         IsLoading = true;
         IndicatorVisible = true;
 
-        _logger.Info("User given details are passing");
+        _logger.Info(AppResource.Log_UserGivenDetailsArePassing);
 
         Name = await _pageDialogService.DisplayPromptAsync(AppResource.Question, AppResource.GetName);
 
@@ -131,7 +131,7 @@ namespace XamarinApp.ViewModels
 
         if (result == true)
         {
-          _logger.Info("User given details are valid and navigating to MainPage");
+          _logger.Info(AppResource.Log_UserDetailsAreValidAndNavigating);
 
           await _navigationService.NavigateAsync(PageNames.MainPage, data);
           MessagingCenter.Send<LoginPageViewModel, string>(this, AppResource.MessageCenterKey, Name);          

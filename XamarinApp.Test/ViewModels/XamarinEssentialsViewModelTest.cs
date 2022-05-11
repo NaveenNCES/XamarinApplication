@@ -1,8 +1,11 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Xamarin.Essentials;
 using Xamarin.Essentials.Interfaces;
 using XamarinApp.ViewModels;
@@ -55,7 +58,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.LocationCommand.Execute();
 
       //Assert
-      Assert.Equal(result, viewModel.Location);
+      viewModel.Location.Should().BeEquivalentTo(result);
       _appInfo.Verify(x => x.RequestedTheme);
       _appInfo.Verify(x => x.Name);
       _appInfo.Verify(x => x.Version);
@@ -71,21 +74,22 @@ namespace XamarinApp.Test.ViewModels
     public void OnEmail_Clicked_Should_Compose_Email()
     {
       //Arrange
-      var fixture = _fixture.Create<string>();
-      var EmailAddress = new List<string>();
-      EmailAddress.Add(fixture);
-      var message = new EmailMessage
-      {
-        To = EmailAddress,
-        Body = fixture,
-        Subject = fixture
-      };
-      _iemail.Setup(x => x.ComposeAsync(It.IsAny<EmailMessage>())).Returns(() => Task.CompletedTask);
+      //var fixture = _fixture.Create<string>();
+      //var EmailAddress = new List<string>();
+      //EmailAddress.Add(fixture);
+      //var message = new EmailMessage
+      //{
+      //  To = EmailAddress,
+      //  Body = fixture,
+      //  Subject = fixture
+      //};
+      var email = _fixture.Create<EmailMessage>();
+      _iemail.Setup(x => x.ComposeAsync(It.IsAny<EmailMessage>())).Returns(Task.FromResult(false));
 
       //Act
-      viewModel.EmailBody = fixture;
-      viewModel.EmailId = fixture;
-      viewModel.EmailSubject = fixture;
+      viewModel.EmailBody = email.Body;
+      viewModel.EmailId = email.To.FirstOrDefault();
+      viewModel.EmailSubject = email.Subject;
       viewModel.EmailCommand.Execute();
 
       //Assert
@@ -109,7 +113,7 @@ namespace XamarinApp.Test.ViewModels
       var result = viewModel.NetConnectivity;
 
       //Assert
-      Assert.Equal(actual, result);
+      result.Should().BeEquivalentTo(actual);
       _appInfo.Verify(x => x.RequestedTheme);
       _appInfo.Verify(x => x.Name);
       _appInfo.Verify(x => x.Version);
@@ -131,8 +135,8 @@ namespace XamarinApp.Test.ViewModels
       var actualAppVersion = viewModel.AppVersion;
 
       //Assert
-      Assert.Equal(appName, actualAppName);
-      Assert.Equal(appVersion, actualAppVersion);
+      actualAppName.Should().BeEquivalentTo(appName);
+      actualAppVersion.Should().BeEquivalentTo(appVersion);
       _appInfo.Verify(x => x.RequestedTheme);
       _appInfo.Verify(x => x.Name);
       _appInfo.Verify(x => x.Version);
@@ -152,7 +156,7 @@ namespace XamarinApp.Test.ViewModels
       var result = viewModel.DeviceDetail;
 
       //Assert
-      Assert.Equal(result, manufacturer);
+      result.Should().BeEquivalentTo(manufacturer);
       _appInfo.Verify(x => x.RequestedTheme);
       _appInfo.Verify(x => x.Name);
       _appInfo.Verify(x => x.Version);
@@ -172,7 +176,7 @@ namespace XamarinApp.Test.ViewModels
       var result = viewModel.AppTheamDetail;
 
       //Assert
-      Assert.Equal(actualTheam, result);
+      result.Should().Be(actualTheam);
       _appInfo.Verify(x => x.RequestedTheme);
       _appInfo.Verify(x => x.Name);
       _appInfo.Verify(x => x.Version);

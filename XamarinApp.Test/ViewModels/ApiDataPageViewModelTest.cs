@@ -1,4 +1,5 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
@@ -40,7 +41,7 @@ namespace XamarinApp.Test.ViewModels
     {
       //Arrange
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
-      var data = (INavigationParametersInternal)new NavigationParameters();
+      var data = (INavigationParametersInternal)_fixture.Create<NavigationParameters>();
       data.Add("__NavigationMode", NavigationMode.New);
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
 
@@ -48,7 +49,7 @@ namespace XamarinApp.Test.ViewModels
       viewModel.OnNavigatedTo(data as INavigationParameters);
 
       //Assert
-      Assert.Equal(apiData, viewModel.ApiData);
+      viewModel.ApiData.Should().BeEquivalentTo(apiData);
       _randomApiService.Verify(x => x.GetRandomApiDataAsync());
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
@@ -61,8 +62,7 @@ namespace XamarinApp.Test.ViewModels
       var apiData = _fixture.Build<ApiModel.Result>().CreateMany(50).ToList();
       var dataParameter = _fixture.Create<NavigationParameters>();
       dataParameter.Add(NavigationKeys.selectedData, apiData);
-      var dataNavigationPrameter = (INavigationParametersInternal)new NavigationParameters();
-      ObservableCollection<Result> data = new ObservableCollection<Result>(apiData as List<Result>);
+      var dataNavigationPrameter = (INavigationParametersInternal)_fixture.Create<NavigationParameters>();
       var list = apiData.Where(x => x ==  apiData.FirstOrDefault()).ToList();
       var specificData = list.FirstOrDefault();
       dataNavigationPrameter.Add("__NavigationMode", NavigationMode.New);
@@ -88,14 +88,14 @@ namespace XamarinApp.Test.ViewModels
       var errorMessage = _fixture.Create<string>();
       var dataParameter = _fixture.Create<NavigationParameters>();
       dataParameter.Add(NavigationKeys.selectedData, apiData);
-      var dataNavigationPrameter = (INavigationParametersInternal)new NavigationParameters();
-      ObservableCollection<Result> data = new ObservableCollection<Result>(apiData as List<Result>);
+      var dataNavigationPrameter =  (INavigationParametersInternal)_fixture.Create<NavigationParameters>();
       var list = apiData.Where(x => x ==  apiData.FirstOrDefault()).ToList();
       var specificData = list.FirstOrDefault();
       dataNavigationPrameter.Add("__NavigationMode", NavigationMode.New);
       _randomApiService.Setup(x => x.GetRandomApiDataAsync()).ReturnsAsync(apiData);
       _navigationService.Setup(x => x.NavigateAsync(PageNames.SelectedItemDetailPage, It.Is<NavigationParameters>(x => x.ContainsKey(NavigationKeys.selectedData)))).Throws(new Exception(errorMessage));
       _pageDialogService.Setup(x => x.DisplayAlertAsync(AppResource.Alert, errorMessage, AppResource.Ok)).Returns(() => Task.CompletedTask);
+
       //Act
       viewModel.OnNavigatedTo(dataNavigationPrameter as INavigationParameters);
       viewModel.ItemTappedCommand.Execute(new object());

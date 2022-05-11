@@ -187,6 +187,24 @@ namespace XamarinApp.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User given details are valid and navigating to MainPage.
+        /// </summary>
+        public static string Log_UserDetailsAreValidAndNavigating {
+            get {
+                return ResourceManager.GetString("Log_UserDetailsAreValidAndNavigating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User given details are passing.
+        /// </summary>
+        public static string Log_UserGivenDetailsArePassing {
+            get {
+                return ResourceManager.GetString("Log_UserGivenDetailsArePassing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message.
         /// </summary>
         public static string MessageCenterKey {

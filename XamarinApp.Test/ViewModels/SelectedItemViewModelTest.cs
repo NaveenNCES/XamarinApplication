@@ -1,4 +1,5 @@
 using AutoFixture;
+using FluentAssertions;
 using Moq;
 using Prism.Navigation;
 using Prism.Services;
@@ -41,14 +42,14 @@ namespace XamarinApp.Test
       var fixture = _fixture.Build<Result>().CreateMany(1).ToList();
 
       //Act
-      var data = new NavigationParameters();
+      var data = _fixture.Create<NavigationParameters>();
       data.Add(NavigationKeys.selectedData, fixture);
       viewModel.OnNavigatedTo(data);
 
       var result = viewModel.getSelectedData;
 
       //Assert
-      Assert.Equal(fixture, result);
+      result.Should().BeEquivalentTo(fixture);
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
     }
@@ -58,16 +59,17 @@ namespace XamarinApp.Test
     {
       //Arrange
       var fixture = _fixture.Build<Result>().CreateMany(1).ToList();
-      _email.Setup(x => x.ComposeAsync(It.IsAny<EmailMessage>())).Returns(()=>Task.CompletedTask);
+      var email = _fixture.Create<EmailMessage>();
+      _email.Setup(x => x.ComposeAsync(email)).Returns(()=>Task.CompletedTask);
 
       //Act
-      var data = new NavigationParameters();
+      var data = _fixture.Create<NavigationParameters>();
       data.Add(NavigationKeys.selectedData, fixture);
       viewModel.OnNavigatedTo(data);
       viewModel.EmailCommand.Execute();
 
       //Arrange
-      _email.Verify(x => x.ComposeAsync(It.IsAny<EmailMessage>()), Times.Once);
+      _email.Verify(x => x.ComposeAsync(email), Times.Once);
       _mockRepository.Verify();
       _mockRepository.VerifyNoOtherCalls();
     }
@@ -80,7 +82,7 @@ namespace XamarinApp.Test
       _phoneDialor.Setup(x => x.Open(fixture.FirstOrDefault().Phone));
 
       //Act
-      var data = new NavigationParameters();
+      var data = _fixture.Create<NavigationParameters>();
       data.Add(NavigationKeys.selectedData, fixture);
       viewModel.OnNavigatedTo(data);
       viewModel.PhoneDialerCommand.Execute();
